@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Guerrero Hambriento</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Fuente opcional -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <!-- Estilos locales -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav-inner container">
+      <a class="brand" href="#home" aria-label="Inicio">
+        <span class="brand-logo">
+  <img src="logo.png" alt="CUAH-QUICK" class="brand-logo-img">
+</span>
+<strong>Cuah-Quick</strong>
+
+      </a>
+      <div class="menu" aria-label="Principal">
+        <a class="btn btn-outline" href="#producto">Producto</a>
+        <a class="btn btn-outline" href="#mision-vision">Misión & Visión</a>
+        <a class="btn btn-outline" href="#como-funciona">Cómo funciona</a>
+        <a class="btn btn-primary" href="#cta">Probar ahora</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section id="home" class="hero section">
+    <div class="hero-blob" aria-hidden="true"></div>
+    <div class="container grid grid-2">
+      <div>
+        <h1 class="h1 reveal" style="font-size:clamp(2rem,5vw,3.6rem);margin:.4rem 0 .6rem;line-height:1.1;">
+          Pide a la tienda de la <span style="background:linear-gradient(90deg,var(--brand1),var(--brand2));-webkit-background-clip:text;background-clip:text;color:transparent">Cuauhtemoc</span>
+        </h1>
+        <p class="p-muted reveal" style="font-size:1.15rem;max-width:52ch">
+          Entregamos directo a tu salón. Rápido, fácil y delicioso.
+          <br> Nuestra mayor ilusión es tu satisfacción.
+        </p>
+        <div style="margin-top:1.2rem; display:flex; gap:.6rem; flex-wrap:wrap" class="reveal">
+          <a href="#cta" class="btn btn-primary">Empezar ahora</a>
+          <a href="#producto" class="btn btn-outline">Atrévete a pedir</a>
+        </div>
+        <div class="badge-row reveal">
+          <span class="badge">Entrega al salón</span>
+          <span class="badge">Pago seguro</span>
+          <span class="badge">Hecho para campus</span>
+        </div>
+      </div>
+
+      <div class="hero-card reveal">
+        <div class="phone">
+          <div class="phone-head">
+            <div class="dots">
+              <span class="dot red"></span>
+              <span class="dot amber"></span>
+              <span class="dot green"></span>
+            </div>
+            <span class="p-muted" style="font-size:.8rem">Envío express</span>
+          </div>
+          <div style="margin-top:1rem; display:grid; gap:.7rem">
+            <div class="feature">
+              <span style="color:var(--brand1)">🍔</span>
+              <div>
+                <div style="font-weight:700">Catálogo por tienda</div>
+                <div class="p-muted" style="font-size:.9rem">Explora, agrega y paga</div>
+              </div>
+            </div>
+            <div class="feature">
+              <span style="color:var(--brand1)">🔥</span>
+              <div>
+                <div style="font-weight:700">Seguimiento en vivo</div>
+                <div class="p-muted" style="font-size:.9rem">Preparando → En camino → Entregado</div>
+              </div>
+            </div>
+            <div class="feature">
+              <span style="color:var(--brand1)">🏫</span>
+              <div>
+                <div style="font-weight:700">Entrega al salón</div>
+                <div class="p-muted" style="font-size:.9rem">Selecciona edificio y salón</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Burbujas -->
+        <div class="bubbles" aria-hidden="true">
+          <div class="bubble" style="left:6%; top:12%; animation-delay:0s"></div>
+          <div class="bubble" style="left:24%; top:50%; animation-delay:.3s"></div>
+          <div class="bubble" style="left:46%; top:20%; animation-delay:.6s"></div>
+          <div class="bubble" style="left:70%; top:60%; animation-delay:.9s"></div>
+          <div class="bubble" style="left:84%; top:30%; animation-delay:1.2s"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee-wrap">
+    <div class="container marquee">
+      <div class="marquee-track">
+        <span class="tag">✦ Pagos seguros</span>
+        <span class="tag">✦ Entrega al salón</span>
+        <span class="tag">✦ Hecho para campus</span>
+        <span class="tag">✦ Rápido y delicioso</span>
+        <span class="tag">✦ Soporte </span>
+        <!-- duplicado para loop continuo -->
+        <span class="tag">✦ Pagos seguros</span>
+        <span class="tag">✦ Entrega al salón</span>
+        <span class="tag">✦ Hecho para campus</span>
+        <span class="tag">✦ Rápido y delicioso</span>
+        <span class="tag">✦ Soporte </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- HIGHLIGHTS -->
+  <section id="producto" class="section">
+    <div class="container grid grid-3">
+      <div class="card reveal">
+        <div class="icon">🚀</div>
+        <h3 class="h2">Pide en pocos clics</h3>
+        <p class="p-muted">Añade, confirma salón y paga. Sin complicaciones.</p>
+      </div>
+      <div class="card reveal">
+        <div class="icon">🛡️</div>
+        <h3 class="h2">Seguro y confiable</h3>
+        <p class="p-muted">Tus pedidos y pagos protegidos.</p>
+      </div>
+      <div class="card reveal">
+        <div class="icon">⭐</div>
+        <h3 class="h2">Hecho para campus</h3>
+        <p class="p-muted">Optimizado para edificios y salones.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- MISIÓN & VISIÓN -->
+  <section id="mision-vision" class="section">
+    <div class="container grid grid-2">
+      <div class="card reveal">
+        <h3 class="h2" style="background:linear-gradient(90deg,var(--brand1),var(--brand2));-webkit-background-clip:text;background-clip:text;color:transparent">Misión</h3>
+        <p class="p-muted">Llevar comida deliciosa al salón del estudiante con la máxima rapidez y una experiencia simple, transparente rápida y cercana.</p>
+      </div>
+      <div class="card reveal">
+        <h3 class="h2" style="background:linear-gradient(90deg,var(--brand1),var(--brand2));-webkit-background-clip:text;background-clip:text;color:transparent">Visión</h3>
+        <p class="p-muted">Ser el estándar de pedidos en campus universitarios, conectando tienda y alumnos con tecnología confiable y humana.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CÓMO FUNCIONA -->
+  <section id="como-funciona" class="section">
+    <div class="container grid grid-3">
+      <div class="card reveal">
+        <div class="icon">🛍️</div>
+        <h4 class="h2" style="font-size:1.1rem">Elige</h4>
+        <p class="p-muted">Explora el catálogo de tu tienda del campus.</p>
+      </div>
+      <div class="card reveal">
+        <div class="icon">🏫</div>
+        <h4 class="h2" style="font-size:1.1rem">Indica tu salón</h4>
+        <p class="p-muted">Selecciona edificio y aula para recibir o recoger.</p>
+      </div>
+      <div class="card reveal">
+        <div class="icon">⏱️</div>
+        <h4 class="h2" style="font-size:1.1rem">Recibe</h4>
+        <p class="p-muted">Sigue el estado en tiempo real hasta la entrega.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section id="cta" class="section">
+    <div class="container cta reveal">
+      <div class="grid grid-2" style="align-items:center">
+        <div>
+          <h3 class="h2" style="font-size:1.6rem">Listo para ordenar en el campus</h3>
+          <p class="p-muted">Empieza gratis, conecta tu tienda y pruébalo con tus amigos de clase.</p>
+        </div>
+        <div style="display:flex;gap:.6rem;justify-content:flex-end;flex-wrap:wrap">
+          <a href="#" class="btn btn-outline">Descargar app</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="section">
+    <div class="container" style="max-width:860px">
+      <h3 class="h2">Preguntas frecuentes</h3>
+      <div class="grid" style="margin-top:1rem">
+        <details class="reveal">
+          <summary>¿Entrega al salón? <span>+</span></summary>
+          <p>Sí, el alumno selecciona edificio y aula al hacer el pedido. Recuerda estar a la hora pactada para evitar complicaciones.</p>
+        </details>
+        <details class="reveal">
+          <summary>¿Pagos? <span>+</span></summary>
+          <p>Contraentrega o pasarela en app seguro y rápido. Nada de complicaciones.</p>
+        </details>
+        <details class="reveal">
+          <summary>¿Panel para tienda? <span>+</span></summary>
+          <p>La tienda gestiona pedidos, estados y catálogo fácilmente. Tú solo preocupate por saber que ordenar nosotros nos preocupamos de lo demás.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container" style="display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap">
+      <div style="display:flex;align-items:center;gap:.5rem">
+        <span>🍽️</span>
+        <span>Guerrero Hambriento © <span id="year"></span></span>
+      </div>
+      <div style="display:flex;gap:1rem">
+        <a href="#mision-vision">Misión</a>
+        <a href="#mision-vision">Visión</a>
+        <a href="#">Términos</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- CHAT -->
+  <button class="chat-btn" id="chatToggle" aria-label="Abrir chat de soporte">💬</button>
+  <div class="chat" id="chatBox" aria-live="polite">
+    <div class="chat-head">
+      <div style="display:flex;gap:.6rem;align-items:center">
+        <div style="width:32px;height:32px;border-radius:12px;background:rgba(245,158,11,.2);display:grid;place-items:center;border:1px solid rgba(245,158,11,.35)">💬</div>
+        <div>
+          <div style="font-weight:700">Soporte</div>
+          <div class="p-muted" style="font-size:.8rem">Normalmente responde en minutos</div>
+        </div>
+      </div>
+      <button id="chatClose" style="background:transparent;border:none;color:#cfcfcf;cursor:pointer;font-size:1rem">✖</button>
+    </div>
+    <div class="chat-body" id="messages">
+      <div class="msg bot">¡Hola! Soy tu asistente de Guerrero Hambriento. ¿En qué te ayudo?</div>
+      <div class="suggestions" id="sugs">
+        <button>¿Cómo rastreo mi pedido?</button>
+        <button>Problema con mi pago</button>
+        <button>Quiero cambiar mi salón</button>
+      </div>
+    </div>
+    <div class="chat-input">
+      <input id="chatInput" placeholder="Escribe un mensaje..." />
+      <button id="chatSend">Enviar</button>
+    </div>
+  </div>
+
+  <!-- JS mínimo para interacciones -->
+  <script>
+    // Año dinámico
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Reveal on scroll
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target); }
+      });
+    }, {threshold:.12});
+    document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+    // Chat
+    const chatBox = document.getElementById('chatBox');
+    const chatToggle = document.getElementById('chatToggle');
+    const chatClose = document.getElementById('chatClose');
+    const chatInput = document.getElementById('chatInput');
+    const chatSend = document.getElementById('chatSend');
+    const messages = document.getElementById('messages');
+    const sugs = document.getElementById('sugs');
+
+    function openChat(){ chatBox.classList.add('open'); chatInput.focus(); }
+    function closeChat(){ chatBox.classList.remove('open'); }
+    chatToggle.addEventListener('click', ()=> chatBox.classList.contains('open') ? closeChat() : openChat());
+    chatClose.addEventListener('click', closeChat);
+
+    function addMsg(text, from='bot'){
+      const div = document.createElement('div');
+      div.className = 'msg ' + (from==='user' ? 'user':'bot');
+      div.textContent = text;
+      messages.appendChild(div);
+      messages.scrollTop = messages.scrollHeight;
+    }
+
+    function send(){
+      const txt = chatInput.value.trim();
+      if(!txt) return;
+      addMsg(txt, 'user');
+      chatInput.value='';
+      setTimeout(()=> addMsg('Gracias por escribir. Te responderemos en unos minutos.'), 600);
+    }
+
+    chatSend.addEventListener('click', send);
+    chatInput.addEventListener('keydown', (e)=>{ if(e.key === 'Enter') send(); });
+
+    sugs.addEventListener('click', (e)=>{
+      if(e.target.tagName === 'BUTTON'){
+        chatInput.value = e.target.textContent;
+        chatInput.focus();
+      }
+    });
+  </script>
+</body>
+</html>
