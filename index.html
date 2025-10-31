@@ -196,7 +196,7 @@
             layers.forEach(layer=>{
               const speed = parseFloat(layer.dataset.speed) || 0.5;
               // translateY inverso para un efecto sutil
-              layer.style.transform = `translateY(${-(scrolled*speed/6)}px)`;
+              layer.style.transform = `translateY(${-(scrolled*speed)}px)`;
             });
             ticking = false;
           });
