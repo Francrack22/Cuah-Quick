@@ -28,9 +28,9 @@
     .parallax{position:relative;overflow:hidden}
     .parallax__layer{position:relative;min-height:72vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:80px 20px;transition:transform 0.1s linear}
     .parallax__bg{
-      position:absolute;inset:0;z-index:1;transform:translateZ(0);
+      position:absolute;inset:0;z-index:1;
       background-repeat:no-repeat;
-      background-position:center center;
+      background-position:center;
       background-size:cover;
     }
     .hero-content{position:relative;z-index:5;max-width:1000px;color:var(--blanco)}
@@ -66,7 +66,7 @@
   </header>
 
   <main style="margin-top:72px">
-    <section id="home" class="parallax" aria-label="Hero con parallax">
+    <section id="home" class="parallax">
       <div class="parallax__bg" style="background-image:url('czperron.jpg')"></div>
       <div class="parallax__layer" data-speed="0.5">
         <div class="hero-content">
@@ -135,49 +135,5 @@
     <section id="contacto" class="section">
       <div class="container">
         <h2>Contacto</h2>
-        <p>Quieres ser aficionado? Manda tus datos</p>
-        <form style="display:grid;grid-template-columns:1fr;gap:10px;max-width:560px">
-          <input placeholder="Tu nombre" aria-label="Nombre" style="padding:10px;border-radius:8px;border:1px solid #e6eef9">
-          <input placeholder="Tu correo" aria-label="Correo" style="padding:10px;border-radius:8px;border:1px solid #e6eef9">
-          <textarea placeholder="Mensaje" rows="4" style="padding:10px;border-radius:8px;border:1px solid #e6eef9"></textarea>
-          <button type="button" style="padding:12px;border-radius:10px;border:0;background:linear-gradient(90deg,var(--azul),var(--azul-oscuro));color:var(--blanco);font-weight:700">Enviar</button>
-        </form>
-      </div>
-    </section>
-  </main>
+        <p>Puedes usar este archivo como plantilla. Si vas a publicar logos o imágenes oficiales en GitHub, asegúrate de respetar
 
-  <footer>
-    <div class="container" style="display:flex;justify-content:space-between;align-items:center">
-      <div>
-        <div style="font-weight:700">Cruz Azul — Demo</div>
-        <div class="meta">Plantilla con parallax creada para subir a GitHub (reemplaza contenidos por información autorizada)</div>
-      </div>
-      <div style="text-align:right">&copy; <span id="year"></span> De mi • Hecho rico</div>
-    </div>
-  </footer>
-
-  <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
-    (function(){
-      const layers = document.querySelectorAll('.parallax__layer');
-      let ticking = false;
-      function onScroll(){
-        if(!ticking){
-          window.requestAnimationFrame(()=>{
-            const scrolled = window.scrollY;
-            layers.forEach(layer=>{
-              const speed = parseFloat(layer.dataset.speed) || 0.5;
-              const drift = parseFloat(layer.dataset.drift) || 0;
-              layer.style.transform = `translateY(${-(scrolled*speed)}px) translateX(${scrolled*drift}px)`;
-            });
-            ticking = false;
-          });
-          ticking = true;
-        }
-      }
-      window.addEventListener('scroll', onScroll, {passive:true});
-      onScroll();
-    })();
-  </script>
-</body>
-</html>
