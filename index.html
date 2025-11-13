@@ -1,61 +1,57 @@
 <!doctype html>
 <html lang="es">
 <head>
-  <link rel="icon" type="image/png" href="favicon.png">
   <meta charset="UTF-8" />
-  <title>Cuah-Quick</title>
+  <title>CUAH-QUICK</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <!-- Fuente opcional -->
+  <link rel="icon" href="img/logo.jpg" type="image/jpeg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-  <!-- Estilos locales -->
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-  <!-- NAV -->
+  <div class="cursor-glow" id="cursorGlow"></div>
+
   <nav class="nav">
     <div class="nav-inner container">
       <a class="brand" href="#home" aria-label="Inicio">
-        <span class="brand-logo">
-  <img src="logo.png" alt="CUAH-QUICK" class="brand-logo-img">
-</span>
-<strong>Cuah-Quick</strong>
-
+        <img src="img/logo.jpg" alt="Logo CUAH-QUICK" class="brand-logo-img">
+        <strong>CUAH-QUICK</strong>
       </a>
       <div class="menu" aria-label="Principal">
         <a class="btn btn-outline" href="#producto">Producto</a>
         <a class="btn btn-outline" href="#mision-vision">Misión & Visión</a>
         <a class="btn btn-outline" href="#como-funciona">Cómo funciona</a>
-        <a class="btn btn-primary" href="#cta">Probar ahora</a>
+        <a class="btn btn-primary" href="ordenar.html">Ordenar Comida</a>
       </div>
     </div>
   </nav>
 
-  <!-- HERO -->
   <section id="home" class="hero section">
     <div class="hero-blob" aria-hidden="true"></div>
     <div class="container grid grid-2">
-      <div>
-        <h1 class="h1 reveal" style="font-size:clamp(2rem,5vw,3.6rem);margin:.4rem 0 .6rem;line-height:1.1;">
-          Pide a la tienda de la <span style="background:linear-gradient(90deg,var(--brand1),var(--brand2));-webkit-background-clip:text;background-clip:text;color:transparent">Cuauhtemoc</span>
+      
+      <div class="reveal-parent">
+        <h1 class="h1 reveal-child" data-delay="100" style="font-size:clamp(2rem,5vw,3.6rem);margin:.4rem 0 .6rem;line-height:1.1;">
+          Pide a la tienda de tu <span style="background:linear-gradient(90deg,var(--brand1),var(--brand2));-webkit-background-clip:text;background-clip:text;color:transparent">Universidad</span>
         </h1>
-        <p class="p-muted reveal" style="font-size:1.15rem;max-width:52ch">
+        <p class="p-muted reveal-child" data-delay="200" style="font-size:1.15rem;max-width:52ch">
           Entregamos directo a tu salón. Rápido, fácil y delicioso.
           <br> Nuestra mayor ilusión es tu satisfacción.
         </p>
-        <div style="margin-top:1.2rem; display:flex; gap:.6rem; flex-wrap:wrap" class="reveal">
+        <div style="margin-top:1.2rem; display:flex; gap:.6rem; flex-wrap:wrap" class="reveal-child" data-delay="300">
           <a href="#cta" class="btn btn-primary">Empezar ahora</a>
-          <a href="#producto" class="btn btn-outline">Atrévete a pedir</a>
+          <a href="#producto" class="btn btn-outline">Ver demo</a>
         </div>
-        <div class="badge-row reveal">
+        <div class="badge-row reveal-child" data-delay="400">
           <span class="badge">Entrega al salón</span>
           <span class="badge">Pago seguro</span>
           <span class="badge">Hecho para campus</span>
         </div>
       </div>
 
-      <div class="hero-card reveal">
+      <div class="hero-card reveal-child" data-delay="300">
         <div class="phone">
           <div class="phone-head">
             <div class="dots">
@@ -63,7 +59,7 @@
               <span class="dot amber"></span>
               <span class="dot green"></span>
             </div>
-            <span class="p-muted" style="font-size:.8rem">Envío express</span>
+            <span class="p-muted" style="font-size:.8rem">Demo App</span>
           </div>
           <div style="margin-top:1rem; display:grid; gap:.7rem">
             <div class="feature">
@@ -84,12 +80,11 @@
               <span style="color:var(--brand1)">🏫</span>
               <div>
                 <div style="font-weight:700">Entrega al salón</div>
-                <div class="p-muted" style="font-size:.9rem">Selecciona edificio y salón</div>
+                <div class="p-muted" style="font-size:.9rem">Selecciona edificio y aula</div>
               </div>
             </div>
           </div>
         </div>
-        <!-- Burbujas -->
         <div class="bubbles" aria-hidden="true">
           <div class="bubble" style="left:6%; top:12%; animation-delay:0s"></div>
           <div class="bubble" style="left:24%; top:50%; animation-delay:.3s"></div>
@@ -101,7 +96,6 @@
     </div>
   </section>
 
-  <!-- MARQUEE -->
   <div class="marquee-wrap">
     <div class="container marquee">
       <div class="marquee-track">
@@ -109,66 +103,62 @@
         <span class="tag">✦ Entrega al salón</span>
         <span class="tag">✦ Hecho para campus</span>
         <span class="tag">✦ Rápido y delicioso</span>
-        <span class="tag">✦ Soporte </span>
-        <!-- duplicado para loop continuo -->
+        <span class="tag">✦ Soporte en vivo</span>
         <span class="tag">✦ Pagos seguros</span>
         <span class="tag">✦ Entrega al salón</span>
         <span class="tag">✦ Hecho para campus</span>
         <span class="tag">✦ Rápido y delicioso</span>
-        <span class="tag">✦ Soporte </span>
+        <span class="tag">✦ Soporte en vivo</span>
       </div>
     </div>
   </div>
 
-  <!-- HIGHLIGHTS -->
   <section id="producto" class="section">
-    <div class="container grid grid-3">
-      <div class="card reveal">
+    <div class="container grid grid-3 reveal-parent">
+      <div class="card reveal-child">
         <div class="icon">🚀</div>
-        <h3 class="h2">Pide en pocos clics</h3>
+        <h3 class="h2">Pide en 3 clics</h3>
         <p class="p-muted">Añade, confirma salón y paga. Sin complicaciones.</p>
       </div>
-      <div class="card reveal">
+      <div class="card reveal-child" data-delay="100">
         <div class="icon">🛡️</div>
         <h3 class="h2">Seguro y confiable</h3>
         <p class="p-muted">Tus pedidos y pagos protegidos.</p>
       </div>
-      <div class="card reveal">
+      <div class="card reveal-child" data-delay="200">
         <div class="icon">⭐</div>
         <h3 class="h2">Hecho para campus</h3>
-        <p class="p-muted">Optimizado para edificios y salones.</p>
+        <p class="p-muted">Optimizado para edificios y aulas.</p>
       </div>
     </div>
   </section>
 
-  <!-- MISIÓN & VISIÓN -->
   <section id="mision-vision" class="section">
-    <div class="container grid grid-2">
-      <div class="card reveal">
+    <div class="container grid grid-2 reveal-parent">
+      <div class="card reveal-child">
         <h3 class="h2" style="background:linear-gradient(90deg,var(--brand1),var(--brand2));-webkit-background-clip:text;background-clip:text;color:transparent">Misión</h3>
-        <p class="p-muted">Llevar comida deliciosa al salón del estudiante con la máxima rapidez y una experiencia simple, transparente rápida y cercana.</p>
+        <p class="p-muted">Llevar comida deliciosa al salón del estudiante con la máxima rapidez y una experiencia simple, transparente y cercana.</p>
       </div>
-      <div class="card reveal">
+      <div class="card reveal-child" data-delay="100">
         <h3 class="h2" style="background:linear-gradient(90deg,var(--brand1),var(--brand2));-webkit-background-clip:text;background-clip:text;color:transparent">Visión</h3>
-        <p class="p-muted">Ser el estándar de pedidos en campus universitarios, conectando tienda y alumnos con tecnología confiable y humana.</p>
+        <p class="p-muted">Ser el estándar de pedidos en campus universitarios, conectando tiendas y alumnos con tecnología confiable y humana.</p>
       </div>
     </div>
   </section>
 
-  <!-- CÓMO FUNCIONA -->
   <section id="como-funciona" class="section">
-    <div class="container grid grid-3">
-      <div class="card reveal">
+    <div class="container grid grid-3 reveal-parent">
+      <div class="card reveal-child">
         <div class="icon">🛍️</div>
         <h4 class="h2" style="font-size:1.1rem">Elige</h4>
         <p class="p-muted">Explora el catálogo de tu tienda del campus.</p>
       </div>
-      <div class="card reveal">
+      <div class="card reveal-child" data-delay="100">
         <div class="icon">🏫</div>
         <h4 class="h2" style="font-size:1.1rem">Indica tu salón</h4>
         <p class="p-muted">Selecciona edificio y aula para recibir o recoger.</p>
       </div>
-      <div class="card reveal">
+      <div class="card reveal-child" data-delay="200">
         <div class="icon">⏱️</div>
         <h4 class="h2" style="font-size:1.1rem">Recibe</h4>
         <p class="p-muted">Sigue el estado en tiempo real hasta la entrega.</p>
@@ -176,48 +166,45 @@
     </div>
   </section>
 
-  <!-- CTA -->
   <section id="cta" class="section">
-    <div class="container cta reveal">
-      <div class="grid grid-2" style="align-items:center">
+    <div class="container cta reveal-child"> <div class="grid grid-2" style="align-items:center">
         <div>
           <h3 class="h2" style="font-size:1.6rem">Listo para ordenar en el campus</h3>
           <p class="p-muted">Empieza gratis, conecta tu tienda y pruébalo con tus amigos de clase.</p>
         </div>
         <div style="display:flex;gap:.6rem;justify-content:flex-end;flex-wrap:wrap">
+          <a href="#" class="btn btn-primary">Crear cuenta tienda</a>
           <a href="#" class="btn btn-outline">Descargar app</a>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- FAQ -->
   <section id="faq" class="section">
-    <div class="container" style="max-width:860px">
-      <h3 class="h2">Preguntas frecuentes</h3>
+    <div class="container reveal-parent" style="max-width:860px">
+      <h3 class="h2 reveal-child">Preguntas frecuentes</h3>
       <div class="grid" style="margin-top:1rem">
-        <details class="reveal">
+        <details class="reveal-child" data-delay="100">
           <summary>¿Entrega al salón? <span>+</span></summary>
-          <p>Sí, el alumno selecciona edificio y aula al hacer el pedido. Recuerda estar a la hora pactada para evitar complicaciones.</p>
+          <p>Sí, el alumno selecciona edificio y aula al hacer el pedido.</p>
         </details>
-        <details class="reveal">
+        <details class="reveal-child" data-delay="200">
           <summary>¿Pagos? <span>+</span></summary>
-          <p>Contraentrega o pasarela en app seguro y rápido. Nada de complicaciones.</p>
+          <p>Contraentrega o pasarela en app (seguro y rápido).</p>
         </details>
-        <details class="reveal">
+        <details class="reveal-child" data-delay="300">
           <summary>¿Panel para tienda? <span>+</span></summary>
-          <p>La tienda gestiona pedidos, estados y catálogo fácilmente. Tú solo preocupate por saber que ordenar nosotros nos preocupamos de lo demás.</p>
+          <p>La tienda gestiona pedidos, estados y catálogo fácilmente.</p>
         </details>
       </div>
     </div>
   </section>
 
-  <!-- FOOTER -->
   <footer class="footer">
     <div class="container" style="display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap">
       <div style="display:flex;align-items:center;gap:.5rem">
-        <span>🍽️</span>
-        <span>Guerrero Hambriento © <span id="year"></span></span>
+        <img src="img/logo.jpg" alt="" style="width:20px; height:20px; border-radius: 4px; object-fit: cover;">
+        <span>CUAH-QUICK © <span id="year"></span></span>
       </div>
       <div style="display:flex;gap:1rem">
         <a href="#mision-vision">Misión</a>
@@ -227,7 +214,6 @@
     </div>
   </footer>
 
-  <!-- CHAT -->
   <button class="chat-btn" id="chatToggle" aria-label="Abrir chat de soporte">💬</button>
   <div class="chat" id="chatBox" aria-live="polite">
     <div class="chat-head">
@@ -241,7 +227,7 @@
       <button id="chatClose" style="background:transparent;border:none;color:#cfcfcf;cursor:pointer;font-size:1rem">✖</button>
     </div>
     <div class="chat-body" id="messages">
-      <div class="msg bot">¡Hola! Soy tu asistente de Guerrero Hambriento. ¿En qué te ayudo?</div>
+      <div class="msg bot">¡Hola! Soy tu asistente de CUAH-QUICK. ¿En qué te ayudo?</div>
       <div class="suggestions" id="sugs">
         <button>¿Cómo rastreo mi pedido?</button>
         <button>Problema con mi pago</button>
@@ -254,18 +240,10 @@
     </div>
   </div>
 
-  <!-- JS mínimo para interacciones -->
   <script>
+    // === JS EXISTENTE ===
     // Año dinámico
     document.getElementById('year').textContent = new Date().getFullYear();
-
-    // Reveal on scroll
-    const io = new IntersectionObserver((entries)=>{
-      entries.forEach(e=>{
-        if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target); }
-      });
-    }, {threshold:.12});
-    document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 
     // Chat
     const chatBox = document.getElementById('chatBox');
@@ -306,10 +284,99 @@
         chatInput.focus();
       }
     });
+
+    // === NUEVAS ANIMACIONES JS ===
+
+    // 1. Efecto de Resplandor del Cursor
+    const cursorGlow = document.getElementById('cursorGlow');
+    if (cursorGlow) {
+      window.addEventListener('mousemove', (e) => {
+        // Usamos requestAnimationFrame para eficiencia
+        window.requestAnimationFrame(() => {
+          cursorGlow.style.left = e.clientX + 'px';
+          cursorGlow.style.top = e.clientY + 'px';
+        });
+      });
+    }
+
+    // 2. Efecto Parallax en el Hero
+    const heroSection = document.querySelector('.hero');
+    const heroCard = document.querySelector('.hero-card');
+    const heroBlob = document.querySelector('.hero-blob');
+    
+    if (heroSection && heroCard && heroBlob) {
+      heroSection.addEventListener('mousemove', (e) => {
+        const { clientX, clientY } = e;
+        const { offsetWidth, offsetHeight } = heroSection;
+        
+        // Calcula el movimiento (de -1 a 1)
+        const xMov = (clientX / offsetWidth - 0.5) * 2;
+        const yMov = (clientY / offsetHeight - 0.5) * 2;
+
+        // Define la intensidad del movimiento
+        const cardIntensity = 8; // 8px max
+        const blobIntensity = 25; // 25px max
+
+        window.requestAnimationFrame(() => {
+          // Usamos 'translateZ(0)' para forzar la aceleración por hardware
+          heroCard.style.transform = `translate3d(${-xMov * cardIntensity}px, ${-yMov * cardIntensity}px, 0)`;
+          heroBlob.style.transform = `translate3d(${xMov * blobIntensity}px, ${yMov * blobIntensity}px, 0)`;
+        });
+      });
+      
+      heroSection.addEventListener('mouseleave', () => {
+         window.requestAnimationFrame(() => {
+            heroCard.style.transform = 'translate3d(0,0,0)';
+            heroBlob.style.transform = 'translate3d(0,0,0)'; // Vuelve a su anim. base
+         });
+      });
+    }
+
+
+    // 3. Animación de "Reveal" en Cascada (Staggered)
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.1 // 10% visible
+    };
+
+    const observerCallback = (entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          // Si es un 'reveal-parent', animamos sus hijos
+          if (entry.target.classList.contains('reveal-parent')) {
+            const children = entry.target.querySelectorAll('.reveal-child');
+            children.forEach((child, index) => {
+              const delay = child.dataset.delay || (index * 100); // 100ms de retraso
+              setTimeout(() => {
+                child.classList.add('visible');
+              }, delay);
+            });
+          } else {
+            // Si es un 'reveal-child' solitario
+            const delay = entry.target.dataset.delay || 0;
+            setTimeout(() => {
+              entry.target.classList.add('visible');
+            }, delay);
+          }
+          // Deja de observar el elemento una vez animado
+          observer.unobserve(entry.target);
+        }
+      });
+    };
+
+    const revealObserver = new IntersectionObserver(observerCallback, observerOptions);
+
+    // Observa todos los contenedores padre
+    document.querySelectorAll('.reveal-parent').forEach(parent => {
+      revealObserver.observe(parent);
+    });
+    
+    // Observa todos los hijos solitarios
+    document.querySelectorAll('.reveal-child:not(.reveal-parent .reveal-child)').forEach(child => {
+      revealObserver.observe(child);
+    });
+
   </script>
 </body>
 </html>
-
-
-
-
