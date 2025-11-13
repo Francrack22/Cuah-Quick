@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Ordenar Comida - CUAH-QUICK</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" href="img/logo.jpg" type="image/jpeg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <div class="cursor-glow" id="cursorGlow"></div>
+
+  <nav class="nav">
+    <div class="nav-inner container">
+      <a class="brand" href="index.html" aria-label="Inicio">
+        <img src="img/logo.jpg" alt="Logo CUAH-QUICK" class="brand-logo-img">
+        <strong>CUAH-QUICK</strong>
+      </a>
+      <div class="menu" aria-label="Principal">
+        <a class="btn btn-outline" href="index.html#producto">Producto</a>
+        <a class="btn btn-outline" href="index.html#mision-vision">Misión & Visión</a>
+        <a class="btn btn-outline" href="index.html#como-funciona">Cómo funciona</a>
+        <a class="btn btn-primary" href="ordenar.html">Ordenar Comida</a>
+      </div>
+    </div>
+  </nav>
+
+  <section id="ordenar-page" class="section">
+    <div class="container reveal-parent" style="max-width: 860px;">
+      
+      <h1 class="h1 reveal-child" data-delay="100" style="text-align: center; font-size: clamp(2rem, 5vw, 3.2rem); margin-bottom: 1rem;">
+        <span id="hero-emoji" style="display: inline-block; transition: transform 0.4s cubic-bezier(0.33, 1, 0.68, 1);">🍔</span> 
+        Elige tu pedido
+      </h1>
+      <p class="p-muted reveal-child" data-delay="200" style="text-align: center; font-size: 1.15rem; max-width: 52ch; margin: 0 auto 2.5rem auto;">
+        Selecciona la tienda de tu campus, añade productos a tu carrito y paga de forma segura.
+      </p>
+
+      <div class="card reveal-child" data-delay="300" style="padding: 1.5rem 2rem;">
+        <h3 class="h2">1. Selecciona una tienda</h3>
+        
+        <div class="feature" style="margin-top: 1rem; cursor: pointer;">
+          <span style="color:var(--brand1)">🏫</span>
+          <div>
+            <div style="font-weight:700">Cafetería Central</div>
+            <div class="p-muted" style="font-size:.9rem">Abierto 8 AM <strong>·</strong> Cierra 6:00 PM</div>
+          </div>
+        </div>
+        
+      </div>
+      
+      <div class="card reveal-child" data-delay="400" style="margin-top: 1.5rem; padding: 1.5rem 2rem;">
+        <h3 class="h2">2. Arma tu carrito</h3>
+        <p class="p-muted">
+          Aquí se mostraría el catálogo de productos de la tienda que seleccionaste.
+        </p>
+      </div>
+      
+      <div class="cta reveal-child" data-delay="500" style="margin-top: 1.5rem; padding: 1.5rem 2rem;">
+         <div class="grid grid-2" style="align-items:center">
+            <div>
+              <h3 class="h2" style="font-size:1.6rem">¡Listo para pagar!</h3>
+              <p class="p-muted">Total: $0.00 MXN</p>
+            </div>
+            <div style="display:flex;gap:.6rem;justify-content:flex-end;flex-wrap:wrap">
+              <a href="#" class="btn btn-primary">Proceder al Pago</a>
+            </div>
+          </div>
+      </div>
+
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container" style="display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap">
+      <div style="display:flex;align-items:center;gap:.5rem">
+        <img src="img/logo.jpg" alt="" style="width:20px; height:20px; border-radius: 4px; object-fit: cover;">
+        <span>CUAH-QUICK © <span id="year"></span></span>
+      </div>
+      <div style="display:flex;gap:1rem">
+        <a href="index.html#mision-vision">Misión</a>
+        <a href="index.html#mision-vision">Visión</a>
+        <a href="#">Términos</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // === JS EXISTENTE ===
+    // Año dinámico
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // === NUEVAS ANIMACIONES JS ===
+
+    // 1. Efecto de Resplandor del Cursor (ya lo tenías)
+    const cursorGlow = document.getElementById('cursorGlow');
+    if (cursorGlow) {
+      window.addEventListener('mousemove', (e) => {
+        window.requestAnimationFrame(() => {
+          cursorGlow.style.left = e.clientX + 'px';
+          cursorGlow.style.top = e.clientY + 'px';
+        });
+      });
+    }
+
+    // ===== CAMBIO AQUÍ: Nueva Animación de Hamburguesa Flotante =====
+    const heroEmoji = document.getElementById('hero-emoji');
+    const orderSection = document.getElementById('ordenar-page');
+    
+    if (heroEmoji && orderSection) {
+      orderSection.addEventListener('mousemove', (e) => {
+        // Obtenemos el centro de la sección
+        const rect = orderSection.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        
+        // Calcula el movimiento (de -1 a 1)
+        const xMov = (e.clientX - centerX) / (rect.width / 2); 
+        const yMov = (e.clientY - centerY) / (rect.height / 2);
+
+        // Define la intensidad
+        const intensity = 10; // 10px max
+
+        window.requestAnimationFrame(() => {
+          // Mover en dirección opuesta al mouse
+          heroEmoji.style.transform = `translate3d(${-xMov * intensity}px, ${-yMov * intensity}px, 0)`;
+        });
+      });
+      
+      // Resetea la posición cuando el mouse sale de la sección
+      orderSection.addEventListener('mouseleave', () => {
+         window.requestAnimationFrame(() => {
+            heroEmoji.style.transform = 'translate3d(0,0,0)'; // Vuelve al centro
+         });
+      });
+    }
+    // ====================== FIN DEL CAMBIO ======================
+
+
+    // 3. Animación de "Reveal" en Cascada (Staggered) (ya lo tenías)
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.1 // 10% visible
+    };
+
+    const observerCallback = (entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          if (entry.target.classList.contains('reveal-parent')) {
+            const children = entry.target.querySelectorAll('.reveal-child');
+            children.forEach((child, index) => {
+              const delay = child.dataset.delay || (index * 100); 
+              setTimeout(() => {
+                child.classList.add('visible');
+              }, delay);
+            });
+          } else {
+            const delay = entry.target.dataset.delay || 0;
+            setTimeout(() => {
+              entry.target.classList.add('visible');
+            }, delay);
+          }
+          observer.unobserve(entry.target);
+        }
+      });
+    };
+
+    const revealObserver = new IntersectionObserver(observerCallback, observerOptions);
+
+    document.querySelectorAll('.reveal-parent').forEach(parent => {
+      revealObserver.observe(parent);
+    });
+    
+    document.querySelectorAll('.reveal-child:not(.reveal-parent .reveal-child)').forEach(child => {
+      revealObserver.observe(child);
+    });
+
+  </script>
+</body>
+</html>
