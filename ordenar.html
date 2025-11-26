@@ -7,105 +7,8 @@
   <link rel="icon" href="logo.png" type="image/png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
-
-  <style>
-    /* Rejilla del menú */
-    .menu-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-      gap: 1.5rem;
-      margin-top: 1.5rem;
-    }
-
-    /* Tarjeta de producto */
-    .product-card {
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 12px;
-      padding: 1.2rem;
-      display: flex;
-      flex-direction: column;
-      transition: all 0.3s ease;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .product-card:hover {
-      transform: translateY(-4px);
-      border-color: var(--brand1, #007bff);
-      background: rgba(255, 255, 255, 0.06);
-      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-    }
-
-    /* Cabecera producto */
-    .product-header {
-      display: flex;
-      gap: 1rem;
-      margin-bottom: 0.8rem;
-    }
-
-    .product-emoji {
-      font-size: 2.2rem;
-      background: rgba(255,255,255,0.05);
-      width: 50px;
-      height: 50px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 10px;
-    }
-
-    .product-info h4 {
-      margin: 0;
-      font-size: 1.1rem;
-      color: #fff;
-      font-weight: 600;
-      line-height: 1.3;
-    }
-
-    .product-desc {
-      font-size: 0.85rem;
-      color: #aaa;
-      margin: 0 0 1.2rem 0;
-      line-height: 1.4;
-      flex-grow: 1; 
-    }
-
-    /* Footer de la tarjeta */
-    .product-footer {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: auto;
-      padding-top: 1rem;
-      border-top: 1px solid rgba(255,255,255,0.05);
-    }
-
-    .price {
-      font-weight: 700;
-      color: #fff;
-      font-size: 1.1rem;
-    }
-
-    /* Botón de agregar */
-    .btn-add {
-      background: var(--brand1, #007bff); /* Usa tu color azul */
-      color: white;
-      border: none;
-      padding: 0.4rem 0.8rem;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 0.85rem;
-      font-weight: 600;
-      transition: transform 0.1s;
-    }
-
-    .btn-add:active {
-      transform: scale(0.95);
-    }
-  </style>
-</head>
+  <link rel="stylesheet" href="styles.css"> 
+  </head>
 <body>
 
   <div class="cursor-glow" id="cursorGlow"></div>
@@ -152,7 +55,7 @@
       <div class="card reveal-child" data-delay="400" style="margin-top: 1.5rem; padding: 1.5rem 2rem;">
         <div style="display:flex; justify-content:space-between; align-items:center;">
           <h3 class="h2" style="margin:0;">2. Arma tu carrito</h3>
-          <span class="p-muted" style="font-size:0.9rem">5 productos disponibles</span>
+          <span class="p-muted" style="font-size:0.9rem">Cargando productos...</span>
         </div>
        
         <div id="menu-container" class="menu-grid">
@@ -189,10 +92,9 @@
   </footer>
 
   <script>
-    // === JS EXISTENTE ===
+    // === JS EXISTENTE (ANIMACIONES) ===
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // 1. Efecto de Resplandor del Cursor
     const cursorGlow = document.getElementById('cursorGlow');
     if (cursorGlow) {
       window.addEventListener('mousemove', (e) => {
@@ -203,7 +105,6 @@
       });
     }
 
-    // 2. Animación de Hamburguesa Flotante
     const heroEmoji = document.getElementById('hero-emoji');
     const orderSection = document.getElementById('ordenar-page');
     
@@ -228,7 +129,6 @@
       });
     }
 
-    // 3. Animación Reveal
     const observerOptions = { root: null, rootMargin: '0px', threshold: 0.1 };
     const observerCallback = (entries, observer) => {
       entries.forEach(entry => {
@@ -252,37 +152,60 @@
     document.querySelectorAll('.reveal-child:not(.reveal-parent .reveal-child)').forEach(child => revealObserver.observe(child));
 
     // ============================================
-    // === NUEVA LÓGICA DEL MENÚ Y CARRITO ===
+    // === LÓGICA CONECTADA A BASE DE DATOS ===
     // ============================================
-
-    const productos = [
-        { id: 1, nombre: "Agua Ciel 600ml", desc: "Hidratación pura y fresca.", precio: 15.00, emoji: "💧" },
-        { id: 2, nombre: "Coca-Cola Original", desc: "Lata 355ml bien fría.", precio: 22.00, emoji: "🥤" },
-        { id: 3, nombre: "Papas Sabritas", desc: "Originales con sal 45g.", precio: 18.00, emoji: "🥔" },
-        { id: 4, nombre: "Sándwich Clásico", desc: "Jamón, queso y mayonesa.", precio: 35.00, emoji: "🥪" },
-        { id: 5, nombre: "Galletas Chokis", desc: "Paquete chocolate 50g.", precio: 16.00, emoji: "🍪" }
-    ];
 
     let totalCuenta = 0;
 
-    function renderizarMenu() {
+    async function obtenerProductosReales() {
+        try {
+            // Petición al servidor que acabamos de crear (debe estar corriendo Node server.js)
+            const respuesta = await fetch('http://localhost:3000/api/products');
+            
+            // Si la respuesta no es OK (ej. error 500)
+            if (!respuesta.ok) {
+                throw new Error(`Error HTTP: ${respuesta.status}`);
+            }
+
+            const productosDB = await respuesta.json();
+            
+            renderizarMenu(productosDB); 
+            
+            // Actualizar contador de productos disponibles
+            document.querySelector('.card .p-muted').textContent = `${productosDB.length} productos disponibles`;
+
+        } catch (error) {
+            console.error("Error cargando productos. ¿Está corriendo Node.js? Detalles:", error);
+            document.getElementById('menu-container').innerHTML = 
+              '<p style="color:red; margin-top:1rem;">❌ Error: No se pudo conectar al servidor (http://localhost:3000). Asegúrate de correr `node server.js`.</p>';
+        }
+    }
+
+    function renderizarMenu(productos) {
         const contenedor = document.getElementById('menu-container');
-        if(!contenedor) return;
         contenedor.innerHTML = ''; 
 
         productos.forEach(prod => {
+            // Asignamos emoji según el nombre del producto
+            let emoji = "🍴";
+            if(prod.name.includes('Agua')) emoji = "💧";
+            else if(prod.name.includes('Coca-Cola')) emoji = "🥤";
+            else if(prod.name.includes('Papas')) emoji = "🥔";
+            else if(prod.name.includes('Sándwich')) emoji = "🥪";
+            else if(prod.name.includes('Galletas')) emoji = "🍪";
+
             const htmlProducto = `
                 <div class="product-card">
                     <div class="product-header">
-                        <div class="product-emoji">${prod.emoji}</div>
+                        <div class="product-emoji">${emoji}</div>
                         <div class="product-info">
-                            <h4>${prod.nombre}</h4>
+                            <h4>${prod.name}</h4>
                         </div>
                     </div>
-                    <p class="product-desc">${prod.desc}</p>
+                    <p class="product-desc">${prod.description}</p>
                     <div class="product-footer">
-                        <span class="price">$${prod.precio.toFixed(2)}</span>
-                        <button class="btn-add" onclick="agregarProducto(${prod.id}, ${prod.precio})">
+                        <span class="price">$${Number(prod.price).toFixed(2)}</span>
+                        <button class="btn-add" onclick="agregarProducto(${prod.id}, ${prod.price})">
                             Agregar +
                         </button>
                     </div>
@@ -293,7 +216,7 @@
     }
 
     function agregarProducto(id, precio) {
-        totalCuenta += precio;
+        totalCuenta += Number(precio);
         const textoTotal = document.getElementById('total-text');
         
         if(textoTotal) {
@@ -303,9 +226,9 @@
         }
     }
 
-    // Iniciar renderizado al cargar
+    // Iniciar carga al abrir la página
     document.addEventListener('DOMContentLoaded', () => {
-        renderizarMenu();
+        obtenerProductosReales();
     });
 
   </script>
