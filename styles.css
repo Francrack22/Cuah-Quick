@@ -47,6 +47,16 @@ a { text-decoration: none; color: inherit; }
   font-size: 1.2rem;
 }
 
+/* FIX DEL LOGO: Lo hace redondo para ocultar el fondo blanco */
+.brand-logo-img {
+  width: 40px;          
+  height: 40px;
+  border-radius: 50%;   /* Lo convierte en círculo */
+  object-fit: cover;    
+  border: 2px solid rgba(255, 255, 255, 0.2); /* Borde sutil */
+  background-color: white; /* Asegura que el logo se vea bien dentro del círculo */
+}
+
 .menu { display: flex; gap: 1rem; }
 
 /* === BOTONES === */
@@ -73,7 +83,7 @@ a { text-decoration: none; color: inherit; }
 }
 .btn-outline:hover { color: white; border-color: white; }
 
-/* === TEXTOS === */
+/* === TIPOGRAFÍA === */
 .h1 { font-size: 2.5rem; font-weight: 800; margin-bottom: 1rem; }
 .h2 { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem; }
 .p-muted { color: var(--text-muted); }
@@ -83,7 +93,7 @@ a { text-decoration: none; color: inherit; }
   background-color: var(--card-bg);
   border: 1px solid rgba(255,255,255,0.1);
   border-radius: 12px;
-  margin-bottom: 1.5rem; /* Espacio entre secciones */
+  margin-bottom: 1.5rem; 
 }
 
 /* === MENÚ GRID (La parte de la comida) === */
