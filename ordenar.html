@@ -160,7 +160,7 @@
     async function obtenerProductosReales() {
         try {
             // Petición al servidor que acabamos de crear (debe estar corriendo Node server.js)
-            const respuesta = await fetch('http://localhost:3000/api/products');
+            const respuesta = await fetch('https://backend-cuah-quick-api.onrender.com/api/products');
             
             // Si la respuesta no es OK (ej. error 500)
             if (!respuesta.ok) {
