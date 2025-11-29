@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedidos - Cuah-Quick</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        .order-container { max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        input, button, select { width: 100%; padding: 10px; margin: 8px 0; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; }
+        button { background-color: #28a745; color: white; cursor: pointer; }
+        button:hover { background-color: #1e7e34; }
+    </style>
+</head>
+<body>
+
+    <div class="order-container">
+        <h2 id="welcomeMessage">Cargando...</h2>
+        <button onclick="logout()">Cerrar Sesión</button>
+        <hr>
+        
+        <h3>Crear Nuevo Pedido</h3>
+        <form id="orderForm">
+            <input type="hidden" id="shop_id" value="1"> 
+            
+            <input type="number" id="total_amount" placeholder="Monto Total (ej: 55.00)" step="0.01" required>
+            <input type="text" id="building" placeholder="Edificio de Entrega" required>
+            <input type="text" id="classroom" placeholder="Salón/Oficina" required>
+            <textarea id="delivery_notes" placeholder="Notas de entrega (Opcional)"></textarea>
+            
+            <button type="submit" id="orderButton">Enviar Pedido</button>
+        </form>
+        <p id="message"></p>
+    </div>
+
+    <script>
+        const API_BASE_URL = 'https://backend-cuah-quick-api.onrender.com/api'; 
+        
+        // ===============================================
+        // 1. LÓGICA DE PROTECCIÓN DE RUTA
+        // ===============================================
+        window.onload = function() {
+            const token = localStorage.getItem('userToken');
+            
+            if (!token) {
+                // Si no hay token, redirigir al login
+                alert('Debes iniciar sesión para ver tus pedidos.');
+                window.location.href = '/login.html'; // Ajusta la ruta a tu Login
+                return;
+            }
+
+            // Opcional: Mostrar el nombre del usuario (si lo guardaste)
+            const userData = localStorage.getItem('userData');
+            if (userData) {
+                const user = JSON.parse(userData);
+                document.getElementById('welcomeMessage').textContent = `Hola, ${user.full_name}. Haz tu pedido:`;
+            } else {
+                 document.getElementById('welcomeMessage').textContent = `Hola. Haz tu pedido:`;
+            }
+        };
+
+        // Función para cerrar sesión
+        function logout() {
+            localStorage.removeItem('userToken');
+            localStorage.removeItem('userData');
+            window.location.href = '/login.html'; 
+        }
+
+        // ===============================================
+        // 2. LÓGICA DE CREACIÓN DE ORDEN (USANDO EL TOKEN)
+        // ===============================================
+        const orderForm = document.getElementById('orderForm');
+        const messageDisplay = document.getElementById('message');
+
+        orderForm.addEventListener('submit', handleCreateOrder);
+
+        async function handleCreateOrder(e) {
+            e.preventDefault();
+            
+            const token = localStorage.getItem('userToken');
+            if (!token) {
+                 messageDisplay.textContent = 'Error: No hay sesión activa.';
+                 return;
+            }
+
+            const orderData = {
+                shop_id: parseInt(document.getElementById('shop_id').value),
+                total_amount: parseFloat(document.getElementById('total_amount').value),
+                building: document.getElementById('building').value,
+                classroom: document.getElementById('classroom').value,
+                delivery_notes: document.getElementById('delivery_notes').value,
+            };
+
+            document.getElementById('orderButton').disabled = true;
+            messageDisplay.textContent = 'Procesando orden...';
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/orders`, {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        // ⭐️ CRÍTICO: Envío del Token JWT
+                        'Authorization': `Bearer ${token}` 
+                    },
+                    body: JSON.stringify(orderData)
+                });
+                
+                const data = await response.json();
+
+                if (response.status === 201) { // 201 Created es éxito
+                    messageDisplay.textContent = '🎉 ¡Orden creada exitosamente!';
+                    // Aquí podrías redirigir a una página de confirmación
+                } else if (response.status === 401) {
+                    // Si el token falló o expiró, forzar cierre de sesión
+                    alert('Sesión expirada. Por favor, vuelve a iniciar sesión.');
+                    logout();
+                } else {
+                    messageDisplay.textContent = `❌ Error: ${data.message || 'Error al procesar la orden'}`; 
+                }
+            } catch (error) {
+                console.error('Error de conexión:', error);
+                messageDisplay.textContent = '🚨 Error de red al intentar crear la orden.';
+            } finally {
+                document.getElementById('orderButton').disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>
