@@ -64,13 +64,13 @@
                 if (response.status === 201) { // 201 Created es éxito
                     messageDisplay.textContent = '✅ Registro exitoso. ¡Inicia sesión!';
                     messageDisplay.style.color = '#28a745';
-                    // Redirigir automáticamente después de 2 segundos
+                    
+                    // ⭐️ CORRECCIÓN: Redirigir a login.html
                     setTimeout(() => {
                         window.location.href = 'login.html'; 
                     }, 2000);
                     
                 } else {
-                    // Muestra el mensaje de error del Backend (ej: 'Este correo ya está registrado.')
                     messageDisplay.textContent = `❌ Error: ${data.message}`; 
                     messageDisplay.style.color = 'red';
                 }
