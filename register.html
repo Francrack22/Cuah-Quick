@@ -19,9 +19,11 @@
         <h2>Crear Cuenta</h2>
         <form id="registerForm">
             <input type="text" id="full_name" placeholder="Nombre Completo" required>
-            <input type="email" id="email" placeholder="Correo Electrónico" required>
+            <input type="email" id="email" placeholder="Correo Electrónico (Solo Escolar)" required>
             <input type="password" id="password" placeholder="Contraseña" required>
             <input type="tel" id="phone" placeholder="Teléfono" required>
+            <input type="text" id="student_id" placeholder="Matrícula Estudiantil" required> 
+            
             <button type="submit" id="registerButton">Registrar</button>
         </form>
         <p>¿Ya tienes cuenta? <a href="login.html">Inicia Sesión aquí</a></p>
@@ -44,12 +46,14 @@
             registerButton.disabled = true;
             messageDisplay.textContent = '';
             
+            // ⭐️ Se añade student_id a los datos enviados
             const userData = {
                 full_name: document.getElementById('full_name').value,
                 email: document.getElementById('email').value,
                 password: document.getElementById('password').value,
                 phone: document.getElementById('phone').value,
-                role: 'client' // Rol por defecto, como lo requiere tu Backend
+                role: 'client', 
+                student_id: document.getElementById('student_id').value // Campo nuevo
             };
 
             try {
@@ -61,16 +65,15 @@
                 
                 const data = await response.json();
 
-                if (response.status === 201) { // 201 Created es éxito
+                if (response.status === 201) { 
                     messageDisplay.textContent = '✅ Registro exitoso. ¡Inicia sesión!';
                     messageDisplay.style.color = '#28a745';
-                    
-                    // ⭐️ CORRECCIÓN: Redirigir a login.html
                     setTimeout(() => {
                         window.location.href = 'login.html'; 
                     }, 2000);
                     
                 } else {
+                    // Aquí se mostrarán los errores de dominio de correo o matrícula duplicada
                     messageDisplay.textContent = `❌ Error: ${data.message}`; 
                     messageDisplay.style.color = 'red';
                 }
