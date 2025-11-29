@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro - Cuah-Quick</title>
+    <style>
+        /* Estilos básicos para centrar el formulario */
+        body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; background-color: #f4f4f4; }
+        .register-container { background: white; padding: 25px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); width: 300px; }
+        input, button { width: 100%; padding: 10px; margin: 8px 0; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; }
+        button { background-color: #28a745; color: white; cursor: pointer; }
+        button:hover { background-color: #1e7e34; }
+    </style>
+</head>
+<body>
+
+    <div class="register-container">
+        <h2>Crear Cuenta</h2>
+        <form id="registerForm">
+            <input type="text" id="full_name" placeholder="Nombre Completo" required>
+            <input type="email" id="email" placeholder="Correo Electrónico" required>
+            <input type="password" id="password" placeholder="Contraseña" required>
+            <input type="tel" id="phone" placeholder="Teléfono" required>
+            <button type="submit" id="registerButton">Registrar</button>
+        </form>
+        <p>¿Ya tienes cuenta? <a href="login.html">Inicia Sesión aquí</a></p>
+        <p id="message"></p>
+    </div>
+
+    <script>
+        // URL Base de tu API
+        const API_BASE_URL = 'https://backend-cuah-quick-api.onrender.com/api'; 
+        
+        const registerForm = document.getElementById('registerForm');
+        const registerButton = document.getElementById('registerButton');
+        const messageDisplay = document.getElementById('message');
+
+        registerForm.addEventListener('submit', handleRegister);
+
+        async function handleRegister(e) {
+            e.preventDefault();
+            
+            registerButton.disabled = true;
+            messageDisplay.textContent = '';
+            
+            const userData = {
+                full_name: document.getElementById('full_name').value,
+                email: document.getElementById('email').value,
+                password: document.getElementById('password').value,
+                phone: document.getElementById('phone').value,
+                role: 'client' // Rol por defecto, como lo requiere tu Backend
+            };
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/register`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(userData)
+                });
+                
+                const data = await response.json();
+
+                if (response.status === 201) { // 201 Created es éxito
+                    messageDisplay.textContent = '✅ Registro exitoso. ¡Inicia sesión!';
+                    messageDisplay.style.color = '#28a745';
+                    // Redirigir automáticamente después de 2 segundos
+                    setTimeout(() => {
+                        window.location.href = 'login.html'; 
+                    }, 2000);
+                    
+                } else {
+                    // Muestra el mensaje de error del Backend (ej: 'Este correo ya está registrado.')
+                    messageDisplay.textContent = `❌ Error: ${data.message}`; 
+                    messageDisplay.style.color = 'red';
+                }
+            } catch (error) {
+                console.error('Error de conexión:', error);
+                messageDisplay.textContent = '🚨 Error de conexión con el servidor.';
+                messageDisplay.style.color = 'red';
+            } finally {
+                registerButton.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>
