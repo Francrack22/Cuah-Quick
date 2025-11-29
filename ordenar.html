@@ -91,7 +91,7 @@
       <div style="display:flex;align-items:center;gap:.5rem">
         <img src="logo.png" alt="" style="width:20px; height:20px; border-radius: 4px; object-fit: cover;">
         <span>CUAH-QUICK © <span id="year-footer"></span></span>
-      </div>
+              </div>
       <div style="display:flex;gap:1rem">
         <a href="index.html#mision-vision">Misión</a>
         <a href="index.html#mision-vision">Visión</a>
@@ -102,14 +102,12 @@
 
   <script>
     // ===================================================================================
-    // === LÓGICA DE SEGURIDAD Y CONEXIÓN A BASE DE DATOS (NUEVO CÓDIGO) ===
+    // === LÓGICA DE SEGURIDAD Y CONEXIÓN A BASE DE DATOS ===
     // ===================================================================================
 
     // La URL de tu API desplegada
     const API_BASE_URL = 'https://backend-cuah-quick-api.onrender.com/api'; 
     let totalCuenta = 0;
-    
-    // Lista de productos seleccionados (para enviar detalles si fuera necesario)
     let carrito = []; 
 
 
@@ -123,11 +121,11 @@
         if (!token) {
             // Si no hay token, redirigir al login
             alert('🔒 Debes iniciar sesión para hacer un pedido.');
+            // ⭐️ CORRECCIÓN: Redirigir a login.html
             window.location.href = 'login.html'; 
             return;
         }
 
-        // Mostrar el nombre del usuario (si está guardado)
         const userData = localStorage.getItem('userData');
         if (userData) {
             const user = JSON.parse(userData);
@@ -136,7 +134,6 @@
 
         document.getElementById('logoutBtn').style.display = 'block';
         
-        // Cargar productos solo si la autenticación es exitosa
         obtenerProductosReales();
     }
 
@@ -144,6 +141,7 @@
         localStorage.removeItem('userToken');
         localStorage.removeItem('userData');
         alert('Cerraste sesión.');
+        // ⭐️ CORRECCIÓN: Redirigir a login.html
         window.location.href = 'login.html'; 
     }
 
@@ -152,7 +150,6 @@
     // ===============================================
     async function obtenerProductosReales() {
         try {
-            // Ya no es necesario usar la URL fija, usa API_BASE_URL
             const respuesta = await fetch(`${API_BASE_URL}/products`);
             
             if (!respuesta.ok) {
@@ -163,7 +160,6 @@
             
             renderizarMenu(productosDB); 
             
-            // Actualizar contador
             document.getElementById('products-count').textContent = `${productosDB.length} productos disponibles`;
 
         } catch (error) {
