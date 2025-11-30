@@ -3,116 +3,308 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crear Pedido - Cuah-Quick</title>
+    <title>Hacer Pedido - Cuah-Quick</title>
     <link rel="stylesheet" href="styles.css"> 
     <style>
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
+            padding: 20px;
         }
         .container {
+            display: flex; /* Usamos flexbox para dividir en dos columnas */
+            gap: 30px;
+            max-width: 1200px;
+            margin: 20px auto;
+        }
+        .menu-section, .cart-section {
             background: white;
             padding: 30px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 90%;
-            max-width: 400px;
         }
-        input[type="number"], input[type="text"], textarea, button {
+        .menu-section {
+            flex: 2; /* Ocupa 2/3 del espacio */
+        }
+        .cart-section {
+            flex: 1; /* Ocupa 1/3 del espacio */
+            position: sticky;
+            top: 20px;
+            align-self: flex-start;
+        }
+        h2, h3 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        /* Estilos del Menú */
+        .product-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .product-card:last-child {
+            border-bottom: none;
+        }
+        .product-info {
+            flex-grow: 1;
+        }
+        .product-info h4 {
+            margin: 0;
+            font-size: 1.1em;
+        }
+        .product-info p {
+            margin: 5px 0 0;
+            color: #555;
+            font-weight: bold;
+        }
+        .add-btn {
+            background-color: #007bff;
+            color: white;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .add-btn:hover {
+            background-color: #0056b3;
+        }
+
+        /* Estilos del Carrito */
+        #cart-items-list {
+            list-style: none;
+            padding: 0;
+            margin: 15px 0;
+        }
+        #cart-items-list li {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px dashed #eee;
+            font-size: 0.95em;
+        }
+        .cart-total {
+            font-size: 1.2em;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+            padding-top: 10px;
+            border-top: 2px solid #333;
+        }
+        /* Estilos del Formulario de Entrega */
+        .delivery-form input[type="text"], 
+        .delivery-form textarea {
             width: 100%;
             padding: 10px;
-            margin: 8px 0;
-            display: inline-block;
+            margin-bottom: 10px;
             border: 1px solid #ccc;
             border-radius: 4px;
             box-sizing: border-box;
         }
-        button {
-            background-color: #4CAF50;
+        .submit-btn {
+            background-color: #28a745;
             color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
             cursor: pointer;
+            width: 100%;
+            font-size: 1.1em;
         }
-        button:hover {
-            background-color: #45a049;
+        .submit-btn:hover {
+            background-color: #218838;
         }
-        #logout-btn {
-            background-color: #dc3545;
-            margin-top: 15px;
+        .remove-btn {
+            background: none;
+            border: none;
+            color: #dc3545;
+            cursor: pointer;
+            font-size: 1.2em;
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>Crear Nuevo Pedido</h2>
-    <form id="order-form">
-        <label for="monto-total">Monto Total:</label>
-        <input type="number" id="monto-total" placeholder="Monto Total (ej: 55.00)" required step="0.01">
+    
+    <div class="menu-section">
+        <h2>🍔 Menú de Hoy</h2>
+        <div id="menu-list">
+            <p id="loading-menu">Cargando menú...</p>
+        </div>
+    </div>
+    
+    <div class="cart-section">
+        <h3>🛒 Tu Carrito</h3>
         
-        <label for="edificio-entrega">Edificio de Entrega:</label>
-        <input type="text" id="edificio-entrega" placeholder="Edificio de Entrega" required>
+        <ul id="cart-items-list">
+            </ul>
         
-        <label for="salon-oficina">Salón/Oficina:</label>
-        <input type="text" id="salon-oficina" placeholder="Salón/Oficina" required>
+        <div class="cart-total">
+            <span>Total:</span>
+            <span id="cart-total-amount">$0.00</span>
+        </div>
         
-        <label for="notas-entrega">Notas de Entrega (Opcional):</label>
-        <textarea id="notas-entrega" placeholder="Notas de entrega (ej: Cuidado con el perro)"></textarea>
+        <hr style="margin: 20px 0;">
         
-        <button type="submit" id="enviar-pedido-btn">Enviar Pedido</button>
-    </form>
-    <button type="button" id="logout-btn">Cerrar Sesión</button>
+        <h3>📍 Detalles de Entrega</h3>
+        <form id="delivery-form" class="delivery-form">
+            <input type="text" id="building" placeholder="Edificio (Ej: A, B, L)" required>
+            <input type="text" id="classroom" placeholder="Salón/Oficina (Ej: 205, Rectoría)" required>
+            <textarea id="notes" placeholder="Notas de entrega (Ej: Dejar en la mesa, Cuidado con el perro)" rows="3"></textarea>
+            
+            <button type="submit" class="submit-btn" id="send-order-btn" disabled>Enviar Pedido</button>
+        </form>
+    </div>
 </div>
 
 <script>
-    // 🔗 URL DE TU API DE RENDER CORREGIDA
-    const API_URL = "https://backend-cuah-quick-api.onrender.com/api"; 
+    const API_URL = "https://backend-cuah-quick-api.onrender.com/api";
+    let cart = []; // Almacena { productId, name, price, quantity }
+    let products = []; // Almacena el menú completo del backend
 
     document.addEventListener('DOMContentLoaded', () => {
-        document.getElementById('order-form').addEventListener('submit', enviarPedido);
-        document.getElementById('logout-btn').addEventListener('click', cerrarSesion);
-    });
-    
-    function cerrarSesion() {
-        localStorage.removeItem('token');
-        localStorage.removeItem('userRole');
-        window.location.href = 'login.html';
-    }
-
-    async function enviarPedido(event) {
-        event.preventDefault(); 
-
         const token = localStorage.getItem('token');
         if (!token) {
             alert('Debes iniciar sesión para hacer un pedido.');
             window.location.href = 'login.html';
             return;
         }
-
-        const totalAmount = parseFloat(document.getElementById('monto-total').value);
-        const building = document.getElementById('edificio-entrega').value;
-        const classroom = document.getElementById('salon-oficina').value;
-        const deliveryNotes = document.getElementById('notas-entrega').value;
         
-        // Usamos ID 1 como ID de tienda temporall
-        const shop_id = 1; 
+        loadMenu();
+        document.getElementById('delivery-form').addEventListener('submit', handleOrderSubmit);
+    });
 
-        if (isNaN(totalAmount) || totalAmount <= 0 || !building || !classroom) {
-            alert('Por favor, ingresa un monto total válido y completa Edificio/Salón.');
+    // 1. Cargar el menú desde el Backend
+    async function loadMenu() {
+        const menuListDiv = document.getElementById('menu-list');
+        try {
+            const response = await fetch(`${API_URL}/menu`);
+            const data = await response.json();
+
+            if (response.ok) {
+                products = data.products;
+                menuListDiv.innerHTML = ''; // Limpiar mensaje de carga
+                
+                products.forEach(product => {
+                    const card = document.createElement('div');
+                    card.className = 'product-card';
+                    card.innerHTML = `
+                        <div class="product-info">
+                            <h4>${product.name}</h4>
+                            <p>$${product.price.toFixed(2)}</p>
+                        </div>
+                        <button class="add-btn" data-id="${product.id}" onclick="addToCart(${product.id})">Agregar</button>
+                    `;
+                    menuListDiv.appendChild(card);
+                });
+            } else {
+                menuListDiv.innerHTML = `<p style="color: red;">Error al cargar el menú: ${data.message || 'Error desconocido'}</p>`;
+            }
+        } catch (error) {
+            menuListDiv.innerHTML = `<p style="color: red;">Error de conexión con el servidor.</p>`;
+        }
+    }
+    
+    // 2. Funciones del Carrito
+
+    function addToCart(productId) {
+        const product = products.find(p => p.id === productId);
+        
+        // Buscar si ya existe en el carrito
+        const cartItem = cart.find(item => item.productId === productId);
+
+        if (cartItem) {
+            cartItem.quantity += 1;
+        } else {
+            cart.push({
+                productId: product.id,
+                name: product.name,
+                price: product.price,
+                quantity: 1
+            });
+        }
+        updateCartDisplay();
+    }
+
+    function removeFromCart(productId) {
+        const cartItemIndex = cart.findIndex(item => item.productId === productId);
+        
+        if (cartItemIndex > -1) {
+            // Si la cantidad es mayor a 1, solo reducimos
+            if (cart[cartItemIndex].quantity > 1) {
+                cart[cartItemIndex].quantity -= 1;
+            } else {
+                // Si la cantidad es 1, lo eliminamos del array
+                cart.splice(cartItemIndex, 1);
+            }
+        }
+        updateCartDisplay();
+    }
+
+    function calculateTotal() {
+        return cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    }
+
+    function updateCartDisplay() {
+        const cartList = document.getElementById('cart-items-list');
+        const totalAmountSpan = document.getElementById('cart-total-amount');
+        const sendOrderBtn = document.getElementById('send-order-btn');
+        const total = calculateTotal();
+        
+        cartList.innerHTML = '';
+        
+        if (cart.length === 0) {
+            cartList.innerHTML = '<li>El carrito está vacío.</li>';
+            sendOrderBtn.disabled = true;
+        } else {
+            cart.forEach(item => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <span>${item.quantity} x ${item.name}</span>
+                    <span>$${(item.price * item.quantity).toFixed(2)}</span>
+                    <button class="remove-btn" onclick="removeFromCart(${item.productId})">🗑️</button>
+                `;
+                cartList.appendChild(li);
+            });
+            sendOrderBtn.disabled = false;
+        }
+        
+        totalAmountSpan.textContent = `$${total.toFixed(2)}`;
+    }
+    
+    // 3. Enviar el Pedido al Backend
+    async function handleOrderSubmit(event) {
+        event.preventDefault();
+        
+        if (cart.length === 0) {
+            alert("No puedes enviar un pedido sin artículos en el carrito.");
             return;
         }
+        
+        const token = localStorage.getItem('token');
+        const totalAmount = calculateTotal();
+        const building = document.getElementById('building').value;
+        const classroom = document.getElementById('classroom').value;
+        const notes = document.getElementById('notes').value;
 
+        // NOTA: Asumimos shop_id = 1 temporalmente, ya que solo hay una tienda
+        const shopId = 1; 
+        
         const orderData = {
-            shop_id: shop_id,
+            shop_id: shopId,
             total_amount: totalAmount,
             building: building,
             classroom: classroom,
-            delivery_notes: deliveryNotes
+            delivery_notes: notes,
+            // En una versión más compleja, aquí se enviarían los items del carrito.
+            // Por ahora solo enviamos el total y la ubicación.
         };
+
+        document.getElementById('send-order-btn').disabled = true;
 
         try {
             const response = await fetch(`${API_URL}/orders`, {
@@ -127,17 +319,20 @@
             const data = await response.json();
 
             if (response.ok) {
-                alert(`✅ Pedido #${data.order_id} enviado con éxito!`);
-                document.getElementById('order-form').reset();
-            } else if (response.status === 401 || response.status === 403) {
-                alert("Sesión expirada o no autorizada. Por favor, vuelve a iniciar sesión.");
-                cerrarSesion();
+                alert(`✅ Pedido #${data.order_id} enviado exitosamente. Total: $${totalAmount.toFixed(2)}. ¡Tu comida estará lista pronto!`);
+                // Limpiar carrito y formulario
+                cart = [];
+                updateCartDisplay();
+                document.getElementById('delivery-form').reset();
             } else {
-                alert(`❌ Error al crear pedido: ${data.message || response.statusText}`);
+                alert(`❌ Error al enviar el pedido: ${data.message || response.statusText}`);
             }
+
         } catch (error) {
-            console.error("Error de red o conexión:", error);
-            alert("Error de conexión con el servidor. Inténtalo de nuevo.");
+            console.error("Error de red al enviar el pedido:", error);
+            alert("❌ Error de conexión con el servidor. Inténtalo de nuevo.");
+        } finally {
+            document.getElementById('send-order-btn').disabled = false;
         }
     }
 </script>
