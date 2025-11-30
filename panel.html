@@ -4,42 +4,114 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel de Tienda - Pedidos Pendientes</title>
-    <link rel="stylesheet" href="styles.css"> 
+    
     <style>
+        /* ======================================= */
+        /* DEFINICIÓN DE COLORES Y ESTILOS */
+        /* ======================================= */
+        :root {
+            --primary: #3498db; /* Azul Vistoso */
+            --secondary: #2ecc71; /* Verde Acento */
+            --dark-bg: #2c3e50; /* Fondo Principal Oscuro */
+            --card-bg: #34495e; /* Fondo de Tarjeta más Claro */
+            --text-color: #ecf0f1; /* Texto Blanco/Claro */
+            --shadow-color: rgba(0, 0, 0, 0.4);
+            --danger: #e74c3c; /* Rojo para botones de cerrar sesión */
+        }
+        
+        /* ======================================= */
+        /* BASE DEL PANEL */
+        /* ======================================= */
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            padding: 20px;
+            background-color: var(--dark-bg);
+            padding: 30px;
+            color: var(--text-color);
         }
         .container {
-            background: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            max-width: 1200px; /* Tamaño ajustado */
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px var(--shadow-color);
+            max-width: 1200px; 
             margin: 20px auto;
         }
-        h2 { text-align: center; color: #333; }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background-color: #f2f2f2; }
-        /* Clases de Estado */
-        .status-pending { color: orange; font-weight: bold; }
-        .status-ready { color: green; font-weight: bold; }
-        .no-orders { text-align: center; color: #999; margin-top: 30px; }
-        #logout-btn { background-color: #dc3545; color: white; padding: 10px 15px; border: none; border-radius: 5px; cursor: pointer; float: right; }
+        h2 {
+            text-align: center;
+            color: var(--primary);
+            margin-bottom: 30px;
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 10px;
+        }
         
-        /* Botón de Acción */
+        /* ======================================= */
+        /* TABLA Y FILAS */
+        /* ======================================= */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            animation: fadeIn 0.8s ease-out; /* Animación de entrada de la tabla */
+        }
+        th, td {
+            border: 1px solid #4e6581; /* Borde más suave */
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #3f556d; /* Fondo de encabezado */
+            color: var(--text-color);
+        }
+        
+        /* ======================================= */
+        /* ESTADOS Y BOTONES */
+        /* ======================================= */
+        .status-pending {
+            color: orange;
+            font-weight: bold;
+        }
+        .status-ready {
+            color: var(--secondary); /* Verde de listo */
+            font-weight: bold;
+        }
+        .no-orders {
+            text-align: center;
+            color: #999;
+            margin-top: 30px;
+        }
+        #logout-btn {
+            background-color: var(--danger);
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            float: right;
+            transition: background-color 0.2s;
+        }
+        #logout-btn:hover {
+            background-color: #c0392b;
+        }
+        
         .action-btn { 
-            background-color: #28a745; 
+            background-color: var(--secondary); 
             color: white; 
             border: none; 
-            padding: 5px 10px; 
-            border-radius: 3px; 
+            padding: 8px 12px; 
+            border-radius: 4px; 
             cursor: pointer; 
             font-size: 14px;
+            transition: background-color 0.2s, transform 0.1s;
         }
-        .action-btn:hover { background-color: #218838; }
+        .action-btn:hover { 
+            background-color: #27ae60;
+            transform: scale(1.05); 
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
     </style>
 </head>
 <body>
@@ -59,7 +131,8 @@
                     <th>Ubicación</th>
                     <th>Notas</th>
                     <th>Estado</th>
-                    <th>Acción</th> </tr>
+                    <th>Acción</th> 
+                </tr>
             </thead>
             <tbody id="orders-table-body">
             </tbody>
@@ -69,7 +142,6 @@
 </div>
 
 <script>
-    // 🔗 URL DE TU API DE RENDER
     const API_URL = "https://backend-cuah-quick-api.onrender.com/api"; 
 
     document.addEventListener('DOMContentLoaded', () => {
@@ -123,10 +195,10 @@
                         
                         const location = `${order.building}, Salón/Oficina ${order.classroom}`;
                         
-                        // Determinar la clase para el estilo del estado
+                        // Determinar la clase para el estado
                         const statusClass = order.status === 'ready' ? 'status-ready' : 'status-pending';
 
-                        // Botón de acción: aparece solo si no está 'ready' (asumimos que ya no hay que hacer nada)
+                        // Botón de acción (solo si el estado no está listo, entregado o cancelado)
                         let actionButton = '';
                         if (order.status !== 'ready' && order.status !== 'delivered' && order.status !== 'cancelled') {
                              actionButton = `<button class="action-btn" onclick="updateOrderStatus(${order.id}, 'ready')">Marcar Listo</button>`;
