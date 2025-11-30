@@ -1,358 +1,140 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <title>Ordenar Comida - CUAH-QUICK</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="icon" href="logo.png" type="image/png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css"> 
-  </head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Pedido - Cuah-Quick</title>
+    <link rel="stylesheet" href="styles.css"> 
+    <style>
+        /* Estilos básicos para el formulario si no usas styles.css */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 400px;
+        }
+        input[type="number"], input[type="text"], textarea, button {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
 <body>
 
-  <div class="cursor-glow" id="cursorGlow"></div>
-
-  <nav class="nav">
-    <div class="nav-inner container">
-      <a class="brand" href="index.html" aria-label="Inicio">
-        <img src="logo.png" alt="Logo CUAH-QUICK" class="brand-logo-img">
-        <strong>CUAH-QUICK</strong>
-      </a>
-      <div class="menu" aria-label="Principal">
-        <a class="btn btn-outline" href="index.html#producto">Producto</a>
-        <a class="btn btn-outline" href="index.html#mision-vision">Misión & Visión</a>
-        <a class="btn btn-outline" href="index.html#como-funciona">Cómo funciona</a>
-        <a class="btn btn-primary" href="ordenar.html">Ordenar Comida</a>
-      </div>
-            <button class="btn btn-outline" id="logoutBtn" style="display:none;" onclick="logout()">Cerrar Sesión</button>
-    </div>
-  </nav>
-
-  <section id="ordenar-page" class="section">
-    <div class="container reveal-parent" style="max-width: 860px;">
-      
-      <h1 class="h1 reveal-child" data-delay="100" style="text-align: center; font-size: clamp(2rem, 5vw, 3.2rem); margin-bottom: 1rem;">
-        <span id="hero-emoji" style="display: inline-block; transition: transform 0.4s cubic-bezier(0.33, 1, 0.68, 1);">🍔</span> 
-        <span id="welcome-message">Elige tu pedido</span>
-      </h1>
-
-      <p class="p-muted reveal-child" data-delay="200" style="text-align: center; font-size: 1.15rem; max-width: 52ch; margin: 0 auto 2.5rem auto;">
-        Selecciona la tienda de tu campus, añade productos a tu carrito y paga de forma segura.
-      </p>
-
-      <div class="card reveal-child" data-delay="300" style="padding: 1.5rem 2rem;">
-        <h3 class="h2">1. Selecciona una tienda</h3>
-        
-        <div class="feature" style="margin-top: 1rem; cursor: pointer;">
-          <span style="color:var(--brand1)">🏫</span>
-          <div>
-            <div style="font-weight:700">Cafetería Central (ID: 1)</div>
-            <div class="p-muted" style="font-size:.9rem">Abierto 8 AM <strong>·</strong> Cierra 6:00 PM</div>
-          </div>
-        </div>
-      </div>
-      
-      <div class="card reveal-child" data-delay="400" style="margin-top: 1.5rem; padding: 1.5rem 2rem;">
-        <div style="display:flex; justify-content:space-between; align-items:center;">
-          <h3 class="h2" style="margin:0;">2. Arma tu carrito</h3>
-          <span class="p-muted" id="products-count" style="font-size:0.9rem">Cargando productos...</span>
-        </div>
-       
-        <div id="menu-container" class="menu-grid">
-        </div>
-      </div>
-      
-            <div class="cta reveal-child" data-delay="500" style="margin-top: 1.5rem; padding: 1.5rem 2rem;">
-        <form id="paymentForm">
-          <div class="grid grid-2" style="align-items:center">
-            <div>
-              <h3 class="h2" style="font-size:1.6rem">3. Detalles de Entrega</h3>
-              <p class="p-muted" id="total-text">Total: $0.00 MXN</p>
-            </div>
-            <div>
-              <input type="text" id="building" placeholder="Edificio de Entrega (Ej: A)" required>
-              <input type="text" id="classroom" placeholder="Salón/Oficina (Ej: A205)" required>
-              <textarea id="delivery_notes" placeholder="Notas de entrega (Opcional)"></textarea>
-            </div>
-          </div>
-          <div style="text-align: right; margin-top: 1rem;">
-            <button type="submit" class="btn btn-primary" id="payBtn">Proceder al Pago</button>
-          </div>
-          <p id="order-message" style="margin-top: 10px; font-weight: bold;"></p>
-        </form>
-      </div>
-
-    </div>
-  </section>
-
-  <footer class="footer">
-    <div class="container" style="display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap">
-      <div style="display:flex;align-items:center;gap:.5rem">
-        <img src="logo.png" alt="" style="width:20px; height:20px; border-radius: 4px; object-fit: cover;">
-        <span>CUAH-QUICK © <span id="year-footer"></span></span>
-              </div>
-      <div style="display:flex;gap:1rem">
-        <a href="index.html#mision-vision">Misión</a>
-        <a href="index.html#mision-vision">Visión</a>
-        <a href="#">Términos</a>
-      </div>
-    </div>
-  </footer>
-
-  <script>
-    // ===================================================================================
-    // === LÓGICA DE SEGURIDAD Y CONEXIÓN A BASE DE DATOS ===
-    // ===================================================================================
-
-    // La URL de tu API desplegada
-    const API_BASE_URL = 'https://backend-cuah-quick-api.onrender.com/api'; 
-    let totalCuenta = 0;
-    let carrito = []; 
-
-
-    // ===============================================
-    // 1. LÓGICA DE AUTENTICACIÓN Y CIERRE DE SESIÓN
-    // ===============================================
-
-    function checkAuthAndLoad() {
-        const token = localStorage.getItem('userToken');
+<div class="container">
+    <h2>Crear Nuevo Pedido</h2>
+    <form id="order-form">
+        <label for="monto-total">Monto Total:</label>
+        <input type="number" id="monto-total" placeholder="Monto Total (ej: 55.00)" required step="0.01">
         
+        <label for="edificio-entrega">Edificio de Entrega:</label>
+        <input type="text" id="edificio-entrega" placeholder="Edificio de Entrega" required>
+        
+        <label for="salon-oficina">Salón/Oficina:</label>
+        <input type="text" id="salon-oficina" placeholder="Salón/Oficina" required>
+        
+        <label for="notas-entrega">Notas de Entrega (Opcional):</label>
+        <textarea id="notas-entrega" placeholder="Notas de entrega (ej: Cuidado con el perro)"></textarea>
+        
+        <button type="submit" id="enviar-pedido-btn">Enviar Pedido</button>
+        <button type="button" onclick="window.location.href='index.html'">Volver al Inicio</button>
+    </form>
+</div>
+
+<script>
+    // 🚨 REEMPLAZA ESTA URL CON LA DE TU API DE RENDER
+    const API_URL = "https://backend-cuah-quick-api.onrender.com/api"; 
+
+    document.addEventListener('DOMContentLoaded', () => {
+        // Asignar el evento al formulario para evitar problemas de compatibilidad de botones
+        document.getElementById('order-form').addEventListener('submit', enviarPedido);
+    });
+
+    async function enviarPedido(event) {
+        event.preventDefault(); // Evita que el formulario se envíe de forma tradicional
+
+        const token = localStorage.getItem('token');
         if (!token) {
-            // Si no hay token, redirigir al login
-            alert('🔒 Debes iniciar sesión para hacer un pedido.');
-            // ⭐️ CORRECCIÓN: Redirigir a login.html
-            window.location.href = 'login.html'; 
+            alert('Debes iniciar sesión para hacer un pedido.');
+            window.location.href = 'login.html';
             return;
         }
 
-        const userData = localStorage.getItem('userData');
-        if (userData) {
-            const user = JSON.parse(userData);
-            document.getElementById('welcome-message').textContent = `Hola, ${user.full_name}.`;
-        }
-
-        document.getElementById('logoutBtn').style.display = 'block';
+        // 1. Obtener datos del formulario
+        const totalAmount = parseFloat(document.getElementById('monto-total').value);
+        const building = document.getElementById('edificio-entrega').value;
+        const classroom = document.getElementById('salon-oficina').value;
+        const deliveryNotes = document.getElementById('notas-entrega').value;
         
-        obtenerProductosReales();
-    }
+        // **IMPORTANTE:** Aquí se usa un ID de tienda fijo (ID 1) para simplificar la prueba.
+        // Asegúrate de que el usuario 'shop' creado en tu DB tenga ID = 1 o cámbialo aquí.
+        const shop_id = 1; 
 
-    function logout() {
-        localStorage.removeItem('userToken');
-        localStorage.removeItem('userData');
-        alert('Cerraste sesión.');
-        // ⭐️ CORRECCIÓN: Redirigir a login.html
-        window.location.href = 'login.html'; 
-    }
-
-    // ===============================================
-    // 2. OBTENER PRODUCTOS (GET /api/products)
-    // ===============================================
-    async function obtenerProductosReales() {
-        try {
-            const respuesta = await fetch(`${API_BASE_URL}/products`);
-            
-            if (!respuesta.ok) {
-                throw new Error(`Error HTTP: ${respuesta.status}`);
-            }
-
-            const productosDB = await respuesta.json();
-            
-            renderizarMenu(productosDB); 
-            
-            document.getElementById('products-count').textContent = `${productosDB.length} productos disponibles`;
-
-        } catch (error) {
-            console.error("Error cargando productos:", error);
-            document.getElementById('menu-container').innerHTML = 
-                '<p style="color:red; margin-top:1rem;">❌ Error: No se pudo cargar el menú.</p>';
-        }
-    }
-
-    // ===============================================
-    // 3. LÓGICA DE CARRITO Y TOTAL
-    // ===============================================
-    function renderizarMenu(productos) {
-        const contenedor = document.getElementById('menu-container');
-        contenedor.innerHTML = ''; 
-
-        productos.forEach(prod => {
-            let emoji = "🍴";
-            if(prod.name.includes('Agua')) emoji = "💧";
-            else if(prod.name.includes('Coca-Cola')) emoji = "🥤";
-            else if(prod.name.includes('Papas')) emoji = "🥔";
-            else if(prod.name.includes('Sándwich')) emoji = "🥪";
-            else if(prod.name.includes('Galletas')) emoji = "🍪";
-
-            const htmlProducto = `
-                <div class="product-card">
-                    <div class="product-header">
-                        <div class="product-emoji">${emoji}</div>
-                        <div class="product-info">
-                            <h4>${prod.name}</h4>
-                        </div>
-                    </div>
-                    <p class="product-desc">${prod.description}</p>
-                    <div class="product-footer">
-                        <span class="price">$${Number(prod.price).toFixed(2)}</span>
-                        <button class="btn-add" onclick="agregarProducto(${prod.id}, ${prod.price}, '${prod.name}')">
-                            Agregar +
-                        </button>
-                    </div>
-                </div>
-            `;
-            contenedor.innerHTML += htmlProducto;
-        });
-    }
-
-    function agregarProducto(id, precio, nombre) {
-        totalCuenta += Number(precio);
-        carrito.push({ id, precio, nombre, cantidad: 1 }); // Añadir al carrito
-        
-        const textoTotal = document.getElementById('total-text');
-        
-        if(textoTotal) {
-            textoTotal.textContent = `Total: $${totalCuenta.toFixed(2)} MXN`;
-            textoTotal.style.color = '#4ade80'; 
-            setTimeout(() => textoTotal.style.color = '', 300);
-        }
-    }
-
-    // ===============================================
-    // 4. CREAR ORDEN (POST /api/orders)
-    // ===============================================
-    const paymentForm = document.getElementById('paymentForm');
-    const orderMessageDisplay = document.getElementById('order-message');
-
-    paymentForm.addEventListener('submit', handleCreateOrder);
-
-    async function handleCreateOrder(e) {
-        e.preventDefault();
-        
-        const token = localStorage.getItem('userToken');
-        if (!token) {
-             orderMessageDisplay.textContent = 'Error: Sesión no encontrada.';
-             return;
-        }
-
-        if (totalCuenta <= 0) {
-             orderMessageDisplay.textContent = 'Añade productos a tu carrito antes de pagar.';
-             return;
+        if (isNaN(totalAmount) || totalAmount <= 0 || !building || !classroom) {
+            alert('Por favor, ingresa un monto total válido y completa Edificio/Salón.');
+            return;
         }
 
         const orderData = {
-            shop_id: 1, // Asumido
-            total_amount: totalCuenta.toFixed(2),
-            building: document.getElementById('building').value,
-            classroom: document.getElementById('classroom').value,
-            delivery_notes: document.getElementById('delivery_notes').value,
-            // Aquí podrías añadir un campo 'items' con la lista del carrito si el backend lo requiere
+            shop_id: shop_id,
+            total_amount: totalAmount,
+            building: building,
+            classroom: classroom,
+            delivery_notes: deliveryNotes
         };
 
-        document.getElementById('payBtn').disabled = true;
-        orderMessageDisplay.textContent = 'Procesando orden...';
-
         try {
-            const response = await fetch(`${API_BASE_URL}/orders`, {
+            // 2. Enviar datos a la API
+            const response = await fetch(`${API_URL}/orders`, {
                 method: 'POST',
-                headers: { 
+                headers: {
                     'Content-Type': 'application/json',
-                    // ⭐️ CRÍTICO: Envío del Token JWT
                     'Authorization': `Bearer ${token}` 
                 },
                 body: JSON.stringify(orderData)
             });
-            
+
             const data = await response.json();
 
-            if (response.status === 201) { 
-                orderMessageDisplay.textContent = '🎉 ¡Orden creada exitosamente!';
-                orderMessageDisplay.style.color = '#28a745';
-                // Opcional: Limpiar carrito y formulario
-            } else if (response.status === 401) {
-                // Token fallido o expirado
-                alert('Sesión expirada. Por favor, vuelve a iniciar sesión.');
-                logout();
+            if (response.ok) {
+                alert(`✅ Pedido #${data.order_id} enviado con éxito!`);
+                // Limpiar el formulario
+                document.getElementById('monto-total').value = '';
+                document.getElementById('edificio-entrega').value = '';
+                document.getElementById('salon-oficina').value = '';
+                document.getElementById('notas-entrega').value = '';
             } else {
-                orderMessageDisplay.textContent = `❌ Error al crear orden: ${data.message || 'Error desconocido'}`; 
-                orderMessageDisplay.style.color = 'red';
+                alert(`❌ Error al crear pedido: ${data.message || response.statusText}`);
             }
         } catch (error) {
-            console.error('Error de conexión:', error);
-            orderMessageDisplay.textContent = '🚨 Error de red al intentar crear la orden.';
-            orderMessageDisplay.style.color = 'red';
-        } finally {
-            document.getElementById('payBtn').disabled = false;
+            console.error("Error de red o conexión:", error);
+            alert("Error de conexión con el servidor. Inténtalo de nuevo.");
         }
     }
-
-
-    // ============================================
-    // === CÓDIGO JS EXISTENTE (ANIMACIONES) ===
-    // ============================================
-    document.getElementById('year-footer').textContent = new Date().getFullYear();
-
-    const cursorGlow = document.getElementById('cursorGlow');
-    if (cursorGlow) {
-      window.addEventListener('mousemove', (e) => {
-        window.requestAnimationFrame(() => {
-          cursorGlow.style.left = e.clientX + 'px';
-          cursorGlow.style.top = e.clientY + 'px';
-        });
-      });
-    }
-
-    const heroEmoji = document.getElementById('hero-emoji');
-    const orderSection = document.getElementById('ordenar-page');
-    
-    if (heroEmoji && orderSection) {
-      orderSection.addEventListener('mousemove', (e) => {
-        const rect = orderSection.getBoundingClientRect();
-        const centerX = rect.left + rect.width / 2;
-        const centerY = rect.top + rect.height / 2;
-        const xMov = (e.clientX - centerX) / (rect.width / 2); 
-        const yMov = (e.clientY - centerY) / (rect.height / 2);
-        const intensity = 10; 
-
-        window.requestAnimationFrame(() => {
-          heroEmoji.style.transform = `translate3d(${-xMov * intensity}px, ${-yMov * intensity}px, 0)`;
-        });
-      });
-      
-      orderSection.addEventListener('mouseleave', () => {
-         window.requestAnimationFrame(() => {
-            heroEmoji.style.transform = 'translate3d(0,0,0)'; 
-         });
-      });
-    }
-
-    const observerOptions = { root: null, rootMargin: '0px', threshold: 0.1 };
-    const observerCallback = (entries, observer) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          if (entry.target.classList.contains('reveal-parent')) {
-            const children = entry.target.querySelectorAll('.reveal-child');
-            children.forEach((child, index) => {
-              const delay = child.dataset.delay || (index * 100); 
-              setTimeout(() => { child.classList.add('visible'); }, delay);
-            });
-          } else {
-            const delay = entry.target.dataset.delay || 0;
-            setTimeout(() => { entry.target.classList.add('visible'); }, delay);
-          }
-          observer.unobserve(entry.target);
-        }
-      });
-    };
-    const revealObserver = new IntersectionObserver(observerCallback, observerOptions);
-    document.querySelectorAll('.reveal-parent').forEach(parent => revealObserver.observe(parent));
-    document.querySelectorAll('.reveal-child:not(.reveal-parent .reveal-child)').forEach(child => revealObserver.observe(child));
-
-    // Iniciar la verificación de autenticación al cargar la página
-    document.addEventListener('DOMContentLoaded', () => {
-        checkAuthAndLoad();
-    });
-
-  </script>
+</script>
 </body>
 </html>
