@@ -6,7 +6,6 @@
     <title>Panel de Tienda - Pedidos Pendientes</title>
     <link rel="stylesheet" href="styles.css"> 
     <style>
-        /* Estilos básicos para la vista del panel */
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
@@ -77,14 +76,14 @@
                 </tr>
             </thead>
             <tbody id="orders-table-body">
-                </tbody>
+            </tbody>
         </table>
         <p id="no-orders-message" class="no-orders" style="display: none;">No hay pedidos pendientes en este momento.</p>
     </div>
 </div>
 
 <script>
-    // 🚨 REEMPLAZA ESTA URL CON LA DE TU API DE RENDER
+    // 🔗 URL DE TU API DE RENDER CORREGIDA
     const API_URL = "https://backend-cuah-quick-api.onrender.com/api"; 
 
     document.addEventListener('DOMContentLoaded', () => {
@@ -103,14 +102,12 @@
         const token = localStorage.getItem('token');
         const role = localStorage.getItem('userRole');
 
-        // Si no hay token o el rol no es 'shop', forzamos el logout.
         if (!token || role !== 'shop') {
             alert('Acceso denegado. Se requiere cuenta de tienda.');
             cerrarSesion();
             return;
         }
         
-        // Si la autenticación es correcta, cargar los pedidos
         loadPendingOrders(token);
     }
 
@@ -118,7 +115,7 @@
     async function loadPendingOrders(token) {
         const tableBody = document.getElementById('orders-table-body');
         const noOrdersMessage = document.getElementById('no-orders-message');
-        tableBody.innerHTML = ''; // Limpiar pedidos anteriores
+        tableBody.innerHTML = ''; 
 
         try {
             const response = await fetch(`${API_URL}/shop/orders`, {
@@ -140,10 +137,8 @@
                     orders.forEach(order => {
                         const row = tableBody.insertRow();
                         
-                        // Formatear la ubicación
                         const location = `${order.building}, Salón/Oficina ${order.classroom}`;
                         
-                        // Insertar datos en la tabla
                         row.innerHTML = `
                             <td>${order.id}</td>
                             <td>${order.client_name}</td>
@@ -155,8 +150,8 @@
                         `;
                     });
                 }
-            } else if (response.status === 403) {
-                alert(`Error: ${data.message}`);
+            } else if (response.status === 403 || response.status === 401) {
+                alert(`Error: ${data.message}. Su sesión ha expirado.`);
                 cerrarSesion();
             } else {
                 alert(`Error al cargar pedidos: ${data.message || response.statusText}`);
