@@ -1,169 +1,202 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel de Tienda - Pedidos Pendientes</title>
-    <link rel="stylesheet" href="styles.css"> 
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            padding: 20px;
-        }
-        .container {
-            background: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            max-width: 1000px;
-            margin: 20px auto;
-        }
-        h2 {
-            text-align: center;
-            color: #333;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        .status-pending {
-            color: orange;
-            font-weight: bold;
-        }
-        .no-orders {
-            text-align: center;
-            color: #999;
-            margin-top: 30px;
-        }
-        #logout-btn {
-            background-color: #dc3545;
-            color: white;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            float: right;
-        }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Tienda - Pedidos Pendientes</title>
+    <link rel="stylesheet" href="styles.css"> 
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 1200px; /* Tamaño ajustado */
+            margin: 20px auto;
+        }
+        h2 { text-align: center; color: #333; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        /* Clases de Estado */
+        .status-pending { color: orange; font-weight: bold; }
+        .status-ready { color: green; font-weight: bold; }
+        .no-orders { text-align: center; color: #999; margin-top: 30px; }
+        #logout-btn { background-color: #dc3545; color: white; padding: 10px 15px; border: none; border-radius: 5px; cursor: pointer; float: right; }
+        
+        /* Botón de Acción */
+        .action-btn { 
+            background-color: #28a745; 
+            color: white; 
+            border: none; 
+            padding: 5px 10px; 
+            border-radius: 3px; 
+            cursor: pointer; 
+            font-size: 14px;
+        }
+        .action-btn:hover { background-color: #218838; }
+    </style>
 </head>
 <body>
 
 <div class="container">
-    <button id="logout-btn">Cerrar Sesión</button>
-    <h2>📦 Pedidos Pendientes de Entrega</h2>
-    
-    <div id="orders-list">
-        <table>
-            <thead>
-                <tr>
-                    <th>ID Pedido</th>
-                    <th>Cliente</th>
-                    <th>Teléfono</th>
-                    <th>Monto</th>
-                    <th>Ubicación</th>
-                    <th>Notas</th>
-                    <th>Estado</th>
-                </tr>
-            </thead>
-            <tbody id="orders-table-body">
-            </tbody>
-        </table>
-        <p id="no-orders-message" class="no-orders" style="display: none;">No hay pedidos pendientes en este momento.</p>
-    </div>
+    <button id="logout-btn">Cerrar Sesión</button>
+    <h2>📦 Pedidos Pendientes de Entrega</h2>
+    
+    <div id="orders-list">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID Pedido</th>
+                    <th>Cliente</th>
+                    <th>Teléfono</th>
+                    <th>Monto</th>
+                    <th>Ubicación</th>
+                    <th>Notas</th>
+                    <th>Estado</th>
+                    <th>Acción</th> </tr>
+            </thead>
+            <tbody id="orders-table-body">
+            </tbody>
+        </table>
+        <p id="no-orders-message" class="no-orders" style="display: none;">No hay pedidos pendientes en este momento.</p>
+    </div>
 </div>
 
 <script>
-    // 🔗 URL DE TU API DE RENDER
-    const API_URL = "https://backend-cuah-quick-api.onrender.com/api"; 
+    // 🔗 URL DE TU API DE RENDER
+    const API_URL = "https://backend-cuah-quick-api.onrender.com/api"; 
 
-    document.addEventListener('DOMContentLoaded', () => {
-        document.getElementById('logout-btn').addEventListener('click', cerrarSesion);
-        checkAuthAndLoadOrders();
-    });
-    
-    function cerrarSesion() {
-        localStorage.removeItem('token');
-        localStorage.removeItem('userRole');
-        window.location.href = 'login.html';
-    }
+    document.addEventListener('DOMContentLoaded', () => {
+        document.getElementById('logout-btn').addEventListener('click', cerrarSesion);
+        checkAuthAndLoadOrders();
+    });
+    
+    function cerrarSesion() {
+        localStorage.removeItem('token');
+        localStorage.removeItem('userRole');
+        window.location.href = 'login.html';
+    }
 
-    // 1. Verificar Autenticación y Rol
-    function checkAuthAndLoadOrders() {
-        const token = localStorage.getItem('token');
-        const role = localStorage.getItem('userRole');
+    function checkAuthAndLoadOrders() {
+        const token = localStorage.getItem('token');
+        const role = localStorage.getItem('userRole');
 
-        if (!token || role !== 'shop') {
-            alert('Acceso denegado. Se requiere cuenta de tienda.');
-            cerrarSesion();
-            return;
-        }
-        
-        loadPendingOrders(token);
-    }
+        if (!token || role !== 'shop') {
+            alert('Acceso denegado. Se requiere cuenta de tienda.');
+            cerrarSesion();
+            return;
+        }
+        loadPendingOrders(token);
+    }
 
-    // 2. Cargar Pedidos desde el Backend
-    async function loadPendingOrders(token) {
-        const tableBody = document.getElementById('orders-table-body');
-        const noOrdersMessage = document.getElementById('no-orders-message');
-        tableBody.innerHTML = ''; 
+    // 2. Cargar Pedidos desde el Backend
+    async function loadPendingOrders(token) {
+        const tableBody = document.getElementById('orders-table-body');
+        const noOrdersMessage = document.getElementById('no-orders-message');
+        tableBody.innerHTML = ''; 
 
-        try {
-            // Línea para debug: console.log('Intentando llamar a:', `${API_URL}/shop/orders`);
-            const response = await fetch(`${API_URL}/shop/orders`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}` 
-                }
-            });
+        try {
+            const response = await fetch(`${API_URL}/shop/orders`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}` 
+                }
+            });
 
-            const data = await response.json();
+            const data = await response.json();
 
-            if (response.ok) {
-                const orders = data.orders;
-                if (orders.length === 0) {
-                    noOrdersMessage.style.display = 'block';
-                } else {
-                    noOrdersMessage.style.display = 'none';
-                    orders.forEach(order => {
-                        const row = tableBody.insertRow();
-                        
-                        const location = `${order.building}, Salón/Oficina ${order.classroom}`;
-                        
-                        row.innerHTML = `
-                            <td>${order.id}</td>
-                            <td>${order.client_name}</td>
-                            <td>${order.client_phone}</td>
-                                
-                                                            <td>$${parseFloat(order.total_amount).toFixed(2)}</td>
-                                
-                            <td>${location}</td>
-                            <td>${order.delivery_notes || 'N/A'}</td>
-                            <td class="status-pending">${order.status.toUpperCase()}</td>
-                        `;
-                    });
-                }
-            } else if (response.status === 403 || response.status === 401) {
-                alert(`Error: ${data.message}. Su sesión ha expirado.`);
-                cerrarSesion();
-            } else {
-                alert(`Error al cargar pedidos: ${data.message || response.statusText}`);
-            }
-        } catch (error) {
-            console.error("Error de conexión:", error);
-            alert("Error de conexión con el servidor. No se pudieron cargar los pedidos.");
-        }
-    }
+            if (response.ok) {
+                const orders = data.orders;
+                if (orders.length === 0) {
+                    noOrdersMessage.style.display = 'block';
+                } else {
+                    noOrdersMessage.style.display = 'none';
+                    orders.forEach(order => {
+                        const row = tableBody.insertRow();
+                        
+                        const location = `${order.building}, Salón/Oficina ${order.classroom}`;
+                        
+                        // Determinar la clase para el estilo del estado
+                        const statusClass = order.status === 'ready' ? 'status-ready' : 'status-pending';
+
+                        // Botón de acción: aparece solo si no está 'ready' (asumimos que ya no hay que hacer nada)
+                        let actionButton = '';
+                        if (order.status !== 'ready' && order.status !== 'delivered' && order.status !== 'cancelled') {
+                             actionButton = `<button class="action-btn" onclick="updateOrderStatus(${order.id}, 'ready')">Marcar Listo</button>`;
+                        }
+                        
+                        row.innerHTML = `
+                            <td>${order.id}</td>
+                            <td>${order.client_name}</td>
+                            <td>${order.client_phone}</td>
+                            <td>$${parseFloat(order.total_amount).toFixed(2)}</td> 
+                            <td>${location}</td>
+                            <td>${order.delivery_notes || 'N/A'}</td>
+                            <td class="${statusClass}">${order.status.toUpperCase()}</td>
+                            <td>${actionButton}</td>
+                        `;
+                    });
+                }
+            } else if (response.status === 403 || response.status === 401) {
+                alert(`Error: ${data.message}. Su sesión ha expirado.`);
+                cerrarSesion();
+            } else {
+                alert(`Error al cargar pedidos: ${data.message || response.statusText}`);
+            }
+        } catch (error) {
+            console.error("Error de conexión:", error);
+            alert("Error de conexión con el servidor. No se pudieron cargar los pedidos.");
+        }
+    }
+
+    // 3. Función para actualizar el estado del pedido
+    async function updateOrderStatus(orderId, newStatus) {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            alert('Sesión expirada.');
+            cerrarSesion();
+            return;
+        }
+
+        if (!confirm(`¿Está seguro de cambiar el estado del pedido #${orderId} a ${newStatus.toUpperCase()}?`)) {
+            return;
+        }
+
+        try {
+            const response = await fetch(`${API_URL}/shop/orders/${orderId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}` 
+                },
+                body: JSON.stringify({ status: newStatus })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                alert(data.message);
+                // Recargar la tabla para mostrar el cambio
+                loadPendingOrders(token); 
+            } else if (response.status === 401 || response.status === 403) {
+                alert(`Error de autenticación: ${data.message}`);
+                cerrarSesion();
+            } else {
+                alert(`Error al actualizar el pedido: ${data.message || response.statusText}`);
+            }
+
+        } catch (error) {
+            console.error("Error de red:", error);
+            alert("Error de conexión con el servidor al intentar actualizar el estado.");
+        }
+    }
 </script>
 </body>
 </html>
