@@ -41,6 +41,10 @@
         button:hover {
             background-color: #45a049;
         }
+        #logout-btn {
+            background-color: #dc3545;
+            margin-top: 15px;
+        }
     </style>
 </head>
 <body>
@@ -61,8 +65,8 @@
         <textarea id="notas-entrega" placeholder="Notas de entrega (ej: Cuidado con el perro)"></textarea>
         
         <button type="submit" id="enviar-pedido-btn">Enviar Pedido</button>
-        <button type="button" onclick="window.location.href='index.html'">Volver al Inicio</button>
     </form>
+    <button type="button" id="logout-btn">Cerrar Sesión</button>
 </div>
 
 <script>
@@ -70,12 +74,19 @@
     const API_URL = "https://backend-cuah-quick-api.onrender.com/api"; 
 
     document.addEventListener('DOMContentLoaded', () => {
-        // Asignar el evento al formulario para evitar problemas de compatibilidad de botones
+        // Asignar el evento al formulario
         document.getElementById('order-form').addEventListener('submit', enviarPedido);
+        document.getElementById('logout-btn').addEventListener('click', cerrarSesion);
     });
+    
+    function cerrarSesion() {
+        localStorage.removeItem('token');
+        localStorage.removeItem('userRole');
+        window.location.href = 'login.html';
+    }
 
     async function enviarPedido(event) {
-        event.preventDefault(); // Evita que el formulario se envíe de forma tradicional
+        event.preventDefault(); 
 
         const token = localStorage.getItem('token');
         if (!token) {
@@ -90,8 +101,7 @@
         const classroom = document.getElementById('salon-oficina').value;
         const deliveryNotes = document.getElementById('notas-entrega').value;
         
-        // **IMPORTANTE:** Aquí se usa un ID de tienda fijo (ID 1) para simplificar la prueba.
-        // Asegúrate de que el usuario 'shop' creado en tu DB tenga ID = 1 o cámbialo aquí.
+        // Asumimos que el ID de la tienda es 1.
         const shop_id = 1; 
 
         if (isNaN(totalAmount) || totalAmount <= 0 || !building || !classroom) {
@@ -108,7 +118,7 @@
         };
 
         try {
-            // 2. Enviar datos a la API
+            // 2. Enviar datos a la API con el token
             const response = await fetch(`${API_URL}/orders`, {
                 method: 'POST',
                 headers: {
@@ -123,10 +133,10 @@
             if (response.ok) {
                 alert(`✅ Pedido #${data.order_id} enviado con éxito!`);
                 // Limpiar el formulario
-                document.getElementById('monto-total').value = '';
-                document.getElementById('edificio-entrega').value = '';
-                document.getElementById('salon-oficina').value = '';
-                document.getElementById('notas-entrega').value = '';
+                document.getElementById('order-form').reset();
+            } else if (response.status === 401) {
+                alert("Sesión expirada. Por favor, vuelve a iniciar sesión.");
+                cerrarSesion();
             } else {
                 alert(`❌ Error al crear pedido: ${data.message || response.statusText}`);
             }
