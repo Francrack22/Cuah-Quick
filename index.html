@@ -1,517 +1,230 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <title>CUAH-QUICK</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="icon" href="logo.png" type="image/png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display.swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
-  <style>
-    /* Estilos adicionales para el canvas de partículas */
-    #particles-canvas {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 1; /* Para que esté detrás del contenido pero sobre el fondo */
-      pointer-events: none; /* No debe interferir con los clics */
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cuah-Quick - Pedidos Rápidos UCQ</title>
+    <style>
+        /* ======================================= */
+        /* DEFINICIÓN DE COLORES CONSISTENTES */
+        /* ======================================= */
+        :root {
+            --primary: #3498db; /* Azul Principal */
+            --secondary: #2ecc71; /* Verde Acento (Éxito) */
+            --dark-bg: #2c3e50; /* Fondo Principal Oscuro */
+            --card-bg: #34495e; /* Fondo de Tarjeta más Claro */
+            --text-color: #ecf0f1; /* Texto Blanco/Claro */
+            --shadow-color: rgba(0, 0, 0, 0.5);
+        }
+
+        /* ======================================= */
+        /* BASE Y ANIMACIONES */
+        /* ======================================= */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            overflow: hidden; /* Oculta barras de desplazamiento innecesarias */
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ======================================= */
+        /* CONTENEDOR CENTRAL */
+        /* ======================================= */
+        .main-container {
+            background: var(--card-bg);
+            padding: 50px;
+            border-radius: 15px;
+            box-shadow: 0 15px 40px var(--shadow-color);
+            text-align: center;
+            width: 90%;
+            max-width: 500px;
+            animation: fadeIn 1s ease-out; /* Animación de entrada */
+        }
+
+        h1 {
+            color: var(--primary);
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            border-bottom: 3px solid var(--primary);
+            padding-bottom: 10px;
+        }
+
+        p {
+            font-size: 1.1em;
+            margin-bottom: 30px;
+            color: #bdc3c7;
+        }
+
+        /* ======================================= */
+        /* ESTILOS DE BOTONES */
+        /* ======================================= */
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .action-button {
+            display: block;
+            padding: 15px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 1.2em;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        /* Botón Primario: Hacer Pedido / Iniciar Sesión */
+        .btn-primary {
+            background-color: var(--secondary);
+            color: var(--dark-bg);
+        }
+        .btn-primary:hover {
+            background-color: #27ae60;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(46, 204, 113, 0.4);
+        }
+
+        /* Botón Secundario: Registrarse */
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+        .btn-secondary:hover {
+            background-color: var(--primary);
+            color: white;
+            transform: scale(1.02);
+        }
+
+        /* ======================================= */
+        /* MENU DE NAVEGACION (Si el usuario está logeado) */
+        /* ======================================= */
+
+        .nav-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .nav-menu .nav-item {
+            background-color: #3f556d;
+            color: var(--text-color);
+            padding: 10px;
+            border-radius: 6px;
+            text-align: left;
+            transition: background-color 0.2s;
+        }
+        .nav-menu .nav-item:hover {
+            background-color: #4e6581;
+        }
+        .logout-btn {
+            background-color: #e74c3c;
+            color: white;
+            margin-top: 25px;
+        }
+        .logout-btn:hover {
+            background-color: #c0392b;
+            transform: translateY(-3px);
+        }
+    </style>
 </head>
 <body>
 
-  <div class="cursor-glow" id="cursorGlow"></div>
+<div class="main-container">
+    <h1>🚀 Cuah-Quick</h1>
+    <p>El sistema de pedidos internos de la UCQ más rápido. Pide desde el salón y recoge sin filas.</p>
 
-  <nav class="nav">
-    <div class="nav-inner container">
-      <a class="brand" href="#home" aria-label="Inicio">
-        <img src="logo.png" alt="Logo CUAH-QUICK" class="brand-logo-img">
-        <strong>CUAH-QUICK</strong>
-      </a>
-      <div class="menu" aria-label="Principal">
-        <a class="btn btn-outline" href="#producto">Producto</a>
-        <a class="btn btn-outline" href="#mision-vision">Misión & Visión</a>
-        <a class="btn btn-outline" href="#como-funciona">Cómo funciona</a>
-        <a class="btn btn-primary" href="ordenar.html">Ordenar Comida</a>
-      </div>
-    </div>
-  </nav>
-
-  <section id="home" class="hero section">
-    <canvas id="particles-canvas"></canvas> <div class="hero-blob" aria-hidden="true"></div>
-    <div class="container grid grid-2" style="position: relative; z-index: 2;"> <div class="reveal-parent">
-        <h1 class="h1 reveal-child" data-delay="100" style="font-size:clamp(2rem,5vw,3.6rem);margin:.4rem 0 .6rem;line-height:1.1;">
-          Pide a la tienda de tu <span style="background:linear-gradient(90deg,var(--brand1),var(--brand2));-webkit-background-clip:text;background-clip:text;color:transparent">Universidad</span>
-        </h1>
-        <p class="p-muted reveal-child" data-delay="200" style="font-size:1.15rem;max-width:52ch">
-          Entregamos directo a tu salón. Rápido, fácil y delicioso.
-          <br> Nuestra mayor ilusión es tu satisfacción.
-        </p>
-        <div style="margin-top:1.2rem; display:flex; gap:.6rem; flex-wrap:wrap" class="reveal-child" data-delay="300">
-          <a href="#cta" class="btn btn-primary">Empezar ahora</a>
-          </div>
-        <div class="badge-row reveal-child" data-delay="400">
-          <span class="badge">Entrega al salón</span>
-          <span class="badge">Pago seguro</span>
-          <span class="badge">Hecho para campus</span>
+    <div id="auth-buttons" class="button-group">
         </div>
-      </div>
-
-      <div class="hero-card reveal-child" data-delay="300">
-        <div class="phone">
-          <div class="phone-head">
-            <div class="dots">
-              <span class="dot red"></span>
-              <span class="dot amber"></span>
-              <span class="dot green"></span>
-            </div>
-            <span class="p-muted" style="font-size:.8rem">Demo App</span>
-          </div>
-          <div style="margin-top:1rem; display:grid; gap:.7rem">
-            <div class="feature">
-              <span style="color:var(--brand1)">🍔</span>
-              <div>
-                <div style="font-weight:700">Catálogo por tienda</div>
-                <div class="p-muted" style="font-size:.9rem">Explora, agrega y paga</div>
-              </div>
-            </div>
-            <div class="feature">
-              <span style="color:var(--brand1)">🔥</span>
-              <div>
-                <div style="font-weight:700">Seguimiento en vivo</div>
-                <div class="p-muted" style="font-size:.9rem">Preparando → En camino → Entregado</div>
-              </div>
-            </div>
-            <div class="feature">
-              <span style="color:var(--brand1)">🏫</span>
-              <div>
-                <div style="font-weight:700">Entrega al salón</div>
-                <div class="p-muted" style="font-size:.9rem">Selecciona edificio y aula</div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="bubbles" aria-hidden="true">
-          <div class="bubble" style="left:6%; top:12%; animation-delay:0s"></div>
-          <div class="bubble" style="left:24%; top:50%; animation-delay:.3s"></div>
-          <div class="bubble" style="left:46%; top:20%; animation-delay:.6s"></div>
-          <div class="bubble" style="left:70%; top:60%; animation-delay:.9s"></div>
-          <div class="bubble" style="left:84%; top:30%; animation-delay:1.2s"></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <div class="marquee-wrap">
-    <div class="container marquee">
-      <div class="marquee-track">
-        <span class="tag">✦ Pagos seguros</span>
-        <span class="tag">✦ Entrega al salón</span>
-        <span class="tag">✦ Hecho para campus</span>
-        <span class="tag">✦ Rápido y delicioso</span>
-        <span class="tag">✦ Soporte en vivo</span>
-        <span class="tag">✦ Pagos seguros</span>
-        <span class="tag">✦ Entrega al salón</span>
-        <span class="tag">✦ Hecho para campus</span>
-        <span class="tag">✦ Rápido y delicioso</span>
-        <span class="tag">✦ Soporte en vivo</span>
-      </div>
-    </div>
-  </div>
-
-  <section id="producto" class="section">
-    <div class="container grid grid-3 reveal-parent">
-      <div class="card reveal-child">
-        <div class="icon">🚀</div>
-        <h3 class="h2">Pide en 3 clics</h3>
-        <p class="p-muted">Añade, confirma salón y paga. Sin complicaciones.</p>
-      </div>
-      <div class="card reveal-child" data-delay="100">
-        <div class="icon">🛡️</div>
-        <h3 class="h2">Seguro y confiable</h3>
-        <p class="p-muted">Tus pedidos y pagos protegidos.</p>
-      </div>
-      <div class="card reveal-child" data-delay="200">
-        <div class="icon">⭐</div>
-        <h3 class="h2">Hecho para campus</h3>
-        <p class="p-muted">Optimizado para edificios y aulas.</p>
-      </div>
-    </div>
-  </section>
-
-  <section id="mision-vision" class="section">
-    <div class="container grid grid-2 reveal-parent">
-      <div class="card reveal-child">
-        <h3 class="h2" style="background:linear-gradient(90deg,var(--brand1),var(--brand2));-webkit-background-clip:text;background-clip:text;color:transparent">Misión</h3>
-        <p class="p-muted">Llevar comida deliciosa al salón del estudiante con la máxima rapidez y una experiencia simple, transparente y cercana.</p>
-      </div>
-      <div class="card reveal-child" data-delay="100">
-        <h3 class="h2" style="background:linear-gradient(90deg,var(--brand1),var(--brand2));-webkit-background-clip:text;background-clip:text;color:transparent">Visión</h3>
-        <p class="p-muted">Ser el estándar de pedidos en campus universitarios, conectando tiendas y alumnos con tecnología confiable y humana.</p>
-      </div>
-    </div>
-  </section>
-
-  <section id="como-funciona" class="section">
-    <div class="container grid grid-3 reveal-parent">
-      <div class="card reveal-child">
-        <div class="icon">🛍️</div>
-        <h4 class="h2" style="font-size:1.1rem">Elige</h4>
-        <p class="p-muted">Explora el catálogo de tu tienda del campus.</p>
-      </div>
-      <div class="card reveal-child" data-delay="100">
-        <div class="icon">🏫</div>
-        <h4 class="h2" style="font-size:1.1rem">Indica tu salón</h4>
-        <p class="p-muted">Selecciona edificio y aula para recibir o recoger.</p>
-      </div>
-      <div class="card reveal-child" data-delay="200">
-        <div class="icon">⏱️</div>
-        <h4 class="h2" style="font-size:1.1rem">Recibe</h4>
-        <p class="p-muted">Sigue el estado en tiempo real hasta la entrega.</p>
-      </div>
-    </div>
-  </section>
-
-  <section id="cta" class="section">
-    <div class="container cta reveal-child"> <div class="grid grid-2" style="align-items:center">
-        <div>
-          <h3 class="h2" style="font-size:1.6rem">Listo para ordenar en el campus</h3>
-          <p class="p-muted">Empieza gratis, conecta tu tienda y pruébalo con tus amigos de clase.</p>
-        </div>
-        <div style="display:flex;gap:.6rem;justify-content:flex-end;flex-wrap:wrap">
-          <a href="#" class="btn btn-primary">Crear cuenta tienda</a>
-          <a href="#" class="btn btn-outline">Descargar app</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="faq" class="section">
-    <div class="container reveal-parent" style="max-width:860px">
-      <h3 class="h2 reveal-child">Preguntas frecuentes</h3>
-      <div class="grid" style="margin-top:1rem">
-        <details class="reveal-child" data-delay="100">
-          <summary>¿Entrega al salón? <span>+</span></summary>
-          <p>Sí, el alumno selecciona edificio y aula al hacer el pedido.</p>
-        </details>
-        <details class="reveal-child" data-delay="200">
-          <summary>¿Pagos? <span>+</span></summary>
-          <p>Contraentrega o pasarela en app (seguro y rápido).</p>
-        </details>
-        <details class="reveal-child" data-delay="300">
-          <summary>¿Panel para tienda? <span>+</span></summary>
-          <p>La tienda gestiona pedidos, estados y catálogo fácilmente.</p>
-        </details>
-      </div>
-    </div>
-  </section>
-
-  <footer class="footer">
-    <div class="container" style="display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap">
-      <div style="display:flex;align-items:center;gap:.5rem">
-        <img src="logo.png" alt="" style="width:20px; height:20px; border-radius: 4px; object-fit: cover;">
-        <span>CUAH-QUICK © <span id="year"></span></span>
-      </div>
-      <div style="display:flex;gap:1rem">
-        <a href="#mision-vision">Misión</a>
-        <a href="#mision-vision">Visión</a>
-        <a href="#">Términos</a>
-      </div>
-    </div>
-  </footer>
-
-  <button class="chat-btn" id="chatToggle" aria-label="Abrir chat de soporte">💬</button>
-  <div class="chat" id="chatBox" aria-live="polite">
-    <div class="chat-head">
-      <div style="display:flex;gap:.6rem;align-items:center">
-        <div style="width:32px;height:32px;border-radius:12px;background:rgba(245,158,11,.2);display:grid;place-items:center;border:1px solid rgba(245,158,11,.35)">💬</div>
-        <div>
-          <div style="font-weight:700">Soporte</div>
-          <div class="p-muted" style="font-size:.8rem">Normalmente responde en minutos</div>
-        </div>
-      </div>
-      <button id="chatClose" style="background:transparent;border:none;color:#cfcfcf;cursor:pointer;font-size:1rem">✖</button>
-    </div>
-    <div class="chat-body" id="messages">
-      <div class="msg bot">¡Hola! Soy tu asistente de CUAH-QUICK. ¿En qué te ayudo?</div>
-      <div class="suggestions" id="sugs">
-        <button>¿Cómo rastreo mi pedido?</button>
-        <button>Problema con mi pago</button>
-        <button>Quiero cambiar mi salón</button>
-      </div>
-    </div>
-    <div class="chat-input">
-      <input id="chatInput" placeholder="Escribe un mensaje..." />
-      <button id="chatSend">Enviar</button>
-    </div>
-  </div>
-
-  <script>
-    // === JS EXISTENTE ===
-    // Año dinámico
-    document.getElementById('year').textContent = new Date().getFullYear();
-
-    // Chat
-    const chatBox = document.getElementById('chatBox');
-    const chatToggle = document.getElementById('chatToggle');
-    const chatClose = document.getElementById('chatClose');
-    const chatInput = document.getElementById('chatInput');
-    const chatSend = document.getElementById('chatSend');
-    const messages = document.getElementById('messages');
-    const sugs = document.getElementById('sugs');
-
-    function openChat(){ chatBox.classList.add('open'); chatInput.focus(); }
-    function closeChat(){ chatBox.classList.remove('open'); }
-    chatToggle.addEventListener('click', ()=> chatBox.classList.contains('open') ? closeChat() : openChat());
-    chatClose.addEventListener('click', closeChat);
-
-    function addMsg(text, from='bot'){
-      const div = document.createElement('div');
-      div.className = 'msg ' + (from==='user' ? 'user':'bot');
-      div.textContent = text;
-      messages.appendChild(div);
-      messages.scrollTop = messages.scrollHeight;
-    }
-
-    function send(){
-      const txt = chatInput.value.trim();
-      if(!txt) return;
-      addMsg(txt, 'user');
-      chatInput.value='';
-      setTimeout(()=> addMsg('Gracias por escribir. Te responderemos en unos minutos.'), 600);
-    }
-
-    chatSend.addEventListener('click', send);
-    chatInput.addEventListener('keydown', (e)=>{ if(e.key === 'Enter') send(); });
-
-    sugs.addEventListener('click', (e)=>{
-      if(e.target.tagName === 'BUTTON'){
-        chatInput.value = e.target.textContent;
-        chatInput.focus();
-      }
-    });
-
-    // === NUEVAS ANIMACIONES JS ===
-
-    // 1. Efecto de Resplandor del Cursor
-    const cursorGlow = document.getElementById('cursorGlow');
-    if (cursorGlow) {
-      window.addEventListener('mousemove', (e) => {
-        window.requestAnimationFrame(() => {
-          cursorGlow.style.left = e.clientX + 'px';
-          cursorGlow.style.top = e.clientY + 'px';
-        });
-      });
-    }
-
-    // 2. Efecto Parallax en el Hero (con la "hero-blob" que ya teníamos)
-    const heroSection = document.querySelector('.hero');
-    const heroCard = document.querySelector('.hero-card');
-    const heroBlob = document.querySelector('.hero-blob');
     
-    if (heroSection && heroCard && heroBlob) {
-      heroSection.addEventListener('mousemove', (e) => {
-        const { clientX, clientY } = e;
-        const { offsetWidth, offsetHeight } = heroSection;
+    <div id="logged-in-panel" style="display: none;">
+        <p style="margin-bottom: 10px; color: var(--secondary); font-weight: bold;">¡Hola, <span id="user-display-name">Usuario</span>! ¿Qué vas a pedir hoy?</p>
         
-        const xMov = (clientX / offsetWidth - 0.5) * 2;
-        const yMov = (clientY / offsetHeight - 0.5) * 2;
+        <div class="nav-menu">
+             <a href="ordenar.html" class="action-button btn-primary">
+                🛒 ¡Hacer un Nuevo Pedido!
+            </a>
+            
+             <a href="panel.html" id="shop-panel-link" class="action-button btn-secondary" style="display: none;">
+                ⚙️ Ver Panel de Pedidos (Tienda)
+            </a>
+        </div>
+        
+        <button id="logout-btn" class="action-button logout-btn">Cerrar Sesión</button>
+    </div>
+</div>
 
-        const cardIntensity = 8;
-        const blobIntensity = 25;
-
-        window.requestAnimationFrame(() => {
-          heroCard.style.transform = `translate3d(${-xMov * cardIntensity}px, ${-yMov * cardIntensity}px, 0)`;
-          heroBlob.style.transform = `translate3d(${xMov * blobIntensity}px, ${yMov * blobIntensity}px, 0)`;
-        });
-      });
-      
-      heroSection.addEventListener('mouseleave', () => {
-         window.requestAnimationFrame(() => {
-            heroCard.style.transform = 'translate3d(0,0,0)';
-            heroBlob.style.transform = 'translate3d(0,0,0)';
-         });
-      });
-    }
-
-
-    // 3. Animación de "Reveal" en Cascada (Staggered)
-    const observerOptions = {
-      root: null,
-      rootMargin: '0px',
-      threshold: 0.1
-    };
-
-    const observerCallback = (entries, observer) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          if (entry.target.classList.contains('reveal-parent')) {
-            const children = entry.target.querySelectorAll('.reveal-child');
-            children.forEach((child, index) => {
-              const delay = child.dataset.delay || (index * 100);
-              setTimeout(() => {
-                child.classList.add('visible');
-              }, delay);
-            });
-          } else {
-            const delay = entry.target.dataset.delay || 0;
-            setTimeout(() => {
-              entry.target.classList.add('visible');
-            }, delay);
-          }
-          observer.unobserve(entry.target);
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        checkAuthentication();
+        
+        // Agregar listener de logout si el botón existe
+        const logoutBtn = document.getElementById('logout-btn');
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', logout);
         }
-      });
-    };
-
-    const revealObserver = new IntersectionObserver(observerCallback, observerOptions);
-
-    document.querySelectorAll('.reveal-parent').forEach(parent => {
-      revealObserver.observe(parent);
     });
+
+    function checkAuthentication() {
+        const token = localStorage.getItem('token');
+        const role = localStorage.getItem('userRole');
+        const userName = localStorage.getItem('userName') || 'Cliente'; 
+
+        const authButtonsDiv = document.getElementById('auth-buttons');
+        const loggedInPanelDiv = document.getElementById('logged-in-panel');
+        const shopPanelLink = document.getElementById('shop-panel-link');
+        const userDisplayName = document.getElementById('user-display-name');
+
+        if (token) {
+            // Usuario Autenticado
+            authButtonsDiv.style.display = 'none';
+            loggedInPanelDiv.style.display = 'block';
+            userDisplayName.textContent = userName.split(' ')[0]; // Mostrar solo el primer nombre
+            
+            // Mostrar enlace al panel solo si el rol es 'shop'
+            if (role === 'shop') {
+                shopPanelLink.style.display = 'block';
+            } else {
+                shopPanelLink.style.display = 'none';
+            }
+            
+        } else {
+            // Usuario No Autenticado
+            loggedInPanelDiv.style.display = 'none';
+            authButtonsDiv.style.display = 'flex';
+            
+            authButtonsDiv.innerHTML = `
+                <a href="login.html" class="action-button btn-primary">
+                    🔑 Iniciar Sesión
+                </a>
+                <a href="register.html" class="action-button btn-secondary">
+                    📝 Crear Cuenta
+                </a>
+            `;
+        }
+    }
     
-    document.querySelectorAll('.reveal-child:not(.reveal-parent .reveal-child)').forEach(child => {
-      revealObserver.observe(child);
-    });
-
-    // ==========================================
-    // ===== NUEVA ANIMACIÓN: Partículas Interactivas =====
-    // ==========================================
-    const canvas = document.getElementById('particles-canvas');
-    const ctx = canvas.getContext('2d');
-    let particles = [];
-    let mouse = { x: null, y: null, radius: 100 }; // Radio de interacción del mouse
-
-    // Ajustar tamaño del canvas al redimensionar la ventana
-    function resizeCanvas() {
-      canvas.width = window.innerWidth;
-      canvas.height = heroSection ? heroSection.offsetHeight : window.innerHeight; // Ajustamos a la altura del hero si existe
-      initParticles();
+    function logout() {
+        localStorage.removeItem('token');
+        localStorage.removeItem('userRole');
+        localStorage.removeItem('userName');
+        alert('Sesión cerrada. ¡Vuelve pronto!');
+        // Recargar la página para mostrar los botones de inicio de sesión
+        window.location.reload(); 
     }
-
-    // Constructor de partículas
-    class Particle {
-      constructor(x, y, directionX, directionY, size, color) {
-        this.x = x;
-        this.y = y;
-        this.directionX = directionX;
-        this.directionY = directionY;
-        this.size = size;
-        this.color = color;
-      }
-
-      // Dibujar la partícula
-      draw() {
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
-        ctx.fillStyle = this.color;
-        ctx.fill();
-      }
-
-      // Mover la partícula y detectar colisión con el mouse
-      update() {
-        // Rebotar en los bordes
-        if (this.x + this.size > canvas.width || this.x - this.size < 0) {
-          this.directionX = -this.directionX;
-        }
-        if (this.y + this.size > canvas.height || this.y - this.size < 0) {
-          this.directionY = -this.directionY;
-        }
-
-        this.x += this.directionX;
-        this.y += this.directionY;
-
-        // Interacción con el mouse
-        if (mouse.x !== null && mouse.y !== null) {
-          let dx = mouse.x - this.x;
-          let dy = mouse.y - this.y;
-          let distance = Math.sqrt(dx * dx + dy * dy);
-
-          if (distance < mouse.radius + this.size) {
-            if (mouse.x < this.x && this.x < canvas.width - this.size * 10) {
-              this.x += 10;
-            }
-            if (mouse.x > this.x && this.x > this.size * 10) {
-              this.x -= 10;
-            }
-            if (mouse.y < this.y && this.y < canvas.height - this.size * 10) {
-              this.y += 10;
-            }
-            if (mouse.y > this.y && this.y > this.size * 10) {
-              this.y -= 10;
-            }
-          }
-        }
-        this.draw();
-      }
-    }
-
-    // Crear partículas
-    function initParticles() {
-      particles = [];
-      let numberOfParticles = (canvas.width * canvas.height) / 9000;
-      for (let i = 0; i < numberOfParticles; i++) {
-        let size = (Math.random() * 3) + 1; // Tamaño de 1 a 4
-        let x = (Math.random() * ((canvas.width - size * 2) - (size * 2)) + size * 2);
-        let y = (Math.random() * ((canvas.height - size * 2) - (size * 2)) + size * 2);
-        let directionX = (Math.random() * 0.5) - 0.25; // Movimiento lento
-        let directionY = (Math.random() * 0.5) - 0.25;
-        let color = 'rgba(255, 255, 255, 0.15)'; // Partículas blancas semi-transparentes
-        particles.push(new Particle(x, y, directionX, directionY, size, color));
-      }
-    }
-
-    // Animar las partículas
-    function animateParticles() {
-      requestAnimationFrame(animateParticles);
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      for (let i = 0; i < particles.length; i++) {
-        particles[i].update();
-      }
-
-      // Dibujar líneas entre partículas cercanas
-      for (let a = 0; a < particles.length; a++) {
-        for (let b = a; b < particles.length; b++) {
-          let dx = particles[a].x - particles[b].x;
-          let dy = particles[a].y - particles[b].y;
-          let distance = Math.sqrt(dx * dx + dy * dy);
-
-          if (distance < 80) { // Distancia para dibujar líneas
-            ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)'; // Color de las líneas
-            ctx.lineWidth = 1;
-            ctx.beginPath();
-            ctx.moveTo(particles[a].x, particles[a].y);
-            ctx.lineTo(particles[b].x, particles[b].y);
-            ctx.stroke();
-          }
-        }
-      }
-    }
-
-    // Eventos del mouse
-    canvas.addEventListener('mousemove', (event) => {
-        const rect = canvas.getBoundingClientRect();
-        mouse.x = event.clientX - rect.left;
-        mouse.y = event.clientY - rect.top;
-    });
-
-    canvas.addEventListener('mouseleave', () => {
-        mouse.x = null;
-        mouse.y = null;
-    });
-    
-    // Inicializar y comenzar
-    if (canvas) { // Asegurarse de que el canvas existe
-      resizeCanvas(); // Ajustar al tamaño inicial
-      window.addEventListener('resize', resizeCanvas); // Reajustar al redimensionar
-      animateParticles();
-    }
-// ayuda si lees esto, no queda la vaiana
-  </script>
+</script>
 </body>
 </html>
-
