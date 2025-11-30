@@ -6,7 +6,6 @@
     <title>Crear Pedido - Cuah-Quick</title>
     <link rel="stylesheet" href="styles.css"> 
     <style>
-        /* Estilos básicos para el formulario si no usas styles.css */
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
@@ -70,11 +69,10 @@
 </div>
 
 <script>
-    // 🚨 REEMPLAZA ESTA URL CON LA DE TU API DE RENDER
+    // 🔗 URL DE TU API DE RENDER CORREGIDA
     const API_URL = "https://backend-cuah-quick-api.onrender.com/api"; 
 
     document.addEventListener('DOMContentLoaded', () => {
-        // Asignar el evento al formulario
         document.getElementById('order-form').addEventListener('submit', enviarPedido);
         document.getElementById('logout-btn').addEventListener('click', cerrarSesion);
     });
@@ -95,13 +93,12 @@
             return;
         }
 
-        // 1. Obtener datos del formulario
         const totalAmount = parseFloat(document.getElementById('monto-total').value);
         const building = document.getElementById('edificio-entrega').value;
         const classroom = document.getElementById('salon-oficina').value;
         const deliveryNotes = document.getElementById('notas-entrega').value;
         
-        // Asumimos que el ID de la tienda es 1.
+        // Usamos ID 1 como ID de tienda temporal
         const shop_id = 1; 
 
         if (isNaN(totalAmount) || totalAmount <= 0 || !building || !classroom) {
@@ -118,7 +115,6 @@
         };
 
         try {
-            // 2. Enviar datos a la API con el token
             const response = await fetch(`${API_URL}/orders`, {
                 method: 'POST',
                 headers: {
@@ -132,10 +128,9 @@
 
             if (response.ok) {
                 alert(`✅ Pedido #${data.order_id} enviado con éxito!`);
-                // Limpiar el formulario
                 document.getElementById('order-form').reset();
-            } else if (response.status === 401) {
-                alert("Sesión expirada. Por favor, vuelve a iniciar sesión.");
+            } else if (response.status === 401 || response.status === 403) {
+                alert("Sesión expirada o no autorizada. Por favor, vuelve a iniciar sesión.");
                 cerrarSesion();
             } else {
                 alert(`❌ Error al crear pedido: ${data.message || response.statusText}`);
