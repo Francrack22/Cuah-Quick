@@ -4,76 +4,107 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Iniciar Sesión - Cuah-Quick</title>
+    <link rel="stylesheet" href="styles.css"> 
     <style>
-        /* Estilos básicos para centrar el formulario */
-        body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; background-color: #f4f4f4; }
-        .login-container { background: white; padding: 25px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); width: 300px; }
-        input, button { width: 100%; padding: 10px; margin: 8px 0; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; }
-        button { background-color: #007bff; color: white; cursor: pointer; }
-        button:hover { background-color: #0056b3; }
+        /* Estilos básicos si no usas styles.css */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 350px;
+            text-align: center;
+        }
+        input[type="email"], input[type="password"], button {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 <body>
 
-    <div class="login-container">
-        <h2>Iniciar Sesión</h2>
-        <form id="loginForm">
-            <input type="email" id="email" placeholder="Correo Electrónico" required>
-            <input type="password" id="password" placeholder="Contraseña" required>
-            <button type="submit" id="loginButton">Acceder</button>
-        </form>
-        <p>¿No tienes cuenta? <a href="register.html">Regístrate aquí</a></p>
-        <p id="message"></p>
-    </div>
-
-    <script>
-        // URL Base de tu API
-        const API_BASE_URL = 'https://backend-cuah-quick-api.onrender.com/api'; 
+<div class="container">
+    <h2>Iniciar Sesión</h2>
+    <form id="login-form">
+        <input type="email" id="email" placeholder="Correo Institucional" required>
+        <input type="password" id="password" placeholder="Contraseña" required>
         
-        const loginForm = document.getElementById('loginForm');
-        const loginButton = document.getElementById('loginButton');
-        const messageDisplay = document.getElementById('message');
+        <button type="submit" id="login-btn">Iniciar Sesión</button>
+    </form>
+    <p>¿No tienes cuenta? <a href="register.html">Regístrate aquí</a></p>
+</div>
 
-        loginForm.addEventListener('submit', handleLogin);
+<script>
+    // 🚨 REEMPLAZA ESTA URL CON LA DE TU API DE RENDER
+    const API_URL = "https://backend-cuah-quick-api.onrender.com/api"; 
 
-        async function handleLogin(e) {
-            e.preventDefault();
-            
-            loginButton.disabled = true;
-            messageDisplay.textContent = '';
-            
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
+    document.addEventListener('DOMContentLoaded', () => {
+        document.getElementById('login-form').addEventListener('submit', handleLogin);
+    });
 
-            try {
-                const response = await fetch(`${API_BASE_URL}/login`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email, password })
-                });
+    async function handleLogin(event) {
+        event.preventDefault();
+
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+
+        try {
+            const response = await fetch(`${API_URL}/login`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email, password })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                // 1. Guardar el token de autenticación
+                localStorage.setItem('token', data.token);
+
+                // 2. Guardar el rol del usuario (¡CRUCIAL para la redirección!)
+                localStorage.setItem('userRole', data.user.role); 
                 
-                const data = await response.json();
+                alert("Inicio de sesión exitoso!");
 
-                if (response.status === 200) { // 200 OK es éxito
-                    localStorage.setItem('userToken', data.token); 
-                    localStorage.setItem('userData', JSON.stringify(data.user)); 
-                    
-                    messageDisplay.textContent = '✅ Inicio de sesión exitoso. Redirigiendo...';
-                    
-                    // ⭐️ CORRECCIÓN: Redirigir a ordenar.html
-                    window.location.href = 'ordenar.html'; 
-                    
+                // 3. Redirección basada en el rol
+                if (data.user.role === 'shop') {
+                    window.location.href = 'panel.html'; // Redirige a la vista de pedidos de la tienda
                 } else {
-                    messageDisplay.textContent = `❌ Error: ${data.message}`; 
+                    window.location.href = 'ordenar.html'; // Redirige al cliente a hacer un pedido
                 }
-            } catch (error) {
-                console.error('Error de conexión:', error);
-                messageDisplay.textContent = '🚨 Error de conexión con el servidor.';
-            } finally {
-                loginButton.disabled = false;
+            } else {
+                alert(`Error al iniciar sesión: ${data.message}`);
             }
+        } catch (error) {
+            console.error("Error de conexión:", error);
+            alert("Error de conexión con el servidor. Inténtalo de nuevo.");
         }
-    </script>
+    }
+</script>
 </body>
 </html>
-
