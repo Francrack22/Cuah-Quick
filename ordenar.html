@@ -4,126 +4,218 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hacer Pedido - Cuah-Quick</title>
-    <link rel="stylesheet" href="styles.css"> 
     <style>
+        /* ======================================= */
+        /* BASE Y FONDO (Colores Oscuros Vistosos) */
+        /* ======================================= */
+        :root {
+            --primary: #3498db; /* Azul Vistoso */
+            --secondary: #2ecc71; /* Verde Acento */
+            --dark-bg: #2c3e50; /* Fondo Principal Oscuro */
+            --card-bg: #34495e; /* Fondo de Tarjeta más Claro */
+            --text-color: #ecf0f1; /* Texto Blanco/Claro */
+            --shadow-color: rgba(0, 0, 0, 0.4);
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            padding: 20px;
-        }
-        .container {
-            display: flex; /* Usamos flexbox para dividir en dos columnas */
-            gap: 30px;
-            max-width: 1200px;
-            margin: 20px auto;
-        }
-        .menu-section, .cart-section {
-            background: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--dark-bg);
             padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* Contenedor Principal con Sombra Flotante */
+        .container {
+            display: flex;
+            gap: 40px;
+            max-width: 1300px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        /* Estilos de Secciones (Menú y Carrito) */
+        .menu-section, .cart-section {
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px var(--shadow-color);
+            transition: transform 0.3s ease;
         }
         .menu-section {
-            flex: 2; /* Ocupa 2/3 del espacio */
+            flex: 2;
+            animation: fadeIn 0.8s ease-out; /* Animación de entrada */
         }
         .cart-section {
-            flex: 1; /* Ocupa 1/3 del espacio */
+            flex: 1;
             position: sticky;
-            top: 20px;
+            top: 30px;
             align-self: flex-start;
+            animation: slideIn 0.8s ease-out; /* Animación de entrada */
         }
+        
         h2, h3 {
             text-align: center;
-            color: #333;
-            margin-bottom: 20px;
+            color: var(--primary);
+            margin-bottom: 30px;
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 10px;
         }
-        /* Estilos del Menú */
+
+        /* ======================================= */
+        /* PRODUCTOS Y CAROUSEL-LIKE EFFECT */
+        /* ======================================= */
+
         .product-card {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 0;
-            border-bottom: 1px solid #eee;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            background-color: #3f556d; /* Fondo de producto */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
         }
-        .product-card:last-child {
-            border-bottom: none;
-        }
-        .product-info {
-            flex-grow: 1;
+        .product-card:hover {
+            transform: translateY(-5px); /* Efecto 3D al pasar el mouse */
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
         }
         .product-info h4 {
             margin: 0;
-            font-size: 1.1em;
+            font-size: 1.3em;
+            color: var(--text-color);
         }
         .product-info p {
             margin: 5px 0 0;
-            color: #555;
+            color: var(--secondary);
             font-weight: bold;
+            font-size: 1.1em;
         }
         .add-btn {
-            background-color: #007bff;
+            background-color: var(--secondary);
             color: white;
-            padding: 8px 15px;
+            padding: 10px 20px;
             border: none;
-            border-radius: 5px;
+            border-radius: 20px;
             cursor: pointer;
+            transition: background-color 0.2s, transform 0.1s;
         }
         .add-btn:hover {
-            background-color: #0056b3;
+            background-color: #27ae60;
+            transform: scale(1.05); /* Pequeña animación al click */
         }
 
-        /* Estilos del Carrito */
+        /* ======================================= */
+        /* CARRITO Y TOTAL */
+        /* ======================================= */
+
         #cart-items-list {
             list-style: none;
             padding: 0;
-            margin: 15px 0;
+            margin: 20px 0;
         }
         #cart-items-list li {
             display: flex;
             justify-content: space-between;
-            padding: 8px 0;
-            border-bottom: 1px dashed #eee;
-            font-size: 0.95em;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px dashed #4e6581;
+            font-size: 1em;
+            transition: all 0.2s;
         }
         .cart-total {
-            font-size: 1.2em;
+            font-size: 1.4em;
             font-weight: bold;
             display: flex;
             justify-content: space-between;
-            margin-top: 15px;
-            padding-top: 10px;
-            border-top: 2px solid #333;
-        }
-        /* Estilos del Formulario de Entrega */
-        .delivery-form input[type="text"], 
-        .delivery-form textarea {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-        .submit-btn {
-            background-color: #28a745;
-            color: white;
-            padding: 12px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            width: 100%;
-            font-size: 1.1em;
-        }
-        .submit-btn:hover {
-            background-color: #218838;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 3px solid var(--primary);
+            color: var(--secondary);
         }
         .remove-btn {
             background: none;
             border: none;
-            color: #dc3545;
+            color: #e74c3c; /* Rojo de peligro */
             cursor: pointer;
-            font-size: 1.2em;
+            font-size: 1.3em;
+            opacity: 0.7;
+            transition: opacity 0.2s;
         }
+        .remove-btn:hover {
+            opacity: 1;
+        }
+
+        /* ======================================= */
+        /* FORMULARIO Y BOTONES */
+        /* ======================================= */
+        .delivery-form input[type="text"], 
+        .delivery-form textarea {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #4e6581;
+            border-radius: 6px;
+            box-sizing: border-box;
+            background-color: #3f556d;
+            color: var(--text-color);
+        }
+        .delivery-form input[type="text"]::placeholder,
+        .delivery-form textarea::placeholder {
+            color: #bdc3c7;
+        }
+
+        .submit-btn {
+            background-color: var(--primary); /* Azul principal para la acción */
+            color: white;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1.2em;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        .submit-btn:hover:not(:disabled) {
+            background-color: #2980b9;
+        }
+        .submit-btn:disabled {
+            background-color: #7f8c8d; /* Gris para deshabilitado */
+            cursor: not-allowed;
+        }
+
+        /* ======================================= */
+        /* ANIMACIONES AVANZADAS */
+        /* ======================================= */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* Animación para el mensaje de carga */
+        @keyframes pulse {
+            0% { opacity: 0.5; }
+            50% { opacity: 1; }
+            100% { opacity: 0.5; }
+        }
+
+        #loading-menu {
+            text-align: center;
+            font-size: 1.5em;
+            color: var(--primary);
+            animation: pulse 1.5s infinite;
+        }
+
     </style>
 </head>
 <body>
@@ -148,7 +240,7 @@
             <span id="cart-total-amount">$0.00</span>
         </div>
         
-        <hr style="margin: 20px 0;">
+        <hr style="margin: 20px 0; border-color: #4e6581;">
         
         <h3>📍 Detalles de Entrega</h3>
         <form id="delivery-form" class="delivery-form">
@@ -163,8 +255,8 @@
 
 <script>
     const API_URL = "https://backend-cuah-quick-api.onrender.com/api";
-    let cart = []; // Almacena { productId, name, price, quantity }
-    let products = []; // Almacena el menú completo del backend
+    let cart = []; 
+    let products = []; 
 
     document.addEventListener('DOMContentLoaded', () => {
         const token = localStorage.getItem('token');
@@ -187,34 +279,34 @@
 
             if (response.ok) {
                 products = data.products;
-                menuListDiv.innerHTML = ''; // Limpiar mensaje de carga
+                menuListDiv.innerHTML = ''; 
                 
                 products.forEach(product => {
                     const card = document.createElement('div');
                     card.className = 'product-card';
+                    // Usar dataset para almacenar datos del producto
+                    card.dataset.id = product.id; 
                     card.innerHTML = `
                         <div class="product-info">
                             <h4>${product.name}</h4>
                             <p>$${product.price.toFixed(2)}</p>
                         </div>
-                        <button class="add-btn" data-id="${product.id}" onclick="addToCart(${product.id})">Agregar</button>
+                        <button class="add-btn" onclick="addToCart(${product.id})">Agregar</button>
                     `;
                     menuListDiv.appendChild(card);
                 });
             } else {
-                menuListDiv.innerHTML = `<p style="color: red;">Error al cargar el menú: ${data.message || 'Error desconocido'}</p>`;
+                menuListDiv.innerHTML = `<p style="color: #e74c3c;">Error al cargar el menú: ${data.message || 'Error desconocido'}</p>`;
             }
         } catch (error) {
-            menuListDiv.innerHTML = `<p style="color: red;">Error de conexión con el servidor.</p>`;
+            menuListDiv.innerHTML = `<p style="color: #e74c3c;">Error de conexión con el servidor. Por favor, revisa el estado del Backend.</p>`;
         }
     }
     
-    // 2. Funciones del Carrito
+    // 2. Funciones del Carrito (sin cambios en la lógica)
 
     function addToCart(productId) {
         const product = products.find(p => p.id === productId);
-        
-        // Buscar si ya existe en el carrito
         const cartItem = cart.find(item => item.productId === productId);
 
         if (cartItem) {
@@ -234,11 +326,9 @@
         const cartItemIndex = cart.findIndex(item => item.productId === productId);
         
         if (cartItemIndex > -1) {
-            // Si la cantidad es mayor a 1, solo reducimos
             if (cart[cartItemIndex].quantity > 1) {
                 cart[cartItemIndex].quantity -= 1;
             } else {
-                // Si la cantidad es 1, lo eliminamos del array
                 cart.splice(cartItemIndex, 1);
             }
         }
@@ -258,15 +348,17 @@
         cartList.innerHTML = '';
         
         if (cart.length === 0) {
-            cartList.innerHTML = '<li>El carrito está vacío.</li>';
+            cartList.innerHTML = '<li style="justify-content: center; color: #bdc3c7;">El carrito está vacío.</li>';
             sendOrderBtn.disabled = true;
         } else {
             cart.forEach(item => {
                 const li = document.createElement('li');
                 li.innerHTML = `
                     <span>${item.quantity} x ${item.name}</span>
-                    <span>$${(item.price * item.quantity).toFixed(2)}</span>
-                    <button class="remove-btn" onclick="removeFromCart(${item.productId})">🗑️</button>
+                    <span style="display: flex; align-items: center; gap: 10px;">
+                        $${(item.price * item.quantity).toFixed(2)}
+                        <button class="remove-btn" onclick="removeFromCart(${item.productId})">❌</button>
+                    </span>
                 `;
                 cartList.appendChild(li);
             });
@@ -276,7 +368,7 @@
         totalAmountSpan.textContent = `$${total.toFixed(2)}`;
     }
     
-    // 3. Enviar el Pedido al Backend
+    // 3. Enviar el Pedido al Backend (sin cambios en la lógica)
     async function handleOrderSubmit(event) {
         event.preventDefault();
         
@@ -291,7 +383,6 @@
         const classroom = document.getElementById('classroom').value;
         const notes = document.getElementById('notes').value;
 
-        // NOTA: Asumimos shop_id = 1 temporalmente, ya que solo hay una tienda
         const shopId = 1; 
         
         const orderData = {
@@ -300,11 +391,12 @@
             building: building,
             classroom: classroom,
             delivery_notes: notes,
-            // En una versión más compleja, aquí se enviarían los items del carrito.
-            // Por ahora solo enviamos el total y la ubicación.
         };
 
-        document.getElementById('send-order-btn').disabled = true;
+        const originalBtnText = document.getElementById('send-order-btn').textContent;
+        const sendOrderBtn = document.getElementById('send-order-btn');
+        sendOrderBtn.disabled = true;
+        sendOrderBtn.textContent = 'Enviando...';
 
         try {
             const response = await fetch(`${API_URL}/orders`, {
@@ -319,8 +411,7 @@
             const data = await response.json();
 
             if (response.ok) {
-                alert(`✅ Pedido #${data.order_id} enviado exitosamente. Total: $${totalAmount.toFixed(2)}. ¡Tu comida estará lista pronto!`);
-                // Limpiar carrito y formulario
+                alert(`✅ Pedido #${data.order_id} enviado exitosamente. ¡Tu comida estará lista pronto!`);
                 cart = [];
                 updateCartDisplay();
                 document.getElementById('delivery-form').reset();
@@ -332,7 +423,8 @@
             console.error("Error de red al enviar el pedido:", error);
             alert("❌ Error de conexión con el servidor. Inténtalo de nuevo.");
         } finally {
-            document.getElementById('send-order-btn').disabled = false;
+            sendOrderBtn.disabled = false;
+            sendOrderBtn.textContent = originalBtnText;
         }
     }
 </script>
