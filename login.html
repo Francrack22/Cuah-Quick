@@ -6,7 +6,6 @@
     <title>Iniciar Sesión - Cuah-Quick</title>
     <link rel="stylesheet" href="styles.css"> 
     <style>
-        /* Estilos básicos si no usas styles.css */
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
@@ -58,7 +57,7 @@
 </div>
 
 <script>
-    // 🚨 REEMPLAZA ESTA URL CON LA DE TU API DE RENDER
+    // 🔗 URL DE TU API DE RENDER CORREGIDA
     const API_URL = "https://backend-cuah-quick-api.onrender.com/api"; 
 
     document.addEventListener('DOMContentLoaded', () => {
@@ -86,16 +85,16 @@
                 // 1. Guardar el token de autenticación
                 localStorage.setItem('token', data.token);
 
-                // 2. Guardar el rol del usuario (¡CRUCIAL para la redirección)
+                // 2. Guardar el rol del usuario (CRUCIAL para la redirección)
                 localStorage.setItem('userRole', data.user.role); 
                 
                 alert("Inicio de sesión exitoso!");
 
                 // 3. Redirección basada en el rol
                 if (data.user.role === 'shop') {
-                    window.location.href = 'panel.html'; // Redirige a la vista de pedidos de la tienda
+                    window.location.href = 'panel.html'; // Redirige a la tienda
                 } else {
-                    window.location.href = 'ordenar.html'; // Redirige al cliente a hacer un pedido
+                    window.location.href = 'ordenar.html'; // Redirige al cliente
                 }
             } else {
                 alert(`Error al iniciar sesión: ${data.message}`);
@@ -108,4 +107,3 @@
 </script>
 </body>
 </html>
-
