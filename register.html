@@ -5,30 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro - Cuah-Quick</title>
     
-        
-        <style>
+    <link rel="stylesheet" href="styles.css">
+    
+        <style>
         /* ======================================= */
-        /* VARIABLES: Usadas para estilizar ÓLO este formulario. */
+        /* VARIABLES: Coherentes con el diseño oscuro que buscamos */
         /* ======================================= */
         :root {
-            --primary: #3498db; /* Azul Principal (Títulos, Enlaces, Éxito) */
-            --secondary: #2ecc71; /* Verde (Botón de Acción) */
-            --pure-black: #000000; /* Fondo Principal */
+            --primary: #3498db; /* Azul Principal (UCQ) */
+            --secondary: #2ecc71; /* Verde Acento (Botón) */
+            --pure-black: #000000; /* Fondo Negro Puro */
             --card-bg: #1a1a1a; /* Fondo de Tarjeta/Formulario */
             --light-text: #f5f5f5; /* Texto Claro */
-            --input-bg: #2c3e50; /* Fondo de Input */
+            --input-bg: #2c3e50; /* Fondo de Input (Oscuro) */
             --shadow-color: rgba(0, 0, 0, 0.9);
         }
 
         /* ======================================= */
         /* BASE Y LAYOUT DEL FORMULARIO */
+        /* ESTO FUERZA EL CENTRADO Y EL FONDO OSCURO */
         /* ======================================= */
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--pure-black); /* Fondo Negro Puro */
+            /* IMPORTANTE: Estas líneas fuerzan el centrado vertical y el fondo oscuro, 
+               sobreescribiendo cualquier estilo global que lo impida */
+            background-color: var(--pure-black) !important; 
             color: var(--light-text);
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
@@ -36,6 +38,7 @@
             padding: 20px;
         }
 
+        /* Animación de entrada */
         @keyframes fadeInScale {
             from { opacity: 0; transform: scale(0.95); }
             to { opacity: 1; transform: scale(1); }
@@ -56,10 +59,10 @@
         /* Título y Ícono */
         .register-icon {
             font-size: 3em;
-            margin-bottom: 20px; /* Separación extra para el ícono */
+            margin-bottom: 20px; 
         }
         h2 {
-            font-size: 1.8em; /* Título un poco más pequeño */
+            font-size: 1.8em; 
             color: var(--primary); 
             margin-bottom: 30px;
             border-bottom: 2px solid var(--primary);
@@ -68,45 +71,46 @@
 
         /* ======================================= */
         /* INPUTS Y BOTÓN */
+        /* ESTO ARREGLA EL DESORDEN DE LOS CAMPOS */
         /* ======================================= */
         input {
             width: 100%;
             padding: 15px;
             margin: 10px 0;
-            border: none; /* Quitamos el borde para un look más limpio */
+            border: none; 
             border-radius: 6px;
             box-sizing: border-box;
             background-color: var(--input-bg);
             color: var(--light-text);
             transition: box-shadow 0.3s ease;
             font-size: 1em;
+            display: block; /* IMPORTANTE: Hace que cada input ocupe su propia línea */
         }
 
         input:focus {
-            box-shadow: 0 0 0 3px var(--primary); /* Resplandor azul al enfocar */
+            box-shadow: 0 0 0 3px var(--primary); 
             outline: none;
         }
-        
-        /* Placeholder styling */
-        input::placeholder {
-            color: #b0c4de; /* Un gris-azul claro para el placeholder */
-            opacity: 0.7;
-        }
+
+        input::placeholder {
+            color: #b0c4de; 
+            opacity: 0.7;
+        }
 
         /* Botón de Registrar (Estilo Verde/Secundario) */
         #registerButton {
             width: 100%;
             padding: 15px;
-            margin-top: 30px; /* Más margen superior */
+            margin-top: 30px; 
             background-color: var(--secondary); 
-            color: var(--card-bg); /* Texto oscuro para contraste */
+            color: var(--card-bg); 
             font-weight: bold;
             font-size: 1.1em;
             border: none;
             border-radius: 50px;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(46, 204, 113, 0.5); /* Sombra verde */
+            box-shadow: 0 4px 15px rgba(46, 204, 113, 0.5); 
         }
 
         #registerButton:hover {
@@ -141,7 +145,6 @@
     </div>
 
         <script>
-        // La URL de tu API de Render, crucial para que las peticiones funcionen.
         const API_BASE_URL = 'https://backend-cuah-quick-api.onrender.com/api'; 
         
         const registerForm = document.getElementById('registerForm');
@@ -155,7 +158,7 @@
             
             registerButton.disabled = true;
             messageDisplay.textContent = 'Registrando...';
-            messageDisplay.style.color = '#f39c12'; // Naranja: Procesando
+            messageDisplay.style.color = '#f39c12'; 
 
             const userData = {
                 full_name: document.getElementById('full_name').value,
@@ -199,4 +202,3 @@
     </script>
 </body>
 </html>
-
