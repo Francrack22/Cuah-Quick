@@ -24,19 +24,19 @@
         /* ======================================= */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--pure-black); /* Fondo Negro Puro */
+            background-color: var(--pure-black);
             color: var(--light-text);
             margin: 0;
             padding: 0;
             min-height: 100vh;
             display: flex;
-            justify-content: center;
+            flex-direction: column; /* Cambiado a columna para el footer */
             align-items: center;
             overflow-x: hidden;
         }
         
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(30px); } /* Más movimiento */
+            from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
         }
         @keyframes pulseShadow {
@@ -46,7 +46,42 @@
         }
 
         /* ======================================= */
-        /* SECCIÓN HERO */
+        /* CARRUSEL INFINITO (BANDA MARQUEE) */
+        /* ======================================= */
+        .marquee-container {
+            width: 100%;
+            overflow: hidden;
+            background-color: var(--card-bg); /* Fondo oscuro para la banda */
+            padding: 10px 0;
+            border-top: 1px solid #1f2a37;
+            border-bottom: 1px solid #1f2a37;
+            white-space: nowrap;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .marquee-content {
+            display: inline-block;
+            padding-left: 100%; /* Inicia el contenido fuera de la vista */
+            animation: marquee 30s linear infinite; /* Animación de 30s */
+            color: var(--subtle-text);
+        }
+        .marquee-item {
+            display: inline-block;
+            margin-right: 50px;
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+        .marquee-item span {
+            color: var(--primary); /* Icono de acento */
+        }
+
+        @keyframes marquee {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(-100%, 0); } /* Se mueve a la izquierda */
+        }
+        
+        /* ======================================= */
+        /* SECCIÓN HERO (La parte principal) */
         /* ======================================= */
         .hero-section {
             display: flex;
@@ -56,18 +91,15 @@
             max-width: 1300px;
             width: 100%;
             gap: 60px;
-            animation: fadeIn 1.2s ease-out; /* Animación de entrada más lenta */
+            animation: fadeIn 1.2s ease-out;
         }
-
-        /* Lado Izquierdo: Títulos y Botones */
         .hero-content {
             flex: 1;
             min-width: 400px;
             text-align: left;
         }
-
         .hero-title {
-            font-size: 4em; /* Más grande */
+            font-size: 4em;
             margin: 0 0 15px 0;
             line-height: 1.1;
             font-weight: 900;
@@ -76,7 +108,6 @@
         .hero-title .ucq-color {
             color: var(--primary); 
         }
-
         .hero-subtitle {
             font-size: 1.6em;
             color: var(--subtle-text);
@@ -84,7 +115,7 @@
             font-weight: 300;
         }
 
-        /* Lado Derecho: Simulación de App/Marco */
+        /* Simulación de App */
         .hero-image {
             flex: 1;
             max-width: 500px;
@@ -92,8 +123,8 @@
             background-color: var(--card-bg);
             border-radius: 25px;
             box-shadow: 0 10px 40px var(--shadow-color);
-            border: 5px solid var(--primary); /* Marco destacado */
-            animation: pulseShadow 4s infinite ease-in-out; /* Animación de sombra sutil */
+            border: 5px solid var(--primary);
+            animation: pulseShadow 4s infinite ease-in-out; 
         }
         .app-simulation {
             background-color: var(--pure-black);
@@ -111,38 +142,33 @@
         }
 
         /* ======================================= */
-        /* BOTONES DE ACCIÓN (LOGIN/PEDIDO) */
+        /* BOTONES Y UTILIDADES */
         /* ======================================= */
         .button-group {
             display: flex;
             gap: 20px;
             margin-top: 30px;
         }
-
         .action-button {
-            padding: 18px 35px; /* Botones más grandes */
-            border-radius: 50px; /* Botones pill-shaped */
+            padding: 18px 35px;
+            border-radius: 50px;
             text-decoration: none;
             font-size: 1.2em;
             font-weight: bold;
-            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Curva de animación suave */
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             cursor: pointer;
             border: none;
         }
-
-        /* Botón Principal: Hacer Pedido / Iniciar Sesión */
         .btn-primary {
             background-color: var(--secondary);
-            color: var(--dark-text); /* Aseguramos contraste */
+            color: var(--card-bg);
             box-shadow: 0 4px 10px rgba(46, 204, 113, 0.4);
         }
         .btn-primary:hover {
             background-color: #27ae60;
-            transform: scale(1.05); /* Escala en lugar de solo traslación */
+            transform: scale(1.05);
             box-shadow: 0 6px 20px rgba(46, 204, 113, 0.6);
         }
-
-        /* Botón Secundario: Registrarse / Logout */
         .btn-secondary {
             background-color: transparent;
             color: var(--primary);
@@ -150,10 +176,9 @@
         }
         .btn-secondary:hover {
             background-color: var(--primary);
-            color: var(--card-bg); /* Fondo de tarjeta para contraste */
+            color: var(--card-bg);
             transform: scale(1.02);
         }
-
         .logout-btn {
             background-color: var(--danger);
             color: var(--light-text);
@@ -164,10 +189,6 @@
             background-color: #c0392b;
             transform: scale(1.05);
         }
-
-        /* ======================================= */
-        /* UTILIDADES (Para usuario logeado) */
-        /* ======================================= */
         .logged-info {
             background-color: var(--card-bg);
             padding: 15px;
@@ -178,9 +199,107 @@
             border-left: 5px solid var(--secondary);
             animation: fadeIn 0.5s ease-out;
         }
+
+        /* ======================================= */
+        /* SECCIONES INFERIORES (TARJETAS) */
+        /* ======================================= */
+        .features-container {
+            max-width: 1300px;
+            width: 100%;
+            padding: 50px 50px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 40px;
+        }
+        .feature-card {
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.7);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-align: left;
+            border-top: 5px solid transparent;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.9);
+            border-top-color: var(--primary); /* Acento al pasar el mouse */
+        }
+        .feature-card h3 {
+            font-size: 1.5em;
+            color: var(--primary);
+            margin-top: 15px;
+            margin-bottom: 10px;
+        }
+        .feature-card p {
+            color: var(--subtle-text);
+            font-size: 1em;
+            line-height: 1.5;
+            margin: 0;
+        }
+        .feature-icon {
+            font-size: 2em;
+            color: var(--secondary);
+        }
+        
+        /* Estilos específicos para Misión y Visión (2 columnas) */
+        .mission-vision-container {
+            grid-column: 1 / -1; /* Ocupa todo el ancho */
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 30px;
+        }
+        .mission-vision-card {
+            padding: 30px;
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.7);
+        }
+        .mission-vision-card h3 {
+            color: var(--primary);
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 5px;
+        }
+
+        /* Media Queries para responsividad (opcional) */
+        @media (max-width: 1024px) {
+            .hero-section {
+                flex-direction: column;
+                text-align: center;
+                gap: 40px;
+            }
+            .hero-content {
+                min-width: unset;
+                text-align: center;
+            }
+            .button-group {
+                justify-content: center;
+            }
+            .features-container {
+                grid-template-columns: 1fr;
+            }
+            .mission-vision-container {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
+
+<div class="marquee-container">
+    <div class="marquee-content">
+        <span class="marquee-item"><span>✨</span> Entrega al salón</span>
+        <span class="marquee-item"><span>🚀</span> Rápido y delicioso</span>
+        <span class="marquee-item"><span>💳</span> Pagos seguros</span>
+        <span class="marquee-item"><span>🏫</span> Hecho para campus</span>
+        <span class="marquee-item"><span>✨</span> Entrega al salón</span>
+        <span class="marquee-item"><span>🚀</span> Rápido y delicioso</span>
+        <span class="marquee-item"><span>💳</span> Pagos seguros</span>
+        <span class="marquee-item"><span>🏫</span> Hecho para campus</span>
+    </div>
+</div>
 
 <div class="hero-section">
     
@@ -226,11 +345,43 @@
 
 </div>
 
+<div class="features-container">
+    
+    <div class="feature-card" style="border-top-color: var(--secondary);">
+        <div class="feature-icon">⚡️</div>
+        <h3>Pide en 3 clics</h3>
+        <p>Añade, confirma salón y paga. Sin complicaciones. Máxima rapidez en el proceso.</p>
+    </div>
+
+    <div class="feature-card" style="border-top-color: var(--primary);">
+        <div class="feature-icon">🔒</div>
+        <h3>Seguro y confiable</h3>
+        <p>Tus pedidos y pagos protegidos. Usamos tecnología robusta para garantizar transacciones seguras.</p>
+    </div>
+
+    <div class="feature-card" style="border-top-color: #f39c12;">
+        <div class="feature-icon">⭐</div>
+        <h3>Hecho para campus</h3>
+        <p>Optimizado para edificios y aulas. Tu ubicación se almacena para pedidos futuros y entregas precisas.</p>
+    </div>
+
+    <div class="mission-vision-container">
+        <div class="mission-vision-card">
+            <h3>Misión</h3>
+            <p>Llevar comida deliciosa al salón del estudiante con la máxima rapidez y una experiencia simple, transparente y cercana.</p>
+        </div>
+        <div class="mission-vision-card">
+            <h3>Visión</h3>
+            <p>Ser el estándar de pedidos en campus universitarios, conectando tiendas y alumnos con tecnología confiable y humana.</p>
+        </div>
+    </div>
+
+</div>
+
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         checkAuthentication();
         
-        // Agregar listener de logout si el botón existe
         const logoutBtn = document.getElementById('logout-btn');
         if (logoutBtn) {
             logoutBtn.addEventListener('click', logout);
@@ -240,7 +391,6 @@
     function checkAuthentication() {
         const token = localStorage.getItem('token');
         const role = localStorage.getItem('userRole');
-        // Asumiendo que guardaste el nombre del usuario al hacer login
         const userName = localStorage.getItem('userName') || 'Cliente'; 
 
         const authButtonsDiv = document.getElementById('auth-buttons');
@@ -256,7 +406,6 @@
             userDisplayName.textContent = userName.split(' ')[0]; 
             userRoleDisplay.textContent = role === 'shop' ? 'TIENDA' : 'CLIENTE';
             
-            // Mostrar enlace al panel solo si el rol es 'shop'
             if (role === 'shop') {
                 shopPanelLink.style.display = 'inline-block';
             } else {
@@ -284,7 +433,6 @@
         localStorage.removeItem('userRole');
         localStorage.removeItem('userName');
         alert('Sesión cerrada. ¡Vuelve pronto!');
-        // Recargar la página para mostrar los botones de inicio de sesión
         window.location.reload(); 
     }
 </script>
