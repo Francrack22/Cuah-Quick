@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -5,86 +6,206 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro - Cuah-Quick</title>
     <style>
-        /* Estilos básicos para centrar el formulario */
-        body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; background-color: #f4f4f4; }
-        .register-container { background: white; padding: 25px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); width: 300px; }
-        input, button { width: 100%; padding: 10px; margin: 8px 0; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; }
-        button { background-color: #28a745; color: white; cursor: pointer; }
-        button:hover { background-color: #1e7e34; }
+        /* ======================================= */
+        /* DEFINICIÓN DE COLORES CONSISTENTES */
+        /* ======================================= */
+        :root {
+            --primary: #3498db; /* Azul Principal (UCQ) */
+            --secondary: #2ecc71; /* Verde Acento (Éxito) */
+            --pure-black: #000000; /* Fondo: Negro Puro */
+            --card-bg: #1a1a1a; /* Fondo de Tarjeta/Formulario */
+            --light-text: #f5f5f5; /* Texto Blanco/Claro */
+            --subtle-text: #a0a0a0; /* Texto secundario gris */
+            --input-bg: #2c3e50; /* Fondo de Input (más oscuro que la tarjeta) */
+            --shadow-color: rgba(0, 0, 0, 0.9);
+        }
+
+        /* ======================================= */
+        /* BASE Y ANIMACIONES */
+        /* ======================================= */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--pure-black); /* Fondo Negro Puro */
+            color: var(--light-text);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        /* Animación de entrada profesional (la misma que en login.html) */
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* ======================================= */
+        /* CONTENEDOR CENTRAL DEL FORMULARIO */
+        /* ======================================= */
+        .register-container {
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px var(--shadow-color);
+            width: 90%;
+            max-width: 450px; /* Un poco más ancho por la cantidad de campos */
+            text-align: center;
+            animation: fadeInScale 0.8s ease-out; /* Aplica la animación */
+            border-top: 5px solid var(--secondary); /* Acento verde para el registro (éxito) */
+        }
+        
+        /* Título del formulario */
+        h2 {
+            font-size: 2em;
+            color: var(--secondary); /* Título verde */
+            margin-bottom: 30px;
+            border-bottom: 2px solid var(--secondary);
+            padding-bottom: 10px;
+        }
+
+        /* ======================================= */
+        /* ELEMENTOS DEL FORMULARIO */
+        /* ======================================= */
+        input {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            display: inline-block;
+            border: 1px solid #444; 
+            border-radius: 6px;
+            box-sizing: border-box;
+            background-color: var(--input-bg);
+            color: var(--light-text);
+            transition: border-color 0.3s ease;
+        }
+
+        input:focus {
+            border-color: var(--primary); /* Acento azul al enfocar */
+            outline: none;
+        }
+
+        /* Botón de Registrar */
+        #registerButton {
+            width: 100%;
+            padding: 15px;
+            margin-top: 20px;
+            background-color: var(--primary); /* Botón azul (UCQ) */
+            color: var(--card-bg);
+            font-weight: bold;
+            font-size: 1.1em;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(52, 152, 219, 0.4);
+        }
+
+        #registerButton:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(52, 152, 219, 0.6);
+        }
+
+        /* Enlace de login y mensajes */
+        p {
+            margin-top: 25px;
+            color: var(--subtle-text);
+        }
+        p a {
+            color: var(--secondary); /* Enlace verde */
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+        p a:hover {
+            color: #58d68d;
+        }
+        #message {
+            font-weight: bold;
+            margin-top: 15px;
+        }
+        .register-icon {
+            font-size: 3em;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
 
-    <div class="register-container">
-        <h2>Crear Cuenta</h2>
-        <form id="registerForm">
-            <input type="text" id="full_name" placeholder="Nombre Completo" required>
-            <input type="email" id="email" placeholder="Correo Electrónico (Solo Escolar)" required>
-            <input type="password" id="password" placeholder="Contraseña" required>
-            <input type="tel" id="phone" placeholder="Teléfono" required>
-            <input type="text" id="student_id" placeholder="Matrícula Estudiantil" required> 
-            
-            <button type="submit" id="registerButton">Registrar</button>
-        </form>
-        <p>¿Ya tienes cuenta? <a href="login.html">Inicia Sesión aquí</a></p>
-        <p id="message"></p>
-    </div>
+    <div class="register-container">
+        <div class="register-icon">📝</div>
+        <h2>Crear Cuenta de Estudiante</h2>
+        <form id="registerForm">
+            <input type="text" id="full_name" placeholder="Nombre Completo" required>
+            <input type="email" id="email" placeholder="Correo Electrónico (Solo Escolar)" required>
+            <input type="password" id="password" placeholder="Contraseña" required>
+            <input type="tel" id="phone" placeholder="Teléfono (10 dígitos)" required>
+            <input type="text" id="student_id" placeholder="Matrícula Estudiantil" required> 
+            
+            <button type="submit" id="registerButton">Registrar mi Cuenta</button>
+        </form>
+        <p>¿Ya tienes cuenta? <a href="login.html">Inicia Sesión aquí</a></p>
+        <p id="message"></p>
+    </div>
 
-    <script>
-        // URL Base de tu API
-        const API_BASE_URL = 'https://backend-cuah-quick-api.onrender.com/api'; 
-        
-        const registerForm = document.getElementById('registerForm');
-        const registerButton = document.getElementById('registerButton');
-        const messageDisplay = document.getElementById('message');
+    <script>
+        // URL Base de tu API
+        const API_BASE_URL = 'https://backend-cuah-quick-api.onrender.com/api'; 
+        
+        const registerForm = document.getElementById('registerForm');
+        const registerButton = document.getElementById('registerButton');
+        const messageDisplay = document.getElementById('message');
 
-        registerForm.addEventListener('submit', handleRegister);
+        registerForm.addEventListener('submit', handleRegister);
 
-        async function handleRegister(e) {
-            e.preventDefault();
-            
-            registerButton.disabled = true;
-            messageDisplay.textContent = '';
-            
-            // ⭐️ Se añade student_id a los datos enviados
-            const userData = {
-                full_name: document.getElementById('full_name').value,
-                email: document.getElementById('email').value,
-                password: document.getElementById('password').value,
-                phone: document.getElementById('phone').value,
-                role: 'client', 
-                student_id: document.getElementById('student_id').value // Campo nuevo
-            };
+        async function handleRegister(e) {
+            e.preventDefault();
+            
+            registerButton.disabled = true;
+            messageDisplay.textContent = 'Registrando...';
+            messageDisplay.style.color = '#f39c12'; // Color temporal
 
-            try {
-                const response = await fetch(`${API_BASE_URL}/register`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(userData)
-                });
-                
-                const data = await response.json();
+            const userData = {
+                full_name: document.getElementById('full_name').value,
+                email: document.getElementById('email').value,
+                password: document.getElementById('password').value,
+                phone: document.getElementById('phone').value,
+                role: 'client', 
+                student_id: document.getElementById('student_id').value
+            };
 
-                if (response.status === 201) { 
-                    messageDisplay.textContent = '✅ Registro exitoso. ¡Inicia sesión!';
-                    messageDisplay.style.color = '#28a745';
-                    setTimeout(() => {
-                        window.location.href = 'login.html'; 
-                    }, 2000);
-                    
-                } else {
-                    // Aquí se mostrarán los errores de dominio de correo o matrícula duplicada
-                    messageDisplay.textContent = `❌ Error: ${data.message}`; 
-                    messageDisplay.style.color = 'red';
-                }
-            } catch (error) {
-                console.error('Error de conexión:', error);
-                messageDisplay.textContent = '🚨 Error de conexión con el servidor.';
-                messageDisplay.style.color = 'red';
-            } finally {
-                registerButton.disabled = false;
-            }
-        }
-    </script>
+            try {
+                const response = await fetch(`${API_BASE_URL}/register`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(userData)
+                });
+                
+                const data = await response.json();
+
+                if (response.status === 201) { 
+                    messageDisplay.textContent = '✅ Registro exitoso. Serás redirigido para iniciar sesión.';
+                    messageDisplay.style.color = var(--secondary);
+                    setTimeout(() => {
+                        window.location.href = 'login.html'; 
+                    }, 2000);
+                    
+                } else {
+                    messageDisplay.textContent = `❌ Error: ${data.message || 'Verifica los datos.'}`; 
+                    messageDisplay.style.color = '#e74c3c'; // Rojo
+                }
+            } catch (error) {
+                console.error('Error de conexión:', error);
+                messageDisplay.textContent = '🚨 Error de conexión con el servidor. Inténtalo de nuevo.';
+                messageDisplay.style.color = '#e74c3c'; // Rojo
+            } finally {
+                registerButton.disabled = false;
+            }
+        }
+    </script>
 </body>
 </html>
