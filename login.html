@@ -4,107 +4,203 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Iniciar Sesión - Cuah-Quick</title>
-    <link rel="stylesheet" href="styles.css"> 
     <style>
+        /* ======================================= */
+        /* DEFINICIÓN DE COLORES CONSISTENTES */
+        /* ======================================= */
+        :root {
+            --primary: #3498db; /* Azul Principal (UCQ) */
+            --secondary: #2ecc71; /* Verde Acento (Éxito) */
+            --pure-black: #000000; /* Fondo: Negro Puro */
+            --card-bg: #1a1a1a; /* Fondo de Tarjeta/Formulario */
+            --light-text: #f5f5f5; /* Texto Blanco/Claro */
+            --subtle-text: #a0a0a0; /* Texto secundario gris */
+            --input-bg: #2c3e50; /* Fondo de Input (más oscuro que la tarjeta) */
+            --shadow-color: rgba(0, 0, 0, 0.9);
+        }
+
+        /* ======================================= */
+        /* BASE Y ANIMACIONES */
+        /* ======================================= */
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--pure-black); /* Fondo Negro Puro */
+            color: var(--light-text);
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
+            padding: 20px;
         }
-        .container {
-            background: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+        /* Animación de entrada profesional */
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* ======================================= */
+        /* CONTENEDOR CENTRAL DEL FORMULARIO */
+        /* ======================================= */
+        .login-container {
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px var(--shadow-color);
             width: 90%;
-            max-width: 350px;
+            max-width: 400px;
             text-align: center;
+            animation: fadeInScale 0.8s ease-out; /* Aplica la animación */
+            border-top: 5px solid var(--primary); /* Pequeño acento */
         }
-        input[type="email"], input[type="password"], button {
+        
+        /* Título del formulario */
+        h2 {
+            font-size: 2em;
+            color: var(--primary);
+            margin-bottom: 30px;
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 10px;
+        }
+
+        /* ======================================= */
+        /* ELEMENTOS DEL FORMULARIO */
+        /* ======================================= */
+        input[type="email"], 
+        input[type="password"] {
             width: 100%;
-            padding: 10px;
-            margin: 8px 0;
+            padding: 15px;
+            margin: 12px 0;
             display: inline-block;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+            border: 1px solid #444; /* Borde oscuro */
+            border-radius: 6px;
             box-sizing: border-box;
+            background-color: var(--input-bg); /* Fondo de input más oscuro */
+            color: var(--light-text);
+            transition: border-color 0.3s ease;
         }
-        button {
-            background-color: #007bff;
-            color: white;
+
+        input[type="email"]:focus,
+        input[type="password"]:focus {
+            border-color: var(--secondary); /* Acento al enfocar */
+            outline: none;
+        }
+
+        /* Botón de Iniciar Sesión */
+        #login-btn {
+            width: 100%;
+            padding: 15px;
+            margin-top: 20px;
+            background-color: var(--secondary);
+            color: var(--card-bg); /* Texto oscuro para alto contraste */
+            font-weight: bold;
+            font-size: 1.1em;
+            border: none;
+            border-radius: 50px; /* Botón tipo "pill" */
             cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(46, 204, 113, 0.4);
         }
-        button:hover {
-            background-color: #0056b3;
+
+        #login-btn:hover {
+            background-color: #27ae60;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(46, 204, 113, 0.6);
+        }
+
+        /* Enlace de registro */
+        p {
+            margin-top: 25px;
+            color: var(--subtle-text);
+        }
+        p a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+        p a:hover {
+            color: #5dade2;
+        }
+
+        /* Icono opcional para decorar */
+        .login-icon {
+            font-size: 3em;
+            color: var(--secondary);
+            margin-bottom: 10px;
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h2>Iniciar Sesión</h2>
-    <form id="login-form">
-        <input type="email" id="email" placeholder="Correo Institucional" required>
-        <input type="password" id="password" placeholder="Contraseña" required>
-        
-        <button type="submit" id="login-btn">Iniciar Sesión</button>
-    </form>
-    <p>¿No tienes cuenta? <a href="register.html">Regístrate aquí</a></p>
+<div class="login-container">
+    <div class="login-icon">🔑</div>
+    <h2>Iniciar Sesión</h2>
+    <form id="login-form">
+        <input type="email" id="email" placeholder="Correo Institucional" required>
+        <input type="password" id="password" placeholder="Contraseña" required>
+        
+        <button type="submit" id="login-btn">Iniciar Sesión</button>
+    </form>
+    <p>¿No tienes cuenta? <a href="register.html">Regístrate aquí</a></p>
 </div>
 
 <script>
     // 🔗 URL DE TU API DE RENDER CORREGID
-    const API_URL = "https://backend-cuah-quick-api.onrender.com/api"; 
+    const API_URL = "https://backend-cuah-quick-api.onrender.com/api"; 
 
-    document.addEventListener('DOMContentLoaded', () => {
-        document.getElementById('login-form').addEventListener('submit', handleLogin);
-    });
+    document.addEventListener('DOMContentLoaded', () => {
+        document.getElementById('login-form').addEventListener('submit', handleLogin);
+    });
 
-    async function handleLogin(event) {
-        event.preventDefault();
+    async function handleLogin(event) {
+        event.preventDefault();
 
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
 
-        try {
-            const response = await fetch(`${API_URL}/login`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ email, password })
-            });
+        try {
+            const response = await fetch(`${API_URL}/login`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email, password })
+            });
 
-            const data = await response.json();
+            const data = await response.json();
 
-            if (response.ok) {
-                // 1. Guardar el token de autenticación
-                localStorage.setItem('token', data.token);
+            if (response.ok) {
+                // 1. Guardar el token de autenticación
+                localStorage.setItem('token', data.token);
 
-                // 2. Guardar el rol del usuario (CRUCIAL para la redirección)
-                localStorage.setItem('userRole', data.user.role); 
-                
-                alert("Inicio de sesión exitoso!");
-
-                // 3. Redirección basada en el rol
-                if (data.user.role === 'shop') {
-                    window.location.href = 'panel.html'; // Redirige a la tienda
+                // 2. Guardar el rol y el nombre del usuario
+                // El campo 'name' no estaba guardado antes, lo agregamos aquí
+                if (data.user && data.user.name) {
+                    localStorage.setItem('userName', data.user.name);
                 } else {
-                    window.location.href = 'ordenar.html'; // Redirige al cliente
+                    localStorage.setItem('userName', email.split('@')[0]); // Usa el correo si no hay nombre
                 }
-            } else {
-                alert(`Error al iniciar sesión: ${data.message}`);
-            }
-        } catch (error) {
-            console.error("Error de conexión:", error);
-            alert("Error de conexión con el servidor. Inténtalo de nuevo.");
-        }
-    }
+                localStorage.setItem('userRole', data.user.role); 
+                
+                alert("Inicio de sesión exitoso!"); // Como se muestra en tu captura
+
+                // 3. Redirección basada en el rol
+                if (data.user.role === 'shop') {
+                    window.location.href = 'panel.html'; // Redirige a la tienda
+                } else {
+                    window.location.href = 'ordenar.html'; // Redirige al cliente
+                }
+            } else {
+                alert(`Error al iniciar sesión: ${data.message}`);
+            }
+        } catch (error) {
+            console.error("Error de conexión:", error);
+            alert("Error de conexión con el servidor. Inténtalo de nuevo.");
+        }
+    }
 </script>
 </body>
 </html>
-
