@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro - Cuah-Quick</title>
-    <style>
+    
+        <style>
         /* ======================================= */
         /* DEFINICIÓN DE COLORES CONSISTENTES */
         /* ======================================= */
@@ -24,7 +25,7 @@
         /* ======================================= */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--pure-black); /* Fondo Negro Puro */
+            background-color: var(--pure-black);
             color: var(--light-text);
             display: flex;
             flex-direction: column;
@@ -35,7 +36,7 @@
             padding: 20px;
         }
 
-        /* Animación de entrada profesional (la misma que en login.html) */
+        /* Animación de entrada profesional */
         @keyframes fadeInScale {
             from { opacity: 0; transform: scale(0.95); }
             to { opacity: 1; transform: scale(1); }
@@ -50,23 +51,23 @@
             border-radius: 12px;
             box-shadow: 0 10px 30px var(--shadow-color);
             width: 90%;
-            max-width: 450px; /* Un poco más ancho por la cantidad de campos */
+            max-width: 450px;
             text-align: center;
-            animation: fadeInScale 0.8s ease-out; /* Aplica la animación */
-            border-top: 5px solid var(--secondary); /* Acento verde para el registro (éxito) */
+            animation: fadeInScale 0.8s ease-out;
+            border-top: 5px solid var(--secondary);
         }
         
         /* Título del formulario */
         h2 {
             font-size: 2em;
-            color: var(--secondary); /* Título verde */
+            color: var(--secondary);
             margin-bottom: 30px;
             border-bottom: 2px solid var(--secondary);
             padding-bottom: 10px;
         }
 
         /* ======================================= */
-        /* ELEMENTOS DEL FORMULARIO */
+        /* ESTILOS DE INPUTS Y BOTÓN */
         /* ======================================= */
         input {
             width: 100%;
@@ -82,7 +83,7 @@
         }
 
         input:focus {
-            border-color: var(--primary); /* Acento azul al enfocar */
+            border-color: var(--primary);
             outline: none;
         }
 
@@ -91,7 +92,7 @@
             width: 100%;
             padding: 15px;
             margin-top: 20px;
-            background-color: var(--primary); /* Botón azul (UCQ) */
+            background-color: var(--primary);
             color: var(--card-bg);
             font-weight: bold;
             font-size: 1.1em;
@@ -114,7 +115,7 @@
             color: var(--subtle-text);
         }
         p a {
-            color: var(--secondary); /* Enlace verde */
+            color: var(--secondary);
             text-decoration: none;
             font-weight: 600;
             transition: color 0.3s;
@@ -135,7 +136,7 @@
 </head>
 <body>
 
-    <div class="register-container">
+        <div class="register-container">
         <div class="register-icon">📝</div>
         <h2>Crear Cuenta de Estudiante</h2>
         <form id="registerForm">
@@ -151,25 +152,30 @@
         <p id="message"></p>
     </div>
 
-    <script>
-        // =========================================================================
-        // CORRECCIÓN CLAVE: URL de la API de Render
-        // =========================================================================
+        <script>
+        // Definición de la URL base de tu API en Render. ¡Es crucial que sea correcta!
         const API_BASE_URL = 'https://backend-cuah-quick-api.onrender.com/api'; // URL CORRECTA
         
+        // Referencias a los elementos del DOM
         const registerForm = document.getElementById('registerForm');
         const registerButton = document.getElementById('registerButton');
         const messageDisplay = document.getElementById('message');
 
+        // Escucha el evento de envío del formulario
         registerForm.addEventListener('submit', handleRegister);
 
+        /**
+         * @async
+         * Maneja el envío del formulario de registro.
+         */
         async function handleRegister(e) {
             e.preventDefault();
             
-            registerButton.disabled = true;
+            registerButton.disabled = true; // Deshabilita el botón mientras procesa
             messageDisplay.textContent = 'Registrando...';
-            messageDisplay.style.color = '#f39c12'; // Naranja temporal
+            messageDisplay.style.color = '#f39c12'; // Naranja: Procesando
 
+            // Recolección de datos del formulario
             const userData = {
                 full_name: document.getElementById('full_name').value,
                 email: document.getElementById('email').value,
@@ -180,7 +186,7 @@
             };
 
             try {
-                // La URL de la API es ahora la de Render.
+                // 1. Realiza la petición POST a la API
                 const response = await fetch(`${API_BASE_URL}/register`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -189,28 +195,29 @@
                 
                 const data = await response.json();
 
+                // 2. Manejo de respuesta exitosa (201 Creado)
                 if (response.status === 201) { 
-                    // CORRECCIÓN: Usar color directo en JS
-                    messageDisplay.textContent = '✅ Registro exitoso. Serás redirigido para iniciar sesión.';
-                    messageDisplay.style.color = '#2ecc71'; // Verde (Color de --secondary)
+                    messageDisplay.textContent = '✅ ¡Registro exitoso! Serás redirigido para iniciar sesión.';
+                    messageDisplay.style.color = '#2ecc71'; // Verde de Éxito
                     
-                    // Limpiar formulario al éxito
-                    registerForm.reset(); 
-
+                    registerForm.reset(); // Limpia los campos
                     setTimeout(() => {
                         window.location.href = 'login.html'; 
                     }, 2000);
                     
-                } else {
-                    messageDisplay.textContent = `❌ Error: ${data.message || 'Verifica los datos.'}`; 
-                    messageDisplay.style.color = '#e74c3c'; // Rojo
+                } 
+                // 3. Manejo de errores de validación (4xx) o servidor (5xx)
+                else {
+                    messageDisplay.textContent = `❌ Error: ${data.message || 'Error desconocido. Verifica los datos.'}`; 
+                    messageDisplay.style.color = '#e74c3c'; // Rojo de Error
                 }
             } catch (error) {
-                console.error('Error de conexión:', error);
-                // Este error de conexión es el que se mostraría si falla el CORS o la red.
-                messageDisplay.textContent = '🚨 Error de red/conexión con el servidor. Revisa la consola (F12) para detalles.';
-                messageDisplay.style.color = '#e74c3c'; // Rojo
+                // 4. Manejo de errores de red o CORS
+                console.error('Error de conexión/red:', error);
+                messageDisplay.textContent = '🚨 ¡Fallo de Conexión! Asegúrate de que la API de Render esté activa.';
+                messageDisplay.style.color = '#e74c3c';
             } finally {
+                // Restaura el botón para permitir reintentos
                 registerButton.disabled = false;
             }
         }
