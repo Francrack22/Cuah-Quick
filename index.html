@@ -16,7 +16,7 @@
             --light-text: #f5f5f5; /* Texto Blanco/Claro */
             --subtle-text: #a0a0a0; /* Texto secundario gris */
             --shadow-color: rgba(0, 0, 0, 0.9);
-            --danger: #e74c3c;
+            --danger: #e74c3c; /* Rojo para el botón de Soporte/Ayuda */
         }
 
         /* ======================================= */
@@ -30,7 +30,7 @@
             padding: 0;
             min-height: 100vh;
             display: flex;
-            flex-direction: column; /* Cambiado a columna para el footer */
+            flex-direction: column;
             align-items: center;
             overflow-x: hidden;
         }
@@ -44,6 +44,40 @@
             50% { box-shadow: 0 0 20px rgba(52, 152, 219, 0.8); }
             100% { box-shadow: 0 0 10px rgba(52, 152, 219, 0.4); }
         }
+        /* Animación de latido para el botón de Soporte */
+        @keyframes heartBeat {
+            0% { transform: scale(1); }
+            15% { transform: scale(1.05); }
+            30% { transform: scale(1); }
+            45% { transform: scale(1.05); }
+            60% { transform: scale(1); }
+            100% { transform: scale(1); }
+        }
+
+        /* ======================================= */
+        /* BOTÓN DE SOPORTE FLOTANTE (NUEVO) */
+        /* ======================================= */
+        #support-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: var(--danger);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 50%; /* Botón redondo */
+            font-size: 1.5em;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.7);
+            z-index: 1000;
+            transition: background-color 0.2s;
+            animation: heartBeat 4s infinite ease-out; /* Aplica la animación */
+            border: none;
+        }
+        #support-button:hover {
+            background-color: #c0392b;
+            transform: scale(1.1); /* Escala al pasar el mouse */
+            animation-play-state: paused; /* Detiene la animación al pasar el mouse */
+        }
 
         /* ======================================= */
         /* CARRUSEL INFINITO (BANDA MARQUEE) */
@@ -51,7 +85,7 @@
         .marquee-container {
             width: 100%;
             overflow: hidden;
-            background-color: var(--card-bg); /* Fondo oscuro para la banda */
+            background-color: var(--card-bg);
             padding: 10px 0;
             border-top: 1px solid #1f2a37;
             border-bottom: 1px solid #1f2a37;
@@ -61,8 +95,8 @@
 
         .marquee-content {
             display: inline-block;
-            padding-left: 100%; /* Inicia el contenido fuera de la vista */
-            animation: marquee 30s linear infinite; /* Animación de 30s */
+            padding-left: 100%;
+            animation: marquee 30s linear infinite;
             color: var(--subtle-text);
         }
         .marquee-item {
@@ -72,16 +106,16 @@
             font-size: 1.1em;
         }
         .marquee-item span {
-            color: var(--primary); /* Icono de acento */
+            color: var(--primary);
         }
 
         @keyframes marquee {
             0% { transform: translate(0, 0); }
-            100% { transform: translate(-100%, 0); } /* Se mueve a la izquierda */
+            100% { transform: translate(-100%, 0); }
         }
         
         /* ======================================= */
-        /* SECCIÓN HERO (La parte principal) */
+        /* SECCIÓN HERO Y GENERALES */
         /* ======================================= */
         .hero-section {
             display: flex;
@@ -114,8 +148,6 @@
             margin-bottom: 40px;
             font-weight: 300;
         }
-
-        /* Simulación de App */
         .hero-image {
             flex: 1;
             max-width: 500px;
@@ -141,9 +173,7 @@
             border: 1px dashed var(--subtle-text);
         }
 
-        /* ======================================= */
         /* BOTONES Y UTILIDADES */
-        /* ======================================= */
         .button-group {
             display: flex;
             gap: 20px;
@@ -224,7 +254,7 @@
         .feature-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.9);
-            border-top-color: var(--primary); /* Acento al pasar el mouse */
+            border-top-color: var(--primary);
         }
         .feature-card h3 {
             font-size: 1.5em;
@@ -243,9 +273,8 @@
             color: var(--secondary);
         }
         
-        /* Estilos específicos para Misión y Visión (2 columnas) */
         .mission-vision-container {
-            grid-column: 1 / -1; /* Ocupa todo el ancho */
+            grid-column: 1 / -1;
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 30px;
@@ -263,7 +292,7 @@
             padding-bottom: 5px;
         }
 
-        /* Media Queries para responsividad (opcional) */
+        /* Media Queries para responsividad */
         @media (max-width: 1024px) {
             .hero-section {
                 flex-direction: column;
@@ -287,6 +316,8 @@
     </style>
 </head>
 <body>
+
+<button id="support-button" onclick="showSupportMessage()">❓</button>
 
 <div class="marquee-container">
     <div class="marquee-content">
@@ -387,6 +418,10 @@
             logoutBtn.addEventListener('click', logout);
         }
     });
+
+    function showSupportMessage() {
+        alert("🚨 ¡Soporte Cuah-Quick!\n\nSi necesitas ayuda inmediata con tu pedido, contacta a la tienda directamente.\n\nPara problemas técnicos: email@tudominio.com o WhatsApp: +52 55 1234 5678");
+    }
 
     function checkAuthentication() {
         const token = localStorage.getItem('token');
