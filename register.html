@@ -5,27 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro - Cuah-Quick</title>
     
+        
         <style>
-        /* ======================================= */
-        /* DEFINICIÓN DE COLORES CONSISTENTES */
-        /* ======================================= */
+        /* ======================================= */
+        /* VARIABLES: Usadas para estilizar SÓLO este formulario. */
+        /* ======================================= */
         :root {
-            --primary: #3498db; /* Azul Principal (UCQ) */
-            --secondary: #2ecc71; /* Verde Acento (Éxito) */
-            --pure-black: #000000; /* Fondo: Negro Puro */
+            --primary: #3498db; /* Azul Principal (Títulos, Enlaces, Éxito) */
+            --secondary: #2ecc71; /* Verde (Botón de Acción) */
+            --pure-black: #000000; /* Fondo Principal */
             --card-bg: #1a1a1a; /* Fondo de Tarjeta/Formulario */
-            --light-text: #f5f5f5; /* Texto Blanco/Claro */
-            --subtle-text: #a0a0a0; /* Texto secundario gris */
-            --input-bg: #2c3e50; /* Fondo de Input (más oscuro que la tarjeta) */
+            --light-text: #f5f5f5; /* Texto Claro */
+            --input-bg: #2c3e50; /* Fondo de Input */
             --shadow-color: rgba(0, 0, 0, 0.9);
         }
 
-        /* ======================================= */
-        /* BASE Y ANIMACIONES */
-        /* ======================================= */
+        /* ======================================= */
+        /* BASE Y LAYOUT DEL FORMULARIO */
+        /* ======================================= */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--pure-black);
+            background-color: var(--pure-black); /* Fondo Negro Puro */
             color: var(--light-text);
             display: flex;
             flex-direction: column;
@@ -36,15 +36,11 @@
             padding: 20px;
         }
 
-        /* Animación de entrada profesional */
         @keyframes fadeInScale {
             from { opacity: 0; transform: scale(0.95); }
             to { opacity: 1; transform: scale(1); }
         }
 
-        /* ======================================= */
-        /* CONTENEDOR CENTRAL DEL FORMULARIO */
-        /* ======================================= */
         .register-container {
             background: var(--card-bg);
             padding: 40px;
@@ -57,42 +53,52 @@
             border-top: 5px solid var(--secondary);
         }
         
-        /* Título del formulario */
+        /* Título y Ícono */
+        .register-icon {
+            font-size: 3em;
+            margin-bottom: 20px; /* Separación extra para el ícono */
+        }
         h2 {
-            font-size: 2em;
-            color: var(--primary); /* Título azul, como en la imagen */
+            font-size: 1.8em; /* Título un poco más pequeño */
+            color: var(--primary); 
             margin-bottom: 30px;
             border-bottom: 2px solid var(--primary);
             padding-bottom: 10px;
         }
 
         /* ======================================= */
-        /* ESTILOS DE INPUTS Y BOTÓN */
+        /* INPUTS Y BOTÓN */
         /* ======================================= */
         input {
             width: 100%;
             padding: 15px;
             margin: 10px 0;
-            display: inline-block;
-            border: 1px solid #444; 
+            border: none; /* Quitamos el borde para un look más limpio */
             border-radius: 6px;
             box-sizing: border-box;
             background-color: var(--input-bg);
             color: var(--light-text);
-            transition: border-color 0.3s ease;
+            transition: box-shadow 0.3s ease;
+            font-size: 1em;
         }
 
         input:focus {
-            border-color: var(--primary);
+            box-shadow: 0 0 0 3px var(--primary); /* Resplandor azul al enfocar */
             outline: none;
         }
+        
+        /* Placeholder styling */
+        input::placeholder {
+            color: #b0c4de; /* Un gris-azul claro para el placeholder */
+            opacity: 0.7;
+        }
 
-        /* Botón de Registrar (Estilo más "apretado" y brillante como la imagen) */
+        /* Botón de Registrar (Estilo Verde/Secundario) */
         #registerButton {
             width: 100%;
             padding: 15px;
-            margin-top: 20px;
-            background-color: var(--secondary); /* Fondo Verde de Éxito */
+            margin-top: 30px; /* Más margen superior */
+            background-color: var(--secondary); 
             color: var(--card-bg); /* Texto oscuro para contraste */
             font-weight: bold;
             font-size: 1.1em;
@@ -100,45 +106,26 @@
             border-radius: 50px;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 10px rgba(46, 204, 113, 0.6); /* Sombra verde más fuerte */
+            box-shadow: 0 4px 15px rgba(46, 204, 113, 0.5); /* Sombra verde */
         }
 
         #registerButton:hover {
-            background-color: #27ae60; /* Verde más oscuro al pasar el ratón */
+            background-color: #27ae60;
             transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(46, 204, 113, 0.8);
+            box-shadow: 0 6px 20px rgba(46, 204, 113, 0.8);
         }
 
-        /* Enlace de login y mensajes */
-        p {
-            margin-top: 25px;
-            color: var(--subtle-text);
-        }
-        p a {
-            color: var(--primary); /* Enlace Azul */
-            text-decoration: none;
-            font-weight: 600;
-            transition: color 0.3s;
-        }
-        p a:hover {
-            color: #5dade2;
-        }
-        #message {
-            font-weight: bold;
-            margin-top: 15px;
-        }
-        /* Ícono de la llave */
-        .register-icon {
-            font-size: 3em;
-            margin-bottom: 10px;
-            /* Usar emoji de llave para replicar la imagen */
-        }
+        /* Mensajes y Enlace */
+        p { margin-top: 25px; color: var(--light-text); font-size: 0.9em; }
+        p a { color: var(--primary); text-decoration: none; font-weight: 600; transition: color 0.3s; }
+        p a:hover { color: #5dade2; }
+        #message { font-weight: bold; margin-top: 15px; }
     </style>
 </head>
 <body>
 
         <div class="register-container">
-                <div class="register-icon">🔑</div> 
+        <div class="register-icon">🔑</div> 
         <h2>Crear Cuenta de Estudiante</h2>
         <form id="registerForm">
             <input type="text" id="full_name" placeholder="Nombre Completo" required>
@@ -180,7 +167,6 @@
             };
 
             try {
-                // Petición al backend de Render
                 const response = await fetch(`${API_BASE_URL}/register`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -191,16 +177,16 @@
 
                 if (response.status === 201) { 
                     messageDisplay.textContent = '✅ ¡Registro exitoso! Serás redirigido para iniciar sesión.';
-                    messageDisplay.style.color = '#2ecc71'; // Verde de Éxito
+                    messageDisplay.style.color = '#2ecc71'; 
                     
-                    registerForm.reset(); // Limpia los campos
+                    registerForm.reset(); 
                     setTimeout(() => {
                         window.location.href = 'login.html'; 
                     }, 2000);
                     
                 } else {
                     messageDisplay.textContent = `❌ Error: ${data.message || 'Error desconocido. Verifica los datos.'}`; 
-                    messageDisplay.style.color = '#e74c3c'; // Rojo de Error
+                    messageDisplay.style.color = '#e74c3c'; 
                 }
             } catch (error) {
                 console.error('Error de conexión/red:', error);
