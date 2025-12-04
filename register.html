@@ -6,7 +6,7 @@
     <title>Registro - Cuah-Quick</title>
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
@@ -29,7 +29,6 @@
     </div>
 
     <script>
-        // URL de tu API en Render
         const API_BASE_URL = 'https://backend-cuah-quick-api.onrender.com/api'; 
         
         const registerForm = document.getElementById('registerForm');
@@ -41,18 +40,17 @@
         async function handleRegister(e) {
             e.preventDefault();
             
-            // Desactivar botón para evitar doble click
             registerButton.disabled = true;
             registerButton.textContent = 'Procesando...';
             messageDisplay.textContent = 'Conectando con el servidor...';
-            messageDisplay.style.color = '#f39c12'; // Naranja
+            messageDisplay.style.color = '#f39c12';
 
             const userData = {
                 full_name: document.getElementById('full_name').value,
                 email: document.getElementById('email').value,
                 password: document.getElementById('password').value,
                 phone: document.getElementById('phone').value,
-                role: 'client', // Rol por defecto
+                role: 'client',
                 student_id: document.getElementById('student_id').value
             };
 
@@ -67,7 +65,7 @@
 
                 if (response.status === 201) { 
                     messageDisplay.textContent = '✅ ¡Registro exitoso! Redirigiendo...';
-                    messageDisplay.style.color = '#2ecc71'; // Verde
+                    messageDisplay.style.color = '#2ecc71';
                     
                     registerForm.reset(); 
                     setTimeout(() => {
@@ -76,13 +74,13 @@
                     
                 } else {
                     messageDisplay.textContent = `❌ Error: ${data.message || 'Error desconocido.'}`; 
-                    messageDisplay.style.color = '#e74c3c'; // Rojo
+                    messageDisplay.style.color = '#e74c3c';
                     registerButton.disabled = false;
                     registerButton.textContent = 'Registrar mi Cuenta';
                 }
             } catch (error) {
                 console.error('Error de conexión:', error);
-                messageDisplay.textContent = '🚨 Error de red. Verifica que el servidor en Render esté activo.';
+                messageDisplay.textContent = '🚨 Error de red. Verifica conexión.';
                 messageDisplay.style.color = '#e74c3c';
                 registerButton.disabled = false;
                 registerButton.textContent = 'Registrar mi Cuenta';
