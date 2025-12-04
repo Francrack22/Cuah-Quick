@@ -1,113 +1,152 @@
 /* ======================================= */
-/* VARIABLES: Usadas para estilizar SÓLO este formulario. */
+/* 1. VARIABLES (Colores del Tema) */
 /* ======================================= */
 :root {
-    --primary: #3498db; /* Azul Principal (Títulos, Enlaces, Éxito) */
-    --secondary: #2ecc71; /* Verde (Botón de Acción) */
-    --pure-black: #000000; /* Fondo Principal */
-    --card-bg: #1a1a1a; /* Fondo de Tarjeta/Formulario */
-    --light-text: #f5f5f5; /* Texto Claro */
-    --input-bg: #2c3e50; /* Fondo de Input */
-    --shadow-color: rgba(0, 0, 0, 0.9);
+    --primary: #3498db;       /* Azul Principal */
+    --secondary: #2ecc71;     /* Verde (Botón) */
+    --pure-black: #050505;    /* Fondo de la página */
+    --card-bg: #1a1a1a;       /* Fondo del formulario */
+    --input-bg: #2c3e50;      /* Fondo de los inputs */
+    --light-text: #f5f5f5;    /* Texto claro */
+    --shadow-color: rgba(0, 0, 0, 0.7);
 }
 
 /* ======================================= */
-/* BASE Y LAYOUT DEL FORMULARIO */
+/* 2. RESET BÁSICO */
+/* ======================================= */
+* {
+    box-sizing: border-box; /* Crucial para que el padding no rompa el ancho */
+    margin: 0;
+    padding: 0;
+}
+
+/* ======================================= */
+/* 3. BODY (Fondo y Centrado) */
 /* ======================================= */
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: var(--pure-black); 
-    color: var(--light-text);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    margin: 0;
-    padding: 20px;
+    background-color: var(--pure-black); /* Fondo Negro */
+    color: var(--light-text);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    
+    /* Centrado Vertical y Horizontal */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Ocupa toda la altura de la pantalla */
 }
 
+/* Animación suave de entrada */
 @keyframes fadeInScale {
-    from { opacity: 0; transform: scale(0.95); }
-    to { opacity: 1; transform: scale(1); }
-}
-
-.register-container {
-    background: var(--card-bg);
-    padding: 40px;
-    border-radius: 12px;
-    box-shadow: 0 10px 30px var(--shadow-color);
-    width: 90%;
-    max-width: 450px;
-    text-align: center;
-    animation: fadeInScale 0.8s ease-out;
-    border-top: 5px solid var(--secondary);
-}
-    
-/* Título y Ícono */
-.register-icon {
-    font-size: 3em;
-    margin-bottom: 20px; 
-}
-h2 {
-    font-size: 1.8em; 
-    color: var(--primary); 
-    margin-bottom: 30px;
-    border-bottom: 2px solid var(--primary);
-    padding-bottom: 10px;
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
 }
 
 /* ======================================= */
-/* INPUTS Y BOTÓN */
+/* 4. CONTENEDOR DEL FORMULARIO */
+/* ======================================= */
+.register-container {
+    background: var(--card-bg);
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px var(--shadow-color);
+    width: 90%;
+    max-width: 450px; /* Ancho máximo para que no se vea gigante en PC */
+    text-align: center;
+    border-top: 5px solid var(--primary);
+    animation: fadeInScale 0.8s ease-out;
+}
+
+/* Ícono y Título */
+.register-icon {
+    font-size: 3em;
+    margin-bottom: 20px; 
+}
+
+h2 {
+    color: var(--primary);
+    margin-bottom: 30px;
+    font-size: 1.8rem;
+    border-bottom: 2px solid var(--primary);
+    display: inline-block;
+    padding-bottom: 10px;
+}
+
+/* ======================================= */
+/* 5. INPUTS (La corrección clave) */
 /* ======================================= */
 input {
-    width: 100%;
-    padding: 15px;
-    margin: 10px 0;
-    border: none; 
-    border-radius: 6px;
-    box-sizing: border-box;
-    background-color: var(--input-bg);
-    color: var(--light-text);
-    transition: box-shadow 0.3s ease;
-    font-size: 1em;
+    width: 100%; /* ✅ OBLIGA A OCUPAR TODO EL ANCHO DISPONIBLE */
+    padding: 15px;
+    margin-bottom: 15px; /* Espacio debajo de cada campo */
+    border: none;
+    border-radius: 6px;
+    background-color: var(--input-bg); /* Fondo oscuro azulado */
+    color: white;
+    font-size: 1rem;
+    display: block; /* Asegura que se comporte como bloque */
 }
 
 input:focus {
-    box-shadow: 0 0 0 3px var(--primary); 
-    outline: none;
+    outline: 2px solid var(--primary); /* Resaltado azul al escribir */
+    background-color: #34495e;
 }
 
-/* Placeholder styling */
-input::placeholder {
-    color: #b0c4de; 
-    opacity: 0.7;
+/* Estilo del texto "fantasma" dentro del input */
+::placeholder {
+    color: #bdc3c7;
+    opacity: 0.8;
 }
 
-/* Botón de Registrar (Estilo Verde/Secundario) */
+/* ======================================= */
+/* 6. BOTÓN DE REGISTRO */
+/* ======================================= */
 #registerButton {
-    width: 100%;
-    padding: 15px;
-    margin-top: 30px; 
-    background-color: var(--secondary); 
-    color: var(--card-bg); 
-    font-weight: bold;
-    font-size: 1.1em;
-    border: none;
-    border-radius: 50px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(46, 204, 113, 0.5); 
+    width: 100%;
+    padding: 15px;
+    background-color: var(--secondary);
+    color: #fff;
+    border: none;
+    border-radius: 50px; /* Botón redondo */
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: transform 0.2s, background-color 0.3s;
+    box-shadow: 0 4px 15px rgba(46, 204, 113, 0.4);
 }
 
 #registerButton:hover {
-    background-color: #27ae60;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(46, 204, 113, 0.8);
+    background-color: #27ae60;
+    transform: translateY(-2px); /* Efecto de elevación */
 }
 
-/* Mensajes y Enlace */
-p { margin-top: 25px; color: var(--light-text); font-size: 0.9em; }
-p a { color: var(--primary); text-decoration: none; font-weight: 600; transition: color 0.3s; }
-p a:hover { color: #5dade2; }
-#message { font-weight: bold; margin-top: 15px; }
+#registerButton:disabled {
+    background-color: #95a5a6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* ======================================= */
+/* 7. ENLACES Y MENSAJES */
+/* ======================================= */
+p { 
+    margin-top: 25px; 
+    font-size: 0.9em; 
+}
+
+p a { 
+    color: var(--primary); 
+    text-decoration: none; 
+    font-weight: 600; 
+    transition: color 0.3s; 
+}
+
+p a:hover { 
+    color: #5dade2; 
+}
+
+#message { 
+    font-weight: bold; 
+    margin-top: 15px; 
+    min-height: 1.2em; 
+}
